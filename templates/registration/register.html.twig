@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} | Register{% endblock %}
+
+{% block body %}
+    <h1 class="container-fluid d-flex justify-content-center">Inscription</h1>
+    <div class="container-fluid d-flex justify-content-center">
+
+        {{ form_start(registrationForm) }}
+        {{ form_errors(registrationForm) }}
+
+        {{ form_label(registrationForm.username) }}
+        {{ form_widget(registrationForm.username, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.firstname) }}
+        {{ form_widget(registrationForm.firstname, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.lastname) }}
+        {{ form_widget(registrationForm.lastname, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.phoneNumber) }}
+        {{ form_widget(registrationForm.phoneNumber, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.email) }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.campus) }}
+        {{ form_widget(registrationForm.campus, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.photo) }}
+        {{ form_widget(registrationForm.photo, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.plainPassword) }}
+        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.confirmPassword) }}
+        {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+        <br>
+        <button type="submit" class="btn btn-outline-secondary">Register</button>
+        {{ form_end(registrationForm) }}
+
+    </div>
+{% endblock %}
