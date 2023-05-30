@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Profil{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ user.firstname }} !</h1>
+
+    <div>
+        <img src="{{ asset('img/user/'~user.photo) }}" alt="{{ user.username }}">
+
+    </div>
+    <div>{{ user.username }}</div>
+    <div>{{ user.lastname }}</div>
+    <div>{{ user.firstname }}</div>
+    <div>{{ user.phoneNumber }}</div>
+    <div>{{ user.email }}</div>
+    <div>{{ user.campus.name }}</div>
+    <div>{{ user.photo }}</div>
+
+
+</div>
+{% endblock %}
