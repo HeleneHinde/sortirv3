@@ -6,6 +6,11 @@
     <h1 class="container-fluid d-flex justify-content-center">Inscription</h1>
     <div class="container-fluid d-flex justify-content-center">
 
+        {% if registrationForm.plainPassword.vars.value != registrationForm.confirmPassword.vars.value %}
+            <ul>
+                <li>Les mots de passe ne correspondent pas.</li>
+            </ul>
+        {% endif %}
         {{ form_start(registrationForm) }}
         {{ form_errors(registrationForm.username) }}
         {{ form_errors(registrationForm.firstname) }}
@@ -43,8 +48,9 @@
 
         {{ form_label(registrationForm.confirmPassword) }}
         {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+        <div id="mdpbox"></div>
         <br>
-        <button type="submit" class="btn btn-outline-secondary">Register</button>
+        <button type="submit" class="btn btn-outline-secondary" >Register</button>
         {{ form_end(registrationForm) }}
 
     </div>

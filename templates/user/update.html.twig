@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} | Update{% endblock %}
+
+{% block body %}
+    <h1 class="container-fluid d-flex justify-content-center">Modifier</h1>
+    <div class="container-fluid d-flex justify-content-center">
+
+        {{ form_start(userForm, {'method': 'POST'}) }}
+        {{ form_errors(userForm.username) }}
+        {{ form_errors(userForm.firstname) }}
+        {{ form_errors(userForm.lastname) }}
+        {{ form_errors(userForm.phoneNumber) }}
+        {{ form_errors(userForm.email) }}
+        {{ form_errors(userForm.campus) }}
+        {{ form_errors(userForm.photo) }}
+{#      {{ form_errors(userForm.plainPassword) }}
+        {{ form_errors(userForm.confirmPassword) }}#}
+
+        {{ form_label(userForm.username) }}
+        {{ form_widget(userForm.username, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.firstname) }}
+        {{ form_widget(userForm.firstname, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.lastname) }}
+        {{ form_widget(userForm.lastname, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.phoneNumber) }}
+        {{ form_widget(userForm.phoneNumber, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.email) }}
+        {{ form_widget(userForm.email, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.campus) }}
+        {{ form_widget(userForm.campus, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.photo) }}
+        {{ form_widget(userForm.photo, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_widget(userForm._token) }}
+{#        {{ form_label(userForm.plainPassword) }}
+        {{ form_widget(userForm.plainPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(userForm.confirmPassword) }}
+        {{ form_widget(userForm.confirmPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}#}
+        <br>
+        <button type="submit" class="btn btn-outline-secondary">Modifier</button>
+        {{ form_end(userForm) }}
+
+    </div>
+{% endblock %}
