@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Entity\Serie;
+
 use App\Entity\User;
 use App\Repository\CampusRepository;
-use App\Repository\SerieRepository;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

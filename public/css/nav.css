@@ -4,7 +4,6 @@
 .navbar-expand-lg {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;
     -webkit-box-pack: start;
     -ms-flex-pack: start;

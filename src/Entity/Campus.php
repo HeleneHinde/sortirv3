@@ -6,6 +6,7 @@ use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CampusRepository::class)
@@ -32,6 +33,10 @@ class Campus
     /**
      * @ORM\Column(type="string", length=5)
      */
+    #[Assert\Regex(
+        pattern: '/^[0-9]{5}$/',
+        message: 'Le code postal doit contenir exactement 5 chiffres.'
+    )]
     private $cp;
 
     /**

@@ -7,7 +7,15 @@
     <div class="container-fluid d-flex justify-content-center">
 
         {{ form_start(registrationForm) }}
-        {{ form_errors(registrationForm) }}
+        {{ form_errors(registrationForm.username) }}
+        {{ form_errors(registrationForm.firstname) }}
+        {{ form_errors(registrationForm.lastname) }}
+        {{ form_errors(registrationForm.phoneNumber) }}
+        {{ form_errors(registrationForm.email) }}
+        {{ form_errors(registrationForm.campus) }}
+        {{ form_errors(registrationForm.photo) }}
+        {{ form_errors(registrationForm.plainPassword) }}
+        {{ form_errors(registrationForm.confirmPassword) }}
 
         {{ form_label(registrationForm.username) }}
         {{ form_widget(registrationForm.username, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}

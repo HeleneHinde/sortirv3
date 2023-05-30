@@ -6,13 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -24,6 +25,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
+    #[Assert\NotBlank(message: "Username is mandatory")]
     private $username;
 
     /**
@@ -40,16 +42,22 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message: "Firstname is mandatory")]
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message: "Lastname is mandatory")]
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
+    #[Assert\Regex(
+        pattern: '/^(0\d{9})$/',
+        message: 'Le numéro de téléphone doit contenir exactement 10 chiffres et doit commencer par 0.'
+    )]
     private $phoneNumber;
 
     /**
@@ -110,7 +118,7 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
