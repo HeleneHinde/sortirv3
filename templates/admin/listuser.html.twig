@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Admin | User {% endblock %}
+
+{% block body %}
+
+    <h1 class="container-fluid d-flex justify-content-center">Gestion des utilisateurs</h1>
+
+    <section class="container list">
+        <table class="table table-hover" >
+            <thead>
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Campus</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <th scope="row"><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.username }}</a></th>
+                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.lastname }}</a></td>
+                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstname }}</a></td>
+                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.campus.name }}</a></td>
+                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
+                    <td><a class="list-group-item list-group-item-action text-danger" href="{{ path('admin_user_delete', {'id': user.id}) }}">Supprimer</a></td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </section>
+
+
+
+
+{% endblock %}
