@@ -9,6 +9,7 @@ use App\Tools\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -27,6 +28,16 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            $confirmPassword = $form->get('confirmPassword')->getData();
+
+            if ($plainPassword !== $confirmPassword) {
+                $form->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
