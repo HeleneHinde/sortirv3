@@ -26,7 +26,7 @@
                     <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.firstname }}</a></td>
                     <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.campus.name }}</a></td>
                     <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
-                    <td><a class="list-group-item list-group-item-action text-danger" href="{{ path('admin_user_delete', {'id': user.id}) }}">Supprimer</a></td>
+                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_update', {'id': user.id}) }}">Modifier</a> - <a class="list-group-item list-group-item-action text-danger" href="{{ path('admin_user_delete', {'id': user.id}) }}">Supprimer</a></td>
 
                 </tr>
 
