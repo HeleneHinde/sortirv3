@@ -35,7 +35,7 @@ class UserType extends AbstractType
             ->add('email', TextType::class, [
                 'label'=>'E-Mail'
             ])
-/*            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'label'=>'Mot de passe',
@@ -69,7 +69,7 @@ class UserType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])*/
+            ])
             ->add('campus', EntityType::class, [
                 //quelle entité est liée
                 'class'=>Campus::class,

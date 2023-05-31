@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Tools\Uploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +39,17 @@ class UserController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+
+            $plainPassword = $userForm->get('plainPassword')->getData();
+            $confirmPassword = $userForm->get('confirmPassword')->getData();
+
+            if ($plainPassword !== $confirmPassword) {
+                $userForm->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $userForm->createView(),
+                ]);
+            }
+
 
             $filePhoto=$userForm->get('photo')->getData();
 
