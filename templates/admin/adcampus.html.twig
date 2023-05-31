@@ -15,30 +15,35 @@
             </tr>
             </thead>
             <tbody>
-
             {% for campu in campus %}
+
+            <form action="{{ path('admin_campus_update', {'id': campu.id}) }}" method="post">
+
                 <tr>
-                    <th scope="row">{{ campu.name }}</th>
+                    <th scope="row"><input type="text" name="name" value="{{ campu.name }}"></th>
 
                     <td>
                         <div class="list-group-item list-group-item-action">
-                            <a href="{{ path('admin_campus_update', {'id': campu.id}) }}">Modifier</a> -
-                            <a href="{{ path('admin_campus_delete', {'id': campu.id}) }}">Supprimer</a>
+
+                            <button type="submit">Modifier</button> -
+                            <a  href="{{ path('admin_campus_delete', {'id': campu.id}) }}"
+                               role="button" onclick="return confirm('Etes vous sûre de vouloir supprimer le campus {{ campu.name }}')">Supprimer</a>
                         </div>
                     </td>
 
                 </tr>
 
+            </form>
 
             {% endfor %}
             <tr>
                 {{ form_start(campuForm) }}
-                {#<form action="{{ path('admin_campus_add') }}" name="campusAdmin" method="post"> #}
-                <th scope="row">{# <input name="name" type="text"> #}{{ form_widget(campuForm) }}</th>
+
+                <th scope="row">{{ form_widget(campuForm) }}</th>
                 <td>
                     <button type="submit">Ajouter</button>
                 </td>
-                {#</form> #}
+
                 {{ form_end(campuForm) }}
             </tr>
 
