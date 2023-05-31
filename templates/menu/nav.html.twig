@@ -26,8 +26,11 @@
 
 
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="{{ path('app_register') }}"><i class="fa fa-home fa-fw mr-1"></i>Register</a>
+                            <a class="nav-link" href="{{ path('admin_user_add') }}"><i class="fa fa-home fa-fw mr-1"></i>Ajout d'un utilisateur</a>
                         </li>
+                            <li class="nav-item pl-1">
+                                <a class="nav-link" href="{{ path('admin_user_list') }}"><i class="fa fa-home fa-fw mr-1"></i>Gestion utilisateurs</a>
+                            </li>
                     {% endif %}
                     {% endfor %}
 

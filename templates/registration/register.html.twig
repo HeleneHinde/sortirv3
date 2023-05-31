@@ -1,16 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ parent() }} | Register{% endblock %}
+{% block title %} {{ parent() }} | Admin | AddUser{% endblock %}
 
 {% block body %}
-    <h1 class="container-fluid d-flex justify-content-center">Inscription</h1>
+    <h1 class="container-fluid d-flex justify-content-center">Ajout d'un utilisateur</h1>
     <div class="container-fluid d-flex justify-content-center">
 
-        {% if registrationForm.plainPassword.vars.value != registrationForm.confirmPassword.vars.value %}
-            <ul>
-                <li>Les mots de passe ne correspondent pas.</li>
-            </ul>
-        {% endif %}
+
         {{ form_start(registrationForm) }}
         {{ form_errors(registrationForm.username) }}
         {{ form_errors(registrationForm.firstname) }}
@@ -19,6 +15,7 @@
         {{ form_errors(registrationForm.email) }}
         {{ form_errors(registrationForm.campus) }}
         {{ form_errors(registrationForm.photo) }}
+        {{ form_errors(registrationForm.roles) }}
         {{ form_errors(registrationForm.plainPassword) }}
         {{ form_errors(registrationForm.confirmPassword) }}
 
@@ -42,6 +39,9 @@
 
         {{ form_label(registrationForm.photo) }}
         {{ form_widget(registrationForm.photo, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(registrationForm.roles) }}
+        {{ form_widget(registrationForm.roles, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
         {{ form_label(registrationForm.plainPassword) }}
         {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
