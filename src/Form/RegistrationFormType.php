@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\CampusRepository;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -94,6 +95,14 @@ class RegistrationFormType extends AbstractType
                 'label'=>'Photo de Profil',
                 'required'=>false
             ])
+            ->add('roles',ChoiceType::class,[
+                'choices'=>[
+                    'Etudiant'=>'ROLE_USER',
+                    'Administrateur'=>'ROLE_ADMIN'
+                ],
+                'mapped'=>false
+            ])
+
         ;
     }
 

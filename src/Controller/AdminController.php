@@ -3,14 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\User;
 use App\Form\CampusType;
 
+use App\Form\RegistrationFormType;
 use App\Repository\CampusRepository;
+use App\Repository\UserRepository;
+use App\Security\AppAuthenticator;
+use App\Tools\Uploader;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 #[Route('/admin', name: 'admin_')]
 class AdminController extends AbstractController
@@ -85,5 +94,90 @@ class AdminController extends AbstractController
 
     }
 
+    #[Route('/user/add', name: 'user_add')]
+    public function addUser(Uploader $uploader,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm( RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+
+            $roles[]=$form->get('roles')->getData();
+
+            $user->setRoles($roles);
+
+
+            //compare les 2 Passwords
+            $plainPassword = $form->get('plainPassword')->getData();
+            $confirmPassword = $form->get('confirmPassword')->getData();
+
+            if ($plainPassword !== $confirmPassword) {
+                $form->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $filePhoto=$form->get('photo')->getData();
+
+
+            if($filePhoto){
+                $name = $user->getUsername();
+                $directory='img/user';
+                $newFileName=$uploader->save($filePhoto,$name,$directory);
+                $user->setPhoto($newFileName);
+
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Etudiant ajouté !');
+
+            return $this->redirectToRoute('admin_campus_list');
+
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+
+    }
+
+    #[Route('/user/list', name: 'user_list')]
+    public function listUser(UserRepository $userRepository): Response
+    {
+        $users=$userRepository->findAll();
+
+
+        return $this->render('admin/listuser.html.twig', [
+            'users' => $users
+        ]);
+
+
+
+    }
+
+
+    #[Route('/user/delete/{id}', name: 'user_delete', requirements: ["id" => "\d+"])]
+    public function delete(int $id, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+
+        $userRepository->remove($user, true);
+
+        return $this->redirectToRoute('admin_user_list');
+    }
 
 }
