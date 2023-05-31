@@ -8,8 +8,22 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello Icc c'est la page d'accueil avec plein de filtres !! </h1>
 
+    {% if app.user %}
+        <h3>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h3>
+        <h3>Participant : {{ app.user.username }}</h3>
+        <div class="affichage sortie">
+
+        </div>
+        <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une sortie</a>
+
+    {% else %}
+        <div class="example-wrapper">
+            <h1>Hello Icc c'est la page d'accueil avec plein de filtres !! </h1>
+            <a class="link_button btn btn-outline-secondary" href="{{ path('app_login') }}" role="button">Connecte toi</a>
+        </div>
+
+
+    {% endif %}
 
 {% endblock %}
