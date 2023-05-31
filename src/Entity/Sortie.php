@@ -54,6 +54,16 @@ class Sortie
      */
     private $infosSortie;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
+     */
+    private $etat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
+     */
+    private $campus;
+
 
 
     public function __construct()
@@ -158,6 +168,30 @@ class Sortie
     public function setInfosSortie(?string $infosSortie): self
     {
         $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }

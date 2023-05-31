@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
         $campus=$campusRepository->findAll();
 
 
-        /*for ($i=0;$i<10;$i++){
+        for ($i=0;$i<10;$i++){
 
             $user = new User();
 
@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
                 ->setCampus($generator->randomElement($campus));
             $manager->persist($user);
 
-        }*/
+        }
         $userAdmin = new User;
 
         $userAdmin
