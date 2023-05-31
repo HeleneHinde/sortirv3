@@ -54,10 +54,7 @@ class Sortie
      */
     private $infosSortie;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $etat;
+
 
     public function __construct()
     {
@@ -165,15 +162,4 @@ class Sortie
         return $this;
     }
 
-    public function getEtat(): ?string
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(?string $etat): self
-    {
-        $this->etat = $etat;
-
-        return $this;
-    }
 }
