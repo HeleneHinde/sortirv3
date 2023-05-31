@@ -34,6 +34,11 @@ class Lieu
      */
     private $longitude;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
+     */
+    private $ville;
+
     public function __construct()
     {
         $this->Sortie = new ArrayCollection();
@@ -86,5 +91,17 @@ class Lieu
     public function getSortie(): Collection
     {
         return $this->Sortie;
+    }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
     }
 }
