@@ -38,12 +38,12 @@
             {% endfor %}
             <tr>
                 {{ form_start(campuForm) }}
-                {#<form action="{{ path('admin_campus_add') }}" name="campusAdmin" method="post"> #}
-                <th scope="row">{# <input name="name" type="text"> #}{{ form_widget(campuForm) }}</th>
+
+                <th scope="row">{{ form_widget(campuForm) }}</th>
                 <td>
                     <button type="submit">Ajouter</button>
                 </td>
-                {#</form> #}
+
                 {{ form_end(campuForm) }}
             </tr>
 
