@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Sortir !{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,17 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello Icc c'est la page d'accueil avec plein de filtres !! </h1>
+{#    <h1>Hello Icc c'est la page d'accueil avec plein de filtres !! </h1>#}
+</div>
+    {% if app.user %}
+        <h3> Date du jour : {{'now'|date('d/m/Y', 'Europe/Paris')}}</h3>
+        <h3> Participant : {{app.user.username}}</h3>
+
+        <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}"
+           role="button">Créer une sortie</a>
+    {% endif %}
+
+
 
 
 {% endblock %}
