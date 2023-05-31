@@ -88,6 +88,7 @@ class AppFixtures extends Fixture
 
         $userAdmin
 
+
             ->setEmail($generator->email)
             ->setFirstname($generator->firstName)
             ->setLastname($generator->lastName)
