@@ -26,25 +26,6 @@ class Campus
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $street;
-
-    /**
-     * @ORM\Column(type="string", length=5)
-     */
-    #[Assert\Regex(
-        pattern: '/^[0-9]{5}$/',
-        message: 'Le code postal doit contenir exactement 5 chiffres.'
-    )]
-    private $cp;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $town;
-
-    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="campus")
      */
     private $users;

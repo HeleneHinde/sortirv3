@@ -4,32 +4,42 @@
 
 {% block body %}
 
-    <h1>Gestion des campus</h1>
+    <h1 class="container-fluid d-flex justify-content-center">Gestion des campus</h1>
 
-<section class="container list">
-    <table class="table table-hover" >
-        <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
+    <section class="container list">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
 
-    {% for campu in campus %}
-        <tr>
-            <th scope="row">{{ campu.name }}</a></th>
-            <td><a class="list-group-item list-group-item-action" href="{{ path('admin_campus_update', {'id': campu.id}) }}">Modifier</a> -
-                <a class="list-group-item list-group-item-action" href="{{ path('admin_campus_delete', {'id': campu.id}) }}">Supprimer</a></td>
+            {% for campu in campus %}
+                <tr>
+                    <th scope="row">{{ campu.name }}</th>
 
-        </tr>
+                    <td>
+                        <div class="list-group-item list-group-item-action">
+                            <a href="{{ path('admin_campus_update', {'id': campu.id}) }}">Modifier</a> -
+                            <a href="{{ path('admin_campus_delete', {'id': campu.id}) }}">Supprimer</a>
+                        </div>
+                    </td>
+
+                </tr>
 
 
-    {% endfor %}
+            {% endfor %}
+            <tr>
+                <form name="campusAdmin" action="" method="post">
+                    <th scope="row"><input type="text"></th>
+                    <td><button type="submit">Ajouter</button></td>
+                </form>
+            </tr>
 
-
-        </tbody>
-    </table>
-</section>
+            </tbody>
+        </table>
+    </section>
 
 {% endblock %}
