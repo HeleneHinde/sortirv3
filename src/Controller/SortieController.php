@@ -6,8 +6,9 @@ use App\Entity\Sortie;
 use App\Form\SortiesType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
-use http\Env\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,18 +28,19 @@ class SortieController extends AbstractController
 
 
     #[Route('/create', name: 'create')]
-    public function create(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function create(Request $request,SortieRepository $sortieRepository): Response
     {
 
+      //  dd("toto");
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortiesType::class, $sortie);
 
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $sortie->setCampus($this->getUser()->getCampus()->getName());
+            $sortie->setCampus($this->getUser()->getCampus());
 
-            $sortieRepository->add($sortie);
+            $sortieRepository->add($sortie, true);
 
             $this->addFlash('succès', 'Sortie ajoutée avec succès');
 

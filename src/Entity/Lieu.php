@@ -46,7 +46,6 @@ class Lieu
 
     public function __construct()
     {
-        $this->Sortie = new ArrayCollection();
         $this->sorties = new ArrayCollection();
     }
 
@@ -89,14 +88,6 @@ class Lieu
         $this->longitude = $longitude;
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getSortie(): Collection
-    {
-        return $this->Sortie;
     }
 
     public function getVille(): ?Ville
