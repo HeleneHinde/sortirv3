@@ -89,9 +89,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="users")
+     */
+    private $C;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
+        $this->C = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +270,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->sorties->removeElement($sorty)) {
             $sorty->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getC(): Collection
+    {
+        return $this->C;
+    }
+
+    public function addC(Sortie $c): self
+    {
+        if (!$this->C->contains($c)) {
+            $this->C[] = $c;
+            $c->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeC(Sortie $c): self
+    {
+        if ($this->C->removeElement($c)) {
+            $c->removeUser($this);
         }
 
         return $this;
