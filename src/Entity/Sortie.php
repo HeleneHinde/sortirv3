@@ -20,9 +20,44 @@ class Sortie
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sorties")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="C")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $firstAirDate;
+
+    /**
+     * @ORM\Column(type="time")
+     */
+    private $duree;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateLimiteInscription;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nbInscriptionMax;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $infosSortie;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $etat;
 
     public function __construct()
     {
@@ -54,6 +89,90 @@ class Sortie
     public function removeUser(User $user): self
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFirstAirDate(): ?\DateTimeInterface
+    {
+        return $this->firstAirDate;
+    }
+
+    public function setFirstAirDate(\DateTimeInterface $firstAirDate): self
+    {
+        $this->firstAirDate = $firstAirDate;
+
+        return $this;
+    }
+
+    public function getDuree(): ?\DateTimeInterface
+    {
+        return $this->duree;
+    }
+
+    public function setDuree(\DateTimeInterface $duree): self
+    {
+        $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getDateLimiteInscription(): ?\DateTimeInterface
+    {
+        return $this->dateLimiteInscription;
+    }
+
+    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    {
+        $this->dateLimiteInscription = $dateLimiteInscription;
+
+        return $this;
+    }
+
+    public function getNbInscriptionMax(): ?string
+    {
+        return $this->nbInscriptionMax;
+    }
+
+    public function setNbInscriptionMax(string $nbInscriptionMax): self
+    {
+        $this->nbInscriptionMax = $nbInscriptionMax;
+
+        return $this;
+    }
+
+    public function getInfosSortie(): ?string
+    {
+        return $this->infosSortie;
+    }
+
+    public function setInfosSortie(?string $infosSortie): self
+    {
+        $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
