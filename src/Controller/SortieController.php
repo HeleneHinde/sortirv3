@@ -18,9 +18,11 @@ class SortieController extends AbstractController
 
         $sortie = new Sortie();
 
-
         return $this->render('sortie/create.html.twig', [
             'controller_name' => 'SortieController',
         ]);
     }
+
+
+
 }

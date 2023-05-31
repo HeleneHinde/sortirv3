@@ -1,5 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer une sortie{% endblock %}
+{% block title %}
 
-{% block body %}{% endblock %}
+    {{ parent () }} | Create
+{% endblock %}
+
+{% block body %}
+
+    <h2> Creer une sortie !</h2>
+    <br>
+
+    <h5> Nom de la sortie :</h5>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">sortie</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
+    </div>
+    <br>
+
+
+
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Nombre de place</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+    </div>
+
+    <div>Date et heure de la sortie : </div>
+    <div>Date limite d'inscription : </div>
+    <div>Duree : </div>
+    <div>Description et infos : </div>
+    <div>Campus : </div>
+
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="submit" class="btn btn-primary">Publier la sortie</button>
+    <button type="submit" class="btn btn-primary">Annuler</button>
+
+{% endblock %}
