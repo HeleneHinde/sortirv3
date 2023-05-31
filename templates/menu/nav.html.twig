@@ -17,11 +17,15 @@
                                     class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Logout</a>
                     </li>
 
+{#                {% elseif app.user.isAdmin() %}#}
+
+
                 {% else %}
 
                     <li class="nav-item pl-1">
                         <a class="nav-link" href="{{ path('app_register') }}"><i class="fa fa-home fa-fw mr-1"></i>Register</a>
                     </li>
+
                     <li class="nav-item pl-1">
                         <a class="nav-link" href="{{ path('app_login') }}"><i class="fa fa-info-circle fa-fw mr-1"></i>Login</a>
                     </li>

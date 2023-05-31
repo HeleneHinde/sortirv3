@@ -3,39 +3,33 @@
 {% block title %}{{ parent() }} | Profil{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
 
-    <div class="example-wrapper">
-        <h1>Hello {{ user.firstname }} !</h1>
 
+        <h1 class="container-fluid d-flex justify-content-center">Hello {{ user.firstname }} !</h1>
+        <div class="container-fluid d-flex justify-content-center">
         <div>
-            <img src="{{ asset('img/user/'~user.photo) }}" alt="{{ user.username }}">
+            <img class="w-25" src="{{ asset('img/user/'~user.photo) }}" alt="{{ user.username }}">
 
         </div>
+            <div>
         <div>{{ user.username }}</div>
         <div>{{ user.lastname }}</div>
         <div>{{ user.firstname }}</div>
         <div>{{ user.phoneNumber }}</div>
         <div>{{ user.email }}</div>
         <div>{{ user.campus.name }}</div>
-
+            </div>
+        </div>
         {% if app.user.username == user.username %}
+            <div class="container-fluid d-flex justify-content-center">
             <a class="link_button btn btn-outline-secondary" href="{{ path('user_update', {'id': user.id}) }}"
                role="button">Modifier son profil</a>
+            <a class="link_button btn btn-outline-warning" href="{{ path('main_home') }}"
+               role="button">Annuler</a>
             <a class="link_button btn btn-outline-danger" href="{{ path('user_delete', {'id': user.id}) }}"
                role="button">Supprimer mon profil</a>
+            </div>
         {% endif %}
-    </div>
+
 {% endblock %}
