@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+    {{ parent () }} | Create
+{% endblock %}
+
+{% block body %}
+
+    {% for sortie in sorties %}
+        <p> {{ sortie.name }} | DATE : {{ sortie.firstAirDate | date('d/m/y H:i') }} | Cloture : {{ sortie.dateLimiteInscription | date('d/m/y') }}
+         | Inscrits : {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} | Etat : {{ sortie.etat.libelle }} | Organisateur : {{ sortie.user.username }}
+        </p>
+    {% endfor %}
+
+{% endblock %}
