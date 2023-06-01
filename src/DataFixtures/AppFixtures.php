@@ -132,7 +132,7 @@ class AppFixtures extends Fixture
                 ->setDuree($generator->dateTimeBetween('-3 days', 'now'))
                 ->setDateLimiteInscription($generator->dateTimeBetween($sortie->getFirstAirDate(), 'now'))
                 ->setNbInscriptionMax($generator->numberBetween('4', '30'))
-                ->setInfosSortie($generator->text)
+                ->setInfosSortie($generator->name)
                 ->setUser($generator->randomElement($users))
                 ->setLieu($generator->randomElement($lieu));
             $manager -> persist($sortie);
