@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+    {{ parent () }} | show
+{% endblock %}
+
+{% block body %}
+
+
+    <h2> Afficher une sortie !</h2>
+
+    <div>
+    <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a>
+        <a class="link_button" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')" href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler</a>
+    </div>
+
+    <div>
+        <h5> {{ sortie.name }}</h5>
+        <div> {{ sortie.name }} </div>
+        <div> {{ sortie.firstAirDate | date('d/m/y H:i') }} </div>
+        <div> {{ sortie.dateLimiteInscription | date('d/m/y') }} </div>
+        <div> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </div>
+
+
+
+    </div>
+
+
+{% endblock %}
