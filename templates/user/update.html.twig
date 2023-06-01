@@ -15,6 +15,11 @@
         {{ form_errors(userForm.email) }}
         {{ form_errors(userForm.campus) }}
         {{ form_errors(userForm.photo) }}
+        {% for role in app.user.roles %}
+        {% if role == 'ROLE_ADMIN'  %}
+        {{ form_errors(userForm.roles) }}
+        {% endif %}
+        {% endfor %}
         {{ form_errors(userForm.plainPassword) }}
         {{ form_errors(userForm.confirmPassword) }}
 
@@ -45,6 +50,15 @@
 
         {{ form_label(userForm.confirmPassword) }}
         {{ form_widget(userForm.confirmPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {% for role in app.user.roles %}
+        {% if role == 'ROLE_ADMIN'  %}
+            {{ form_label(userForm.roles) }}
+            {{ form_widget(userForm.roles, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {% endif %}
+        {% endfor %}
+
         <br>
         <button type="submit" class="btn btn-outline-secondary">Modifier</button>
         {{ form_end(userForm) }}

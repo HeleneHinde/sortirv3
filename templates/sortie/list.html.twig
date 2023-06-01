@@ -30,7 +30,7 @@
             <td> {{ sortie.dateLimiteInscription | date('d/m/y') }} </td>
             <td> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </td>
             <td> {{ sortie.etat.libelle }} </td>
-            {% if app.user.username in sortie.users %}
+            {% if app.user in sortie.users %}
                 <td>  x  </td>
             {% else %}
                 <td>   </td>

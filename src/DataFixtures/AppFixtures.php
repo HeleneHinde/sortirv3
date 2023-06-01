@@ -10,6 +10,7 @@ use App\Entity\Ville;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
+use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -48,10 +49,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-//        $this->addUsers($manager, $this->campusRepository);
-//        $this->addVille($manager);
-//        $this->addLieu($manager, $this->villeRepository);
-        $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
+//       $this->addUsers($manager, $this->campusRepository);
+//       $this->addVille($manager);
+//       $this->addLieu($manager, $this->villeRepository);
+         $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
     }
     public function addUsers(ObjectManager $manager, CampusRepository $campusRepository):void {
 
@@ -132,9 +133,10 @@ class AppFixtures extends Fixture
                 ->setDuree($generator->dateTimeBetween('-3 days', 'now'))
                 ->setDateLimiteInscription($generator->dateTimeBetween($sortie->getFirstAirDate(), 'now'))
                 ->setNbInscriptionMax($generator->numberBetween('4', '30'))
-                ->setInfosSortie($generator->text)
+                ->setInfosSortie($generator->name)
                 ->setUser($generator->randomElement($users))
-                ->setLieu($generator->randomElement($lieu));
+                ->setLieu($generator->randomElement($lieu))
+                ->addUser($generator->randomElement($users));
             $manager -> persist($sortie);
         }
         $manager->flush();

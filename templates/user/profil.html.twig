@@ -13,12 +13,12 @@
 
         </div>
             <div>
-        <div>{{ user.username }}</div>
-        <div>{{ user.lastname }}</div>
-        <div>{{ user.firstname }}</div>
-        <div>{{ user.phoneNumber }}</div>
-        <div>{{ user.email }}</div>
-        <div>{{ user.campus.name }}</div>
+        <div>Pseudo : {{ user.username }}</div>
+        <div>Nom : {{ user.lastname }}</div>
+        <div>Prénom : {{ user.firstname }}</div>
+        <div>Téléphone : {{ user.phoneNumber }}</div>
+        <div>E-Mail : {{ user.email }}</div>
+        <div>Campus : {{ user.campus.name }}</div>
             </div>
         </div>
         {% if app.user.username == user.username %}

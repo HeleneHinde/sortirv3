@@ -25,19 +25,13 @@
                             </li>
 
 
-                        <li class="nav-item pl-1">
-                            <a class="nav-link" href="{{ path('admin_user_add') }}"><i class="fa fa-home fa-fw mr-1"></i>Ajout d'un utilisateur</a>
-                        </li>
+                            <li class="nav-item pl-1">
+                                <a class="nav-link" href="{{ path('admin_user_add') }}"><i class="fa fa-home fa-fw mr-1"></i>Ajout d'un utilisateur</a>
+                            </li>
                             <li class="nav-item pl-1">
                                 <a class="nav-link" href="{{ path('admin_user_list') }}"><i class="fa fa-home fa-fw mr-1"></i>Gestion utilisateurs</a>
                             </li>
-
-
-                            <li class="nav-item pl-1">
-                                <a class="nav-link" href="{{ path('sortie_delete') }}"><i class="fa fa-home fa-fw mr-1"></i>Annuler</a>
-                            </li>
-
-                    {% endif %}
+                        {% endif %}
                     {% endfor %}
 
                 {% else %}
@@ -49,8 +43,14 @@
 
                 {% endif %}
 
-
+                {#                <li class="nav-item pl-1">
+                    <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>Kayıt Ol</a>
+                </li>
+                <li class="nav-item pl-1">
+                    <a class="nav-link" href="#"><i class="fa fa-sign-in fa-fw mr-1"></i>Oturum Aç</a>
+                </li> #}
             </ul>
         </div>
     </div>
 </nav>
+
