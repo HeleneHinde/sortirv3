@@ -8,15 +8,13 @@
         </button>
         <div class="collapse navbar-collapse" id="nvbCollapse">
             <ul class="navbar-nav ml-auto">
+
                 {% if app.user %}
                     <li class="nav-item pl-1">
                         <a class="nav-link" href="{{ path('user_show', {'id': app.user.id}) }}"><i
                                     class="fa fa-user-plus fa-fw mr-1"></i>Mon profil</a>
                     </li>
-                    <li class="nav-item pl-1">
-                        <a class="nav-link" href="{{ path('app_logout') }}"><i
-                                    class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Logout</a>
-                    </li>
+
                     {% for role in app.user.roles %}
                         {% if role == 'ROLE_ADMIN'  %}
 
@@ -43,6 +41,7 @@
 
                 {% endif %}
 
+
                 {#                <li class="nav-item pl-1">
                     <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>Kayıt Ol</a>
                 </li>
@@ -51,6 +50,12 @@
                 </li> #}
             </ul>
         </div>
+        {% if app.user %}
+            <li class=" navbar nav-item pl-1 text-white logout">
+                <a class="nav-link" href="{{ path('app_logout') }}"><i
+                            class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Logout</a>
+            </li>
+        {% endif %}
     </div>
 </nav>
 

@@ -3,23 +3,107 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
 
     {% if app.user %}
         <h3>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h3>
+
+
+
+
         <h3>Participant : {{ app.user.username }}</h3>
-        <div class="affichage sortie">
+
+        {{ form_start(sortieForm) }}
+        <div class="container d-flex">
+            {{ form_label(sortieForm.campus) }}
+            {{ form_widget(sortieForm.campus) }}
+
+            {{ form_label(sortieForm.name) }}
+            {{ form_widget(sortieForm.name) }}
         </div>
-        <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une sortie</a>
+            <div  class="container d-flex">
+
+            {{ form_label(sortieForm.dateUn) }}
+            {{ form_widget(sortieForm.dateUn) }}
+
+            {{ form_label(sortieForm.dateDeux) }}
+            {{ form_widget(sortieForm.dateDeux) }}
+        </div>
+
+        <div class="container d-flex flex-column" >
+
+        {{ form_label(sortieForm.scales) }}
+        {{ form_widget(sortieForm.scales) }}
+
+        {{ form_label(sortieForm.horns) }}
+        {{ form_widget(sortieForm.horns) }}
+
+        {{ form_label(sortieForm.horns_not_registered) }}
+        {{ form_widget(sortieForm.horns_not_registered) }}
+
+        {{ form_label(sortieForm.past_outings) }}
+        {{ form_widget(sortieForm.past_outings) }}
+
+        </div>
+        <div class="container-fluid d-flex show justify-content-center">
+
+            <input  class="btn btn-lg btn-primary" type="submit" value="Rechercher">
+        </div>
+        {{ form_end(sortieForm) }}
+
+
+
+
+
+        <div class="affichage sortie">
+            <section class="container list">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Cloture</th>
+                        <th scope="col">Inscrits / places</th>
+                        <th scope="col">Etat</th>
+                        <th scope="col">Inscrit</th>
+                        <th scope="col">Organisateur</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for sortie in sorties %}
+                        <tr>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.name }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.firstAirDate | date('d/m/y H:i') }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.dateLimiteInscription | date('d/m/y') }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }} </td>
+                            {% if app.user in sortie.users %}
+                                <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> x</td>
+                            {% else %}
+                                <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"></td>
+                            {% endif %}
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.user.username }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"></td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+        <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une
+            sortie</a>
+
+
+
 
     {% else %}
         <div class="example-wrapper">
             <h1>Hello Icc c'est la page d'accueil avec plein de filtres !! </h1>
-            <a class="link_button btn btn-outline-secondary" href="{{ path('app_login') }}" role="button">Connecte toi</a>
+            <a class="link_button btn btn-outline-secondary" href="{{ path('app_login') }}" role="button">Connecte
+                toi</a>
         </div>
 
 

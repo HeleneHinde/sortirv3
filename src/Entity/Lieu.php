@@ -44,6 +44,11 @@ class Lieu
      */
     private $sorties;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $rue;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -128,6 +133,18 @@ class Lieu
                 $sorty->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRue(): ?string
+    {
+        return $this->rue;
+    }
+
+    public function setRue(string $rue): self
+    {
+        $this->rue = $rue;
 
         return $this;
     }
