@@ -77,18 +77,18 @@
 
                     {% for sortie in sorties %}
                         <tr>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.name }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.firstAirDate | date('d/m/y H:i') }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.dateLimiteInscription | date('d/m/y') }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </td>
-                           <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.name }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.firstAirDate | date('d/m/y H:i') }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.dateLimiteInscription | date('d/m/y') }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </td>
+                           <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }} </td>
                             {% if app.user in sortie.users %}
-                                <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> x</td>
+                                <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> x</td>
                             {% else %}
-                                <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"></td>
+                                <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
                             {% endif %}
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"> {{ sortie.user.username }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': sortie.id}) }}"></td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.user.username }} </td>
+                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
                         </tr>
                     {% endfor %}
 

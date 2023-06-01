@@ -54,7 +54,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if ($dateUn !== null && $dateDeux !== null) {
-            $qb->andWhere('s.first_air_date BETWEEN :dateUn AND :dateDeux')
+            $qb->andWhere('s.firstAirDate BETWEEN :dateUn AND :dateDeux')
                 ->setParameter('dateUn', $dateUn)
                 ->setParameter('dateDeux', $dateDeux);
         }
