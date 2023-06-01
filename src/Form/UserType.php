@@ -34,26 +34,26 @@ class UserType extends AbstractType
 
         $builder
             ->add('username', TextType::class, [
-                'label'=>'Pseudo'
+                'label' => 'Pseudo'
             ])
             ->add('firstname', TextType::class, [
-                'label'=>'Prénom'
+                'label' => 'Prénom'
             ])
             ->add('lastname', TextType::class, [
-                'label'=>'Nom'
+                'label' => 'Nom'
             ])
             ->add('phoneNumber', TextType::class, [
-                'label'=>'Numéro de téléphone'
+                'label' => 'Numéro de téléphone'
             ])
             ->add('email', TextType::class, [
-                'label'=>'E-Mail'
+                'label' => 'E-Mail'
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'label'=>'Mot de passe',
+                'label' => 'Mot de passe',
                 'mapped' => false,
-                'required'=>false,
+                'required' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new Length([
@@ -67,9 +67,9 @@ class UserType extends AbstractType
             ->add('confirmPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'label'=>'Confirmation de mot de passe',
+                'label' => 'Confirmation de mot de passe',
                 'mapped' => false,
-                'required'=>false,
+                'required' => false,
                 'constraints' => [
                     new Length([
                         'min' => 6,
@@ -79,36 +79,35 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('campus', EntityType::class, [
-                //quelle entité est liée
-                'class'=>Campus::class,
-                //quel attribut servira a afficher l'information
-                'choice_label'=>'name',
-                'query_builder'=> function(CampusRepository $campusRepository){
-                    $qb= $campusRepository->createQueryBuilder('c');
-                    $qb->addOrderBy('c.name', 'ASC');
-                    return $qb;
-                }
-            ])
-
             ->add('photo', FileType::class, [
-                'mapped'=>false,
-                'label'=>'Photo de Profil',
-                'required'=>false
+                'mapped' => false,
+                'label' => 'Photo de Profil',
+                'required' => false
             ]);
 
-                if ($isAdmin) {
+        if ($isAdmin) {
 
 
-                    $builder
-                    ->add('roles', ChoiceType::class, [
-                        'choices' => [
-                            'Etudiant' => 'ROLE_USER',
-                            'Administrateur' => 'ROLE_ADMIN'
-                        ],
-                        'mapped' => false
-                    ]);
-                }
+            $builder
+                ->add('campus', EntityType::class, [
+                    //quelle entité est liée
+                    'class' => Campus::class,
+                    //quel attribut servira a afficher l'information
+                    'choice_label' => 'name',
+                    'query_builder' => function (CampusRepository $campusRepository) {
+                        $qb = $campusRepository->createQueryBuilder('c');
+                        $qb->addOrderBy('c.name', 'ASC');
+                        return $qb;
+                    }
+                ])
+                ->add('roles', ChoiceType::class, [
+                    'choices' => [
+                        'Etudiant' => 'ROLE_USER',
+                        'Administrateur' => 'ROLE_ADMIN'
+                    ],
+                    'mapped' => false
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

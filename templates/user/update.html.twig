@@ -38,8 +38,6 @@
         {{ form_label(userForm.email) }}
         {{ form_widget(userForm.email, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
-        {{ form_label(userForm.campus) }}
-        {{ form_widget(userForm.campus, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
         {{ form_label(userForm.photo) }}
         {{ form_widget(userForm.photo, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
@@ -52,8 +50,10 @@
         {{ form_widget(userForm.confirmPassword, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
         {% for role in app.user.roles %}
-        {% if role == 'ROLE_ADMIN'  %}
-            {{ form_label(userForm.roles) }}
+            {% if role == 'ROLE_ADMIN'  %}
+                {{ form_label(userForm.campus) }}
+                {{ form_widget(userForm.campus, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+                {{ form_label(userForm.roles) }}
             {{ form_widget(userForm.roles, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
         {% endif %}
