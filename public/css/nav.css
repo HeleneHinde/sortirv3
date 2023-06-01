@@ -9,6 +9,14 @@
     -ms-flex-pack: start;
     justify-content: flex-start;
 }
+.nav-link:hover { color: #fbc531; }
+.logout:hover { color: #fbc531; }
+
+.show{
+    width: 50vw;
+
+
+}
 
 
 
