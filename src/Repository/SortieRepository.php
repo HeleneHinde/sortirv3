@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Campus;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,6 +40,53 @@ class SortieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function mainSearch($name, $dateUn, $dateDeux,Campus $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->leftJoin('s.users', 'sortie_user');
+
+
+        if (!empty($name)) {
+            $qb->andWhere($qb->expr()->like('s.name', ':name'))
+                ->setParameter('name', '%' . $name . '%');
+        }
+
+        if ($dateUn !== null && $dateDeux !== null) {
+            $qb->andWhere('s.first_air_date BETWEEN :dateUn AND :dateDeux')
+                ->setParameter('dateUn', $dateUn)
+                ->setParameter('dateDeux', $dateDeux);
+        }
+
+        if ($campus !== null) {
+            $qb->andWhere('s.campus = :campus')
+                ->setParameter('campus', $campus->getId());
+        }
+
+        if (!empty($userIdScales)) {
+            $qb->andWhere('s.user_id = :userIdScales')
+                ->setParameter('userIdScales', $userIdScales);
+        }
+
+        if (!empty($userIdHorns)) {
+            $qb->andWhere('sortie_user.user_id = :userIdHorns')
+                ->setParameter('userIdHorns', $userIdHorns);
+        }
+
+        if (!empty($userIdHornsNR)) {
+            $qb->andWhere('sortie_user.user_id != :userIdHornsNR')
+                ->setParameter('userIdHornsNR', $userIdHornsNR);
+        }
+
+        if (!empty($dateDuJour)) {
+            $qb->andWhere('s.first_air_date < :dateDuJour')
+                ->setParameter('dateDuJour', $dateDuJour);
+        }
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects

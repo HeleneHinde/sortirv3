@@ -8,6 +8,7 @@ use App\Entity\Sortie;
 
 use App\Repository\CampusRepository;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -58,6 +59,10 @@ class SortieMainType extends AbstractType
                 'mapped'=>false
 
             ])
+            //champ caché pour récupérer l'id de celui qui effectue la recherche
+            ->add('userId', HiddenType::class, [
+                'mapped' => false,
+            ])
             ->add('horns', CheckboxType::class, [
                 'label' => 'Sorties auxquelles je suis inscrit(e)',
                 'required' => false,
@@ -73,6 +78,7 @@ class SortieMainType extends AbstractType
                 'required' => false,
                 'mapped'=>false
             ]);
+
 
         ;
     }
