@@ -27,9 +27,6 @@ class Sortiev2Controller extends AbstractController
 
 
 
-
-
-
     #[Route('/delete/{id}', name: 'sortie_delete',requirements: ['id'=> '\d+'])]
     public function delete(int $id, SortieRepository $sortieRepository)
     {
@@ -41,8 +38,8 @@ class Sortiev2Controller extends AbstractController
 
         return $this->redirectToRoute('main_home');
 
-
     }
+
 
 
 
