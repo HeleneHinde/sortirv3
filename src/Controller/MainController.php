@@ -3,26 +3,29 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\SortieMainType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'main_home')]
-    public function home(Request $request,SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    public function home(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository): Response
     {
-        $campus=$campusRepository->findAll();
+        $campus = $campusRepository->findAll();
 
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieMainType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             $name = $sortieForm->get('name')->getData();
             $dateUn = $sortieForm->get('dateUn')->getData();
@@ -40,33 +43,44 @@ class MainController extends AbstractController
             $userIdHornsNR = null;
             $dateDuJour = null;
 
-            if (isset($orga['scales']) && $orga['scales']) {
+            $user1 = $security->getUser();
+
+
+            if ($orga) {
                 // Récupérer l'ID de l'utilisateur pour le filtre "scales"
-                $userIdScales = $sortieForm->get('userId')->getData();
+                if ($user1) {
+                    // Récupérer l'ID de l'utilisateur
+                    $userId = $user1->getId();
+                    $userIdScales=$userRepository->find($userId);
+
+                    // Utilisez $userId selon vos besoins
+                }
             }
 
-            if (isset($horns['horns']) && $horns['horns']) {
-                // Récupérer l'ID de l'utilisateur pour le filtre "horns"
-                $userIdHorns = $sortieForm->get('userId')->getData();
+            if ($horns) {
+                if ($user1) {
+                    // Récupérer l'ID de l'utilisateur pour le filtre "horns"
+                    $userId = $user1->getId();
+                    $userIdHorns = $userRepository->find($userId);
+                }
             }
 
-            if (isset($hornsNR['horns_not_registered']) && $hornsNR['horns_not_registered']) {
-                // Récupérer l'ID de l'utilisateur pour le filtre "horns_not_registered"
-                $userIdHornsNR = $sortieForm->get('userId')->getData();
+            if ($hornsNR) {
+                if ($user1) {
+
+                    // Récupérer l'ID de l'utilisateur pour le filtre "horns_not_registered"
+                    $userId = $user1->getId();
+                    $userIdHornsNR = $userRepository->find($userId);
+                }
             }
 
-            if (isset($past['past_outings']) && $past['past_outings']) {
+            if ($past) {
                 // Définir la date du jour pour le filtre "past_outings"
                 $dateDuJour = date('Ymd');
             }
 
 
-            dd($userIdScales);
-
-            $sorties=$sortieRepository->mainSearch($name, $dateUn, $dateDeux, $campu, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour);
-
-
-
+            $sorties = $sortieRepository->mainSearch($name, $dateUn, $dateDeux, $campu, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour);
 
 
         } else {
@@ -74,11 +88,10 @@ class MainController extends AbstractController
         }
 
 
-
         return $this->render('main/home.html.twig', [
             'sorties' => $sorties,
-            'campus'=>$campus,
-            'sortieForm'=>$sortieForm->createView()
+            'campus' => $campus,
+            'sortieForm' => $sortieForm->createView()
         ]);
     }
 }

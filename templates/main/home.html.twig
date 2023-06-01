@@ -43,11 +43,15 @@
         {{ form_label(sortieForm.past_outings) }}
         {{ form_widget(sortieForm.past_outings) }}
 
+            {{ form_row(sortieForm.userId) }}
+
         </div>
         <div class="container-fluid d-flex show justify-content-center">
 
             <input  class="btn btn-lg btn-primary" type="submit" value="Rechercher">
         </div>
+
+
         {{ form_end(sortieForm) }}
 
 

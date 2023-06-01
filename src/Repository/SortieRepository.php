@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Campus;
 use App\Entity\Sortie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -44,7 +45,7 @@ class SortieRepository extends ServiceEntityRepository
     public function mainSearch($name, $dateUn, $dateDeux,Campus $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour)
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->leftJoin('s.users', 'sortie_user');
+        $qb->leftJoin('s.users', 'u');
 
 
         if (!empty($name)) {
@@ -60,26 +61,26 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($campus !== null) {
             $qb->andWhere('s.campus = :campus')
-                ->setParameter('campus', $campus->getId());
+                ->setParameter('campus', $campus);
         }
 
         if (!empty($userIdScales)) {
-            $qb->andWhere('s.user_id = :userIdScales')
+            $qb->andWhere('s.user = :userIdScales')
                 ->setParameter('userIdScales', $userIdScales);
         }
 
         if (!empty($userIdHorns)) {
-            $qb->andWhere('sortie_user.user_id = :userIdHorns')
-                ->setParameter('userIdHorns', $userIdHorns);
+            $qb->andWhere(':userIdHorns MEMBER OF s.users')
+                ->setParameter('userIdHorns', $userIdHorns->getId());
         }
 
         if (!empty($userIdHornsNR)) {
-            $qb->andWhere('sortie_user.user_id != :userIdHornsNR')
-                ->setParameter('userIdHornsNR', $userIdHornsNR);
+            $qb->andWhere(':userIdHornsNR NOT MEMBER OF s.users')
+                ->setParameter('userIdHornsNR', $userIdHornsNR->getId());
         }
 
         if (!empty($dateDuJour)) {
-            $qb->andWhere('s.first_air_date < :dateDuJour')
+            $qb->andWhere('s.firstAirDate < :dateDuJour')
                 ->setParameter('dateDuJour', $dateDuJour);
         }
 
