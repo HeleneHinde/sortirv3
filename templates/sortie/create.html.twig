@@ -8,20 +8,104 @@
 {% block body %}
 
 
-    <h2> Creer une sortie !</h2>
+    <h2 class="container-fluid d-flex justify-content-center"> Creer une sortie !</h2>
+  
+    <div class="container-fluid d-flex flex-direction-column justify-content-center">
+
+    {{ form_start(sortieForm) }}
+    {{ form_errors(sortieForm.name) }}
+    {{ form_errors(sortieForm.firstAirDate) }}
+    {{ form_errors(sortieForm.dateLimiteInscription) }}
+    {{ form_errors(sortieForm.nbInscriptionMax) }}
+    {{ form_errors(sortieForm.duree) }}
+    {{ form_errors(sortieForm.infosSortie) }}
+    {{ form_errors(sortieForm.lieu) }}
+    {{ form_errors(sortieForm.Latitude) }}
+    {{ form_errors(sortieForm.nom_lieu) }}
+    {{ form_errors(sortieForm.Longitude) }}
+    {{ form_errors(sortieForm.rue) }}
+    {{ form_errors(sortieForm.ville_select) }}
+    {{ form_errors(sortieForm.Ville) }}
+    {{ form_errors(sortieForm.Code_postal) }}
+
+    {{ form_label(sortieForm.name) }}
+    {{ form_widget(sortieForm.name, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.firstAirDate) }}
+    {{ form_widget(sortieForm.firstAirDate, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.dateLimiteInscription) }}
+    {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.nbInscriptionMax) }}
+    {{ form_widget(sortieForm.nbInscriptionMax, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.duree) }}
+    {{ form_widget(sortieForm.duree, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+
+
+
+    {{ form_label(sortieForm.infosSortie) }}
+    {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.lieu) }}
+    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control', 'id': 'test'}}) }}
+
+        <label for="checkboxChoix"> Ajouter un Lieu</label>
+        <input id="checkboxChoix" type="checkbox" name="myCheckbox" onchange="
+    var sortiesLieu = document.getElementById('sorties_lieu');
+    sortiesLieu.disabled = this.checked;
+    document.getElementById('sorties_nom_lieu').disabled = !this.checked;
+    document.getElementById('sorties_Latitude').disabled = !this.checked;
+    document.getElementById('sorties_Longitude').disabled = !this.checked;
+    document.getElementById('sorties_ville_select').disabled = !this.checked;
+    document.getElementById('checkboxChoixVille').disabled = !this.checked;
+    document.getElementById('sorties_rue').disabled = !this.checked;
+    if (document.getElementById('checkboxChoixVille').checked){
+        document.getElementById('sorties_Ville').disabled = !this.checked;
+        document.getElementById('sorties_Code_postal').disabled = !this.checked;
+        document.getElementById('checkboxChoixVille').checked = false;
+    }
+    "> <br>
+
+        {{ form_label(sortieForm.nom_lieu) }}
+    {{ form_widget(sortieForm.nom_lieu, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.Latitude) }}
+    {{ form_widget(sortieForm.Latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.Longitude) }}
+    {{ form_widget(sortieForm.Longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.rue) }}
+    {{ form_widget(sortieForm.rue, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.ville_select) }}
+    {{ form_widget(sortieForm.ville_select, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        <label for="checkboxChoixVille"> Ajouter une ville</label>
+        <input id="checkboxChoixVille" type="checkbox" name="myCheckboxVille" onchange="
+    var sortiesLieu = document.getElementById('sorties_ville_select');
+    sortiesLieu.disabled = this.checked;
+    document.getElementById('sorties_Ville').disabled = !this.checked;
+    document.getElementById('sorties_Code_postal').disabled = !this.checked;" disabled> <br>
+
+    {{ form_label(sortieForm.Ville) }}
+    {{ form_widget(sortieForm.Ville, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.Code_postal) }}
+    {{ form_widget(sortieForm.Code_postal, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
     <br>
 
 
-  {{ form_start(sortieForm) }}
-  {{ form_widget(sortieForm) }}
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <button type="submit" class="btn btn-primary">Publier la sortie</button>
-    <button type="submit" class="btn btn-primary">Annuler</button>
+    <button type="submit" class="link_button btn btn-outline-secondary">Enregistrer</button>
+    <button type="submit" class="link_button btn btn-outline-secondary">Publier la sortie</button>
+    <a class="link_button btn btn-outline-danger" href="{{ path('main_home') }}"
+       role="button">Annuler</a>
 
-  {{ form_end(sortieForm) }}
-<br>
-
-
-
+        {{ form_end(sortieForm) }}
+    </div>
 
 {% endblock %}
