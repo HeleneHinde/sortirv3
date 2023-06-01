@@ -49,10 +49,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-//        $this->addUsers($manager, $this->campusRepository);
-//        $this->addVille($manager);
-//        $this->addLieu($manager, $this->villeRepository);
-        $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
+//       $this->addUsers($manager, $this->campusRepository);
+//       $this->addVille($manager);
+//       $this->addLieu($manager, $this->villeRepository);
+         $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
     }
     public function addUsers(ObjectManager $manager, CampusRepository $campusRepository):void {
 

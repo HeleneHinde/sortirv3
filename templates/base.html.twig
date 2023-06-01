@@ -22,7 +22,7 @@
 
     {% for label, messages in app.flashes() %}
         {% for message in messages %}
-            <div class="flash flash-{{ label }}">
+            <div class="flash flash-{{ label }} container-fluid d-flex justify-content-center">
                 {{ message }}
             </div>
         {% endfor %}
