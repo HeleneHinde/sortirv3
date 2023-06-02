@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -21,19 +22,29 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    private $userRepository;
+    public function __construct(UserRepository $userRepository,private UrlGeneratorInterface $urlGenerator)
     {
+
+        $this->userRepository = $userRepository;
     }
 
     public function authenticate(Request $request): Passport
     {
-        $username = $request->request->get('username', '');
+        $usernameOrEmail = $request->request->get('username_or_email', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $username);
+        $request->getSession()->set(Security::LAST_USERNAME, $usernameOrEmail);
+
+        $userBadge = filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)
+            ? new UserBadge($usernameOrEmail, function($userIdentifier) {
+                return $this->userRepository->findOneByEmail($userIdentifier);
+            })
+            : new UserBadge($usernameOrEmail, function($userIdentifier) {
+                return $this->userRepository->findOneByUsername($userIdentifier);
+            });
 
         return new Passport(
-            new UserBadge($username),
+            $userBadge,
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new RememberMeBadge(),
