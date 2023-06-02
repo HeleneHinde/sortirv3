@@ -52,7 +52,10 @@ class SortieMainType extends AbstractType
                     $qb= $campusRepository->createQueryBuilder('s');
                     $qb->addOrderBy('s.name', 'ASC');
                     return $qb;
-                }])
+                },
+                'placeholder' => 'Sélectionnez un campus', // Ajouter cette ligne
+                'required' => false,
+                ])
             ->add('scales', CheckboxType::class, [
                 'label' => "Sorties dont je suis l'organisateur/organisatrice",
                 'required' => false,
