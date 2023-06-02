@@ -25,6 +25,16 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class AdminController extends AbstractController
 {
 
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/', name: 'dash')]
+    public function dash(Request $request, CampusRepository $campusRepository): Response
+    {
+
+
+        return $this->render('admin/dashboard.html.twig');
+    }
+
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/campus', name: 'campus_list')]
     public function listCampus(Request $request, CampusRepository $campusRepository): Response

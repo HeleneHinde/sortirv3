@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Admin {% endblock %}
+
+{% block body %}
+
+<h1 class="container-fluid d-flex justify-content-center ">Dashboard</h1>
+
+<div class="container-fluid d-flex justify-content-around">
+    <div class="card" style="min-width: 27vw">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h5 class="card-title">Gestion des campus</h5>
+            </li>
+            <li class="list-group-item">
+                <p>Ajoute, modifie ou supprime les campus disponibles sur la plateforme.</p>
+                <p></p>
+            </li>
+            <li class="list-group-item">
+                <div class="container-fluid d-flex justify-content-center">
+                    <a class="link_button btn btn-success" href="{{ path('admin_campus_list') }}"
+                       role="button">Gestion campus</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="card" style="min-width: 27vw">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <h5 class="card-title">Gestion des lieux</h5>
+        </li>
+        <li class="list-group-item">
+            <p>Ajoute, modifie ou supprime les lieux disponibles sur la plateforme.</p>
+        </li>
+        <li class="list-group-item">
+            <div class="container-fluid d-flex justify-content-center">
+                <a class="link_button btn btn-success" href="{{ path('lieu_list') }}"
+                   role="button">Gestion lieux</a>
+            </div>
+        </li>
+    </ul>
+    </div>
+    <div class="card" style="min-width: 27vw">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h5 class="card-title">Gestion des utilisateurs</h5>
+            </li>
+            <li class="list-group-item">
+                <p>Ajoute, modifie ou supprime les utilisateurs.</p>
+            </li>
+            <li class="list-group-item">
+                <div class="container-fluid d-flex justify-content-center">
+                    <a class="link_button btn btn-success" href="{{ path('admin_user_list') }}"
+                       role="button">Gestion utilisateurs</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
