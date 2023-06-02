@@ -28,7 +28,7 @@
                     <h6> Date limite d'inscription :</h6>
                     <div> {{ sortie.dateLimiteInscription | date('d/m/y') }} </div>
                     <br>
-                    <h6> Utilisateurs :</h6>
+                    <h6> Participant :</h6>
                     <div> {{ sortie.users | length }}
                         <br>
                         <br>
@@ -48,27 +48,27 @@
 
         <div class="d-flex flex-row">
             <div class="text">
-                <h6> Campus  </h6>
+                <h6> Campus : </h6>
                 {{ sortie.campus.name }}
                 <br>
                 <br>
-                <h6> Lieu </h6>
+                <h6> Lieu : </h6>
                 <td> {{ sortie.lieu.nom }} </td>
                 <br>
                 <br>
-                <h6> Rue </h6>
+                <h6> Rue : </h6>
                 {{ sortie.lieu.rue }}
                 <br>
                 <br>
-                <h6> Code postal </h6>
+                <h6>Code postal </h6>
                 {{ sortie.lieu.ville.cp }}
                 <br>
                 <br>
-                <h6> Latitude </h6>
+                <h6> Latitude : </h6>
                 {{ sortie.lieu.latitude }}
                 <br>
                 <br>
-                <h6> Longitude </h6>
+                <h6> Longitude : </h6>
                 {{ sortie.lieu.longitude }}
                 <br>
             </div>
@@ -84,21 +84,46 @@
 
 
 
-    <h5> Liste des participants :</h5>
-    <div> {{ sortie.user.username }} </div>
-    <div> {{ sortie.user.lastname }} </div>
+
+
+
+    <section>
+        <table>
+            <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Nom de famille</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in sortie.users %}
+                <tr>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}" class="list-group-item list-group-item-action">
+                            {{ user.username }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}" class="list-group-item list-group-item-action">
+                            {{ user.lastname }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+<br>
     <br>
-    <br>
-
-
-
 
     <footer>
         <div>
-{#            <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a>#}
+            {#            <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a>#}
             <a class="link_button" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')" href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler</a>
         </div>
     </footer>
+
 
 
 
