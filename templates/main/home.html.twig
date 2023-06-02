@@ -102,16 +102,17 @@
                             </td>
                             <td>
                                 {% if app.user in sortie.users %}
-
-                                    <a class="list-group-item list-group-item-action"
-                                       href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+                                    {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
+                                        <a class="list-group-item list-group-item-action"
+                                           href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+                                    {% endif %}
                                 {% else %}
 
-                                        {% if sortie.etat.libelle == 'Ouverte'  %}
+                                    {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
 
-                                    <a class="list-group-item list-group-item-action"
-                                       href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
-                                        {% endif %}
+                                        <a class="list-group-item list-group-item-action"
+                                           href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         </tr>

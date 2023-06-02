@@ -28,10 +28,12 @@ class InscriptionController extends AbstractController
         $etat = $etatRepository->findOneByName('Ouverte');
 
         //si l'user fait déjà partie de la sortie, alors ça le désincrit, sinon ça l'inscrit
-        if ($sortie->getUsers()->contains($user)) {
+        if ($sortie->getUsers()->contains($user) && $sortie->getDateLimiteInscription() >= date('Ymd') && $sortie->getFirstAirDate() >= date('Ymd')) {
             $sortie->removeUser($user);
-        } elseif ($sortie->getEtat() === $etat) {
+        } elseif ($sortie->getEtat() === $etat && $sortie->getDateLimiteInscription() > date('Ymd') && $sortie->getUsers()->count()< $sortie->getNbInscriptionMax()) {
             $sortie->addUser($user);
+            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à cette sortie !');
+
         }
 
         $sortieRepository->add($sortie, true);
