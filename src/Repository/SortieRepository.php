@@ -42,7 +42,7 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function mainSearch($name, $dateUn, $dateDeux,Campus $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour, $etat)
+    public function mainSearch($name, $dateUn, $dateDeux, $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour, $etat)
     {
         $qb = $this->createQueryBuilder('s');
         $qb->leftJoin('s.users', 'u');
