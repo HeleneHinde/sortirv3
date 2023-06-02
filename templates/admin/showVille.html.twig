@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Lieu{% endblock %}
+
+{% block body %}
+
+    <h1 class="container-fluid d-flex justify-content-center">Details</h1>
+    <div class="container-fluid d-flex justify-content-center">
+
+        <div class="card" style="padding: 1vw">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <h5 class="card-title">Ville</h5>
+                </li>
+                <li class="list-group-item">
+                    <p>Nom : {{ ville.name }}</p>
+                    <p>Code Postal : {{ ville.cp }}</p>
+                </li>
+                <li class="list-group-item">
+                    <div class="container-fluid d-flex justify-content-center">
+                        <a class="link_button btn btn-outline-secondary" href="{{ path('admin_ville_update', {'id': ville.id}) }}"
+                           role="button">Modifier</a>
+                        <a class="link_button btn btn-outline-warning" href="{{ path('admin_ville_list') }}"
+                           role="button">Retour</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

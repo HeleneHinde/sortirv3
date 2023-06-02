@@ -237,29 +237,39 @@ class AdminController extends AbstractController
     }
 
     #[IsGranted("ROLE_ADMIN")]
-    #[Route('/ville/delete/{id}', name: 'ville_delete', requirements: ["id" => "\d+"])]
-    public function deleteVille(VilleRepository $villeRepository, int $id): Response
-    {
-        $ville = $villeRepository->find($id);
-
-        $villeRepository->remove($ville, true);
-
-        $this->addFlash('succès', 'Ville  "'. $ville->getName() .'" supprimée avec succès');
-
-
-        return $this->redirectToRoute('admin_ville_list');
-    }
-
-    #[IsGranted("ROLE_ADMIN")]
-    #[Route('/ville/{id}', name: 'ville_delete', requirements: ["id" => "\d+"])]
+    #[Route('/ville/{id}', name: 'ville_show', requirements: ["id" => "\d+"])]
     public function showVille(VilleRepository $villeRepository, int $id): Response
     {
         $ville = $villeRepository->find($id);
 
 
 
-        return $this->render('admin/createVille.html.twig', [
+        return $this->render('admin/showVille.html.twig', [
             'ville' => $ville
+        ]);
+    }
+
+
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/ville/update/{id}', name: 'ville_update', requirements: ["id" => "\d+"])]
+    public function updateVille(VilleRepository $villeRepository, Request $request, int $id): Response
+    {
+        $ville = $villeRepository->find($id);
+        $villeForm = $this->createForm(VilleType::class, $ville);
+
+        $villeForm->handleRequest($request);
+
+        if ($villeForm->isSubmitted() && $villeForm->isValid()){
+            $villeRepository->add($ville, true);
+            $this->addFlash('succès', 'Ville  "'. $ville->getName() .'" modifiée avec succès');
+
+            return $this->redirectToRoute('admin_ville_list');
+        }
+
+
+        return $this->render('admin/updateVille.html.twig', [
+            'villeForm' => $villeForm->createView()
         ]);
     }
 
