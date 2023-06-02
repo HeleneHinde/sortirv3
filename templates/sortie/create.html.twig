@@ -25,8 +25,6 @@
     {{ form_errors(sortieForm.Longitude) }}
     {{ form_errors(sortieForm.rue) }}
     {{ form_errors(sortieForm.ville_select) }}
-    {{ form_errors(sortieForm.Ville) }}
-    {{ form_errors(sortieForm.Code_postal) }}
 
     {{ form_label(sortieForm.name) }}
     {{ form_widget(sortieForm.name, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
@@ -60,13 +58,7 @@
     document.getElementById('sorties_Latitude').disabled = !this.checked;
     document.getElementById('sorties_Longitude').disabled = !this.checked;
     document.getElementById('sorties_ville_select').disabled = !this.checked;
-    document.getElementById('checkboxChoixVille').disabled = !this.checked;
     document.getElementById('sorties_rue').disabled = !this.checked;
-    if (document.getElementById('checkboxChoixVille').checked){
-        document.getElementById('sorties_Ville').disabled = !this.checked;
-        document.getElementById('sorties_Code_postal').disabled = !this.checked;
-        document.getElementById('checkboxChoixVille').checked = false;
-    }
     "> <br>
 
         {{ form_label(sortieForm.nom_lieu) }}
@@ -84,24 +76,11 @@
     {{ form_label(sortieForm.ville_select) }}
     {{ form_widget(sortieForm.ville_select, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
-        <label for="checkboxChoixVille"> Ajouter une ville</label>
-        <input id="checkboxChoixVille" type="checkbox" name="myCheckboxVille" onchange="
-    var sortiesLieu = document.getElementById('sorties_ville_select');
-    sortiesLieu.disabled = this.checked;
-    document.getElementById('sorties_Ville').disabled = !this.checked;
-    document.getElementById('sorties_Code_postal').disabled = !this.checked;" disabled> <br>
-
-    {{ form_label(sortieForm.Ville) }}
-    {{ form_widget(sortieForm.Ville, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
-
-    {{ form_label(sortieForm.Code_postal) }}
-    {{ form_widget(sortieForm.Code_postal, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
-
     <br>
 
 
-    <button type="submit" class="link_button btn btn-outline-secondary">Enregistrer</button>
-    <button type="submit" class="link_button btn btn-outline-secondary">Publier la sortie</button>
+    <button type="submit" name="creee" class="link_button btn btn-outline-secondary">Enregistrer</button>
+    <button type="submit" name="publiee" class="link_button btn btn-outline-secondary">Publier la sortie</button>
     <a class="link_button btn btn-outline-danger" href="{{ path('main_home') }}"
        role="button">Annuler</a>
 

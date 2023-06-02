@@ -11,8 +11,10 @@ use App\Form\VilleType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 
+use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +34,7 @@ class SortieController extends AbstractController
 
 
     #[Route('/create', name: 'create')]
-    public function create(Request $request,SortieRepository $sortieRepository): Response
+    public function create(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository): Response
     {
 
       //  dd("toto");
@@ -41,34 +43,35 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+            if ($request->request->has("publiee")){
+                $sortie->setEtat($etatRepository->find(2));
+            } else {
+                $sortie->setEtat($etatRepository->find(1));
+            }
             $sortie->setCampus($this->getUser()->getCampus());
             $sortie->setUser($this->getUser());
             if ($request->request->get('myCheckbox')){
                 $lieu = new Lieu();
                 $data = $sortieForm->getData();
-                $lieu->setRue($data['rue']);
-                $lieu->setNom($sortieForm->get('nom_lieu')->getData());
-                $lieu->setLatitude($sortieForm->get('Latitude')->getData());
-                $lieu->setLongitude($sortieForm->get('Longitude')->getData());
-                if ($request->request->get('myCheckboxVille')){
-                    $ville = new Ville();
-                    $ville->setName($sortieForm->get('Ville')->getData());
-                    $ville->setCp($sortieForm->get('Code_postal')->getData());
-                    $lieu->setVille($ville);
-                } else {
-                    $lieu->setVille($sortieForm->get('ville_select')->getData());
-                }
+                $lieu->setNom($request->request->get('sorties')['name']);
+                $lieu->setRue($request->request->get('sorties')['rue']);
+                $lieu->setLatitude($request->request->get('sorties')['Latitude']);
+                $lieu->setLongitude($request->request->get('sorties')['Longitude']);
+                $lieu->setVille($villeRepository->find($request->request->get('sorties')['ville_select']));
+
+                $lieuRepository->add($lieu, true);
+
                 $sortie->setLieu($lieu);
             } else {
-                $sortie->setLieu($sortieForm->get('lieu')->getData());
+                $sortie->setLieu($lieuRepository->find($sortieForm->get('lieu')->getData()));
             }
             $sortieRepository->add($sortie, true);
 
             $this->addFlash('succès', 'Sortie ajoutée avec succès');
 
 
-//            return $this->redirectToRoute('sortie_show', ['id' => $sortie->getId()]);
-            return $this->redirectToRoute('main_home');
+            return $this->redirectToRoute('sortiev2_show', ['id' => $sortie->getId()]);
+//            return $this->redirectToRoute('main_home');
         }
 
         return $this->render('sortie/create.html.twig', [
