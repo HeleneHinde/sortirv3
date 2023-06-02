@@ -18,6 +18,7 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
+            entry_point: App\Security\AppAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -25,6 +26,11 @@ security:
             remember_me:
                 secret: '%kernel.secret%' # required
                 lifetime: 604800 # 1 week in seconds
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                username_parameter: form[username_or_email]
+                password_parameter: form[password]
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

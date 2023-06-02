@@ -16,11 +16,11 @@
 
         <h1 class="container-fluid d-flex justify-content-center">Connexion  </h1>
         <div class="container-fluid d-flex show">
-            <label for="inputUsername">Pseudo </label>
+            <label for="inputUsername">Pseudo ou adresse e-mail </label>
         </div>
         <div class="container-fluid d-flex show justify-content-center">
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
-                   autocomplete="username" required autofocus>
+            <input type="text" value="{{ last_username }}" name="username_or_email" id="inputUsername" class="form-control"
+                   autocomplete="username email" required autofocus>
         </div>
         <div class="container-fluid d-flex show">
             <label for="inputPassword">Mot de passe</label>
