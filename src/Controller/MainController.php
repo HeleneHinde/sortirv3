@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieMainType;
 use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +19,35 @@ use Symfony\Component\Security\Core\Security;
 
 class MainController extends AbstractController
 {
+     const HISTORISE=7;
+    const CREATE=1;
+
     #[Route('/', name: 'main_home')]
-    public function home(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository): Response
+    public function home(EntityManagerInterface $entityManager, Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository, EtatRepository $etatRepository ): Response
     {
         $campus = $campusRepository->findAll();
+
+        //code pour l'historisation des sorties : on récupère l'état historisée, on récupère l'ensemble des sorties
+        $etat= $etatRepository->find(self::HISTORISE);
+
+        $sortieH=$sortieRepository->findAll();
+
+        $currentDate = new \DateTime();
+        $limitDate = $currentDate->modify('-30 days');
+
+        //si la date de sortie est antérieure à la date d'aujourd'hui + 30 jours, alors la sortie passe à l'état historisée
+        foreach ($sortieH as &$s) {
+            $firstAirDate = $s->getFirstAirDate();
+
+            if ($firstAirDate < $limitDate) {
+                $s->setEtat($etat);
+                $entityManager->persist($s);
+            }
+
+        }
+        $entityManager->flush();
+
+
 
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieMainType::class, $sortie);
@@ -79,12 +107,14 @@ class MainController extends AbstractController
                 $dateDuJour = date('Ymd');
             }
 
-
-            $sorties = $sortieRepository->mainSearch($name, $dateUn, $dateDeux, $campu, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour);
+            $etat= $etatRepository->find(self::HISTORISE);
+            $sorties = $sortieRepository->mainSearch($name, $dateUn, $dateDeux, $campu, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour, $etat);
 
 
         } else {
-            $sorties = $sortieRepository->findAll();
+            $etatH= $etatRepository->find(self::HISTORISE);
+            $etatC= $etatRepository->find(self::CREATE);
+            $sorties = $sortieRepository->main($etatH, $etatC);
         }
 
 

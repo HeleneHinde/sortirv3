@@ -42,7 +42,7 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function mainSearch($name, $dateUn, $dateDeux,Campus $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour)
+    public function mainSearch($name, $dateUn, $dateDeux,Campus $campus, $userIdScales, $userIdHorns, $userIdHornsNR, $dateDuJour, $etat)
     {
         $qb = $this->createQueryBuilder('s');
         $qb->leftJoin('s.users', 'u');
@@ -84,10 +84,24 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateDuJour', $dateDuJour);
         }
 
+        $qb->andWhere('s.etat!= :etat')
+            ->setParameter('etat',$etat);
+
         $query = $qb->getQuery();
         return $query->getResult();
     }
 
+    public function main($etatH, $etatC){
+
+        $qb = $this->createQueryBuilder('s');
+        $qb->andWhere('s.etat != :etatH')
+        ->setParameter('etatH', $etatH);
+        $qb->andWhere('s.etat != :etatC')
+            ->setParameter('etatC', $etatC);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
