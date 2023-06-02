@@ -15,9 +15,17 @@
 .show{
     width: 50vw;
 
-
 }
 
+.container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.text{
+    width: 50%;
+    text-align: center;
+}
 
 
 

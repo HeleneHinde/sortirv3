@@ -89,8 +89,8 @@ class SortiesType extends AbstractType
             ])
             //->add('users')
            // ->add('etat')
-            //->add('campus',[
-              //  'mapped'=> false])
+           // ->add('campus',[
+             //   'mapped'=> false])
             //->add('user')
         ;
     }
