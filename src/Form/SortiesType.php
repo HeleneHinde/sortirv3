@@ -59,7 +59,8 @@ class SortiesType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'label' => 'Lieu',
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+                'choice_value' => 'id'
             ])
             ->add('nom_lieu', TextType::class, [
                 'mapped' => false,
@@ -79,16 +80,8 @@ class SortiesType extends AbstractType
                 'mapped' => false,
                 'disabled' => true,
                 'label' => 'Ville',
-                'choice_label' => 'name'
-            ])
-            ->add('Ville', TextType::class, [
-                'mapped' => false,
-                'disabled' => true
-            ])
-            ->add('Code_postal', NumberType::class, [
-                'mapped' => false,
-                'label' => 'Code postal',
-                'disabled' => true
+                'choice_label' => 'name',
+                'choice_value' => 'id'
             ])
             ->add('rue', TextType::class, [
                 'mapped' => false,
