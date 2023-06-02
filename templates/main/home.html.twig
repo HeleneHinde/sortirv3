@@ -109,14 +109,24 @@
                                            href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
                                     {% endif %}
                                 {% else %}
+                                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                                        <a class="list-group-item-action"
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
+                                    {% endif %}
                                     {% if app.user in sortie.users %}
                                         {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
+                                            {% if 'ROLE_ADMIN' in app.user.roles %}
+                                                <a> - </a>
+                                            {% endif %}
                                             <a class=" list-group-item-action"
                                                href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
                                         {% endif %}
                                     {% else %}
 
                                         {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
+                                            {% if 'ROLE_ADMIN' in app.user.roles %}
+                                                <a> - </a>
+                                            {% endif %}
                                             <a class=" list-group-item-action"
                                                href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
                                         {% endif %}
