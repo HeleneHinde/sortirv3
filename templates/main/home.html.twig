@@ -109,7 +109,7 @@
                                            href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
                                     {% endif %}
                                 {% else %}
-                                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                                    {% if 'ROLE_ADMIN' in app.user.roles and sortie.etat.id < 3%}
                                         <a class="list-group-item-action"
                                            href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
                                     {% endif %}
