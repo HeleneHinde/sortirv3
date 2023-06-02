@@ -39,8 +39,9 @@ class UserController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-
-
+            if ($request->request->has("actif")) {
+                $user->setActif(!$user->isActif());
+            }
             $roles[]=$userForm->get('roles')->getData();
             if ($roles) {
                 $user->setRoles($roles);
@@ -71,11 +72,20 @@ class UserController extends AbstractController
             $userRepository->save($user, true);
 
             //après ajout, redirige vers la page de détail
-            $this->addFlash('success', 'Votre profil a été mis à jour !');
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+
+            if ($request->request->has("actif")) {
+                $this->addFlash('success', 'Profil mis à jour');
+                return $this->redirectToRoute('admin_user_list');
+            } else {
+                $this->addFlash('success', 'Votre profil a été mis à jour !');
+                return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+            }
         }
 
-        return $this->render('user/update.html.twig', ['userForm' => $userForm->createView()]);
+        return $this->render('user/update.html.twig', [
+            'userForm' => $userForm->createView(),
+            'user' => $user
+        ]);
     }
 
     #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]

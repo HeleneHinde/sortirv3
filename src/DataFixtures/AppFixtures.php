@@ -49,10 +49,10 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-    //  $this->addUsers($manager, $this->campusRepository);
+      $this->addUsers($manager, $this->campusRepository);
     //  $this->addVille($manager);
    // $this->addLieu($manager, $this->villeRepository);
-        $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
+//        $this->addSortie($manager,$this->etatRepository,$this->campusRepository,$this->userRepository,$this->lieuRepository);
     }
     public function addUsers(ObjectManager $manager, CampusRepository $campusRepository):void {
 
@@ -81,7 +81,8 @@ class AppFixtures extends Fixture
                     ))
                 ->setPhoneNumber($generator->phoneNumber)
                 ->setUsername($generator->userName)
-                ->setCampus($generator->randomElement($campus));
+                ->setCampus($generator->randomElement($campus))
+                ->setActif(true);
             $manager->persist($user);
 
         }
@@ -101,7 +102,8 @@ class AppFixtures extends Fixture
                 ))
             ->setPhoneNumber($generator->phoneNumber)
             ->setUsername($generator->userName)
-            ->setCampus($generator->randomElement($campus));
+            ->setCampus($generator->randomElement($campus))
+            ->setActif(true);
         $manager->persist($userAdmin);
 
         $manager->flush();

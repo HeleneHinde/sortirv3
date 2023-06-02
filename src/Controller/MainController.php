@@ -25,6 +25,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'main_home')]
     public function home(EntityManagerInterface $entityManager, Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository, EtatRepository $etatRepository ): Response
     {
+
         $campus = $campusRepository->findAll();
 
         //code pour l'historisation des sorties : on récupère l'état historisée, on récupère l'ensemble des sorties

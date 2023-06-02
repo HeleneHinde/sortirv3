@@ -99,6 +99,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sortie;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $actif;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -334,6 +339,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $sortie->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActif(): ?bool
+    {
+        return $this->actif;
+    }
+
+    public function setActif(bool $actif): self
+    {
+        $this->actif = $actif;
 
         return $this;
     }

@@ -61,6 +61,11 @@
 
         <br>
         <button type="submit" class="btn btn-outline-secondary">Modifier</button>
+        {% if user.actif %}
+            <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre innactif</button>
+        {% else %}
+            <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre actif</button>
+        {% endif %}
         {{ form_end(userForm) }}
 
     </div>
