@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Ville{% endblock %}
+
+{% block body %}
+
+    <h1 class="container-fluid d-flex justify-content-center">Créer une ville</h1>
+
+
+    <div class="container-fluid d-flex flex-direction-column justify-content-center">
+
+        {{ form_start(villeForm) }}
+        {{ form_errors(villeForm.name) }}
+        {{ form_errors(villeForm.cp) }}
+
+        {{ form_label(villeForm.name) }}
+        {{ form_widget(villeForm.name, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_label(villeForm.cp) }}
+        {{ form_widget(villeForm.cp, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        <br>
+        <button type="submit" class="link_button btn btn-outline-secondary">Enregistrer</button>
+        <a class="link_button btn btn-outline-danger" href="{{ path('admin_ville_list') }}"
+           role="button">Annuler</a>
+
+        {{ form_end(villeForm) }}
+
+    </div>
+{% endblock %}

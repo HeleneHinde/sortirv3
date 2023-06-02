@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Entity\User;
+use App\Entity\Ville;
 use App\Form\CampusType;
 
 use App\Form\RegistrationFormType;
+use App\Form\VilleType;
 use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
+use App\Repository\VilleRepository;
 use App\Security\AppAuthenticator;
 use App\Tools\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -60,6 +63,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/campus/update/{id}', name: 'campus_update', requirements: ["id" => "\d+"])]
     public function upCampus(Request $request, int $id, CampusRepository $campusRepository): Response
     {
@@ -88,6 +92,7 @@ class AdminController extends AbstractController
 
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/campus/delete/{id}', name: 'campus_delete', requirements: ["id" => "\d+"])]
     public function delCampus(int $id, CampusRepository $campusRepository): Response
     {
@@ -104,6 +109,7 @@ class AdminController extends AbstractController
 
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/user/add', name: 'user_add')]
     public function addUser(Uploader $uploader,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -165,6 +171,7 @@ class AdminController extends AbstractController
 
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/user/list', name: 'user_list')]
     public function listUser(UserRepository $userRepository): Response
     {
@@ -180,6 +187,7 @@ class AdminController extends AbstractController
     }
 
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/user/delete/{id}', name: 'user_delete', requirements: ["id" => "\d+"])]
     public function delete(int $id, UserRepository $userRepository): Response
     {
@@ -188,6 +196,71 @@ class AdminController extends AbstractController
         $userRepository->remove($user, true);
 
         return $this->redirectToRoute('admin_user_list');
+    }
+
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/ville', name: 'ville_list')]
+    public function listVille(VilleRepository $villeRepository): Response
+    {
+        $villes = $villeRepository->findAll();
+
+
+        return $this->render('admin/listVilles.html.twig', [
+            'villes' => $villes
+        ]);
+
+
+
+    }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/ville/create', name: 'ville_create')]
+    public function createVille(VilleRepository $villeRepository, Request $request): Response
+    {
+        $ville = new Ville();
+        $villeForm = $this->createForm(VilleType::class, $ville);
+
+        $villeForm->handleRequest($request);
+
+        if ($villeForm->isSubmitted() && $villeForm->isValid()){
+            $villeRepository->add($ville, true);
+            $this->addFlash('succès', 'Ville  "'. $ville->getName() .'" ajoutée avec succès');
+
+            return $this->redirectToRoute('admin_ville_list');
+        }
+
+
+        return $this->render('admin/createVille.html.twig', [
+            'villeForm' => $villeForm->createView()
+        ]);
+    }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/ville/delete/{id}', name: 'ville_delete', requirements: ["id" => "\d+"])]
+    public function deleteVille(VilleRepository $villeRepository, int $id): Response
+    {
+        $ville = $villeRepository->find($id);
+
+        $villeRepository->remove($ville, true);
+
+        $this->addFlash('succès', 'Ville  "'. $ville->getName() .'" supprimée avec succès');
+
+
+        return $this->redirectToRoute('admin_ville_list');
+    }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/ville/{id}', name: 'ville_delete', requirements: ["id" => "\d+"])]
+    public function showVille(VilleRepository $villeRepository, int $id): Response
+    {
+        $ville = $villeRepository->find($id);
+
+
+
+        return $this->render('admin/createVille.html.twig', [
+            'ville' => $ville
+        ]);
     }
 
 }
