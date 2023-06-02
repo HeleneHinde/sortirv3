@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-light bg-light">
+<nav class="navbar navbar-expand navbar-light bs-dark-bg-subtle">
     <div class="container">
         <a class="navbar-brand text-white" href="{{ path('main_home') }}"><i
                     class="fa fa-graduation-cap fa-lg mr-2"></i>Sortir !</a>
@@ -18,6 +18,21 @@
                     {% for role in app.user.roles %}
                         {% if role == 'ROLE_ADMIN'  %}
 
+
+{#                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ path('admin_campus_list') }}">Gestion Campus</a>
+                                    <a class="dropdown-item" href="{{ path('lieu_list') }}">Gestion Lieux</a>
+                                    <a class="dropdown-item" href="{{ path('admin_user_list') }}">Gestion utilisateurs</a>
+                                    <a class="dropdown-item" href="{{ path('admin_user_add') }}">Ajout d'un utilisateur</a>
+#}{#                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Option 3</a>#}{#
+                                </div>
+                            </li>#}
+
                             <li class="nav-item pl-1">
                                 <a class="nav-link" href="{{ path('admin_campus_list') }}"><i class="fa fa-home fa-fw mr-1"></i>Gestion Campus</a>
                             </li>
@@ -30,9 +45,9 @@
                                 <a class="nav-link" href="{{ path('admin_user_list') }}"><i class="fa fa-home fa-fw mr-1"></i>Gestion utilisateurs</a>
                             </li>
 
-                            <li class="nav-item pl-1">
+{#                            <li class="nav-item pl-1">
                                 <a class="nav-link" href="{{ path('admin_user_add') }}"><i class="fa fa-home fa-fw mr-1"></i>Ajout d'un utilisateur</a>
-                            </li>
+                            </li>#}
                         {% endif %}
                     {% endfor %}
 
@@ -45,44 +60,6 @@
 
                 {% endif %}
 
-
-                {#                <li class="nav-item pl-1">
-                    <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>Kayıt Ol</a>
-                </li>
-                <li class="nav-item pl-1">
-                    <a class="nav-link" href="#"><i class="fa fa-sign-in fa-fw mr-1"></i>Oturum Aç</a>
-                </li>
-
-
-
-  <nav class="navbar navbar-expand navbar-light bg-light">
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="#">Accueil</a>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Menu Déroulant
-      </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#">Option 1</a>
-        <a class="dropdown-item" href="#">Option 2</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Option 3</a>
-      </div>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">À Propos</a>
-    </li>
-  </ul>
-</nav>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-
-
-                #}
             </ul>
         </div>
         {% if app.user %}
