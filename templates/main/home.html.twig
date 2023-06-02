@@ -20,7 +20,7 @@
             {{ form_label(sortieForm.name) }}
             {{ form_widget(sortieForm.name) }}
         </div>
-            <div  class="container d-flex">
+        <div class="container d-flex">
 
             {{ form_label(sortieForm.dateUn) }}
             {{ form_widget(sortieForm.dateUn) }}
@@ -29,26 +29,26 @@
             {{ form_widget(sortieForm.dateDeux) }}
         </div>
 
-        <div class="container d-flex flex-column" >
+        <div class="container d-flex flex-column">
 
-        {{ form_label(sortieForm.scales) }}
-        {{ form_widget(sortieForm.scales) }}
+            {{ form_label(sortieForm.scales) }}
+            {{ form_widget(sortieForm.scales) }}
 
-        {{ form_label(sortieForm.horns) }}
-        {{ form_widget(sortieForm.horns) }}
+            {{ form_label(sortieForm.horns) }}
+            {{ form_widget(sortieForm.horns) }}
 
-        {{ form_label(sortieForm.horns_not_registered) }}
-        {{ form_widget(sortieForm.horns_not_registered) }}
+            {{ form_label(sortieForm.horns_not_registered) }}
+            {{ form_widget(sortieForm.horns_not_registered) }}
 
-        {{ form_label(sortieForm.past_outings) }}
-        {{ form_widget(sortieForm.past_outings) }}
+            {{ form_label(sortieForm.past_outings) }}
+            {{ form_widget(sortieForm.past_outings) }}
 
             {{ form_row(sortieForm.userId) }}
 
         </div>
         <div class="container-fluid d-flex show justify-content-center">
 
-            <input  class="btn btn-lg btn-primary" type="submit" value="Rechercher">
+            <input class="btn btn-lg btn-primary" type="submit" value="Rechercher">
         </div>
 
 
@@ -77,18 +77,43 @@
 
                     {% for sortie in sorties %}
                         <tr>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.name }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.firstAirDate | date('d/m/y H:i') }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.dateLimiteInscription | date('d/m/y') }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.users | length }} / {{ sortie.nbInscriptionMax }} </td>
-                           <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }} </td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.name }}</td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.firstAirDate | date('d/m/y H:i') }}
+                            </td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.dateLimiteInscription | date('d/m/y') }}
+                            </td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.users | length }}
+                                    / {{ sortie.nbInscriptionMax }}</td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }}</td>
                             {% if app.user in sortie.users %}
-                                <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> x</td>
+                                <td><a class="list-group-item list-group-item-action"
+                                       href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> x</td>
                             {% else %}
-                                <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
+                                <td><a class="list-group-item list-group-item-action"
+                                       href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
                             {% endif %}
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.user.username }} </td>
-                            <td><a class="list-group-item list-group-item-action" href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
+                            <td><a class="list-group-item list-group-item-action"
+                                   href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.user.username }}
+                            </td>
+                            <td>
+                                {% if app.user in sortie.users %}
+
+                                    <a class="list-group-item list-group-item-action"
+                                       href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+                                {% else %}
+
+                                        {% if sortie.etat.libelle == 'Ouverte'  %}
+
+                                    <a class="list-group-item list-group-item-action"
+                                       href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
+                                        {% endif %}
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
 
@@ -97,9 +122,10 @@
             </section>
 
         </div>
-        <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une
-            sortie</a>
-
+        <div class="container-fluid d-flex justify-content-center">
+            <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une
+                sortie</a>
+        </div>
 
 
 
