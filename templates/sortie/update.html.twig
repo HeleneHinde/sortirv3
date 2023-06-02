@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+    {{ parent () }} | Create
+{% endblock %}
+
+{% block body %}
+
+
+    <h2 class="container-fluid d-flex justify-content-center"> Modifier une sortie !</h2>
+  
+    <div class="container-fluid d-flex flex-direction-column justify-content-center">
+
+    {{ form_start(sortieForm) }}
+    {{ form_errors(sortieForm.name) }}
+    {{ form_errors(sortieForm.firstAirDate) }}
+    {{ form_errors(sortieForm.dateLimiteInscription) }}
+    {{ form_errors(sortieForm.nbInscriptionMax) }}
+    {{ form_errors(sortieForm.duree) }}
+    {{ form_errors(sortieForm.infosSortie) }}
+    {{ form_errors(sortieForm.lieu) }}
+    {{ form_errors(sortieForm.Latitude) }}
+    {{ form_errors(sortieForm.nom_lieu) }}
+    {{ form_errors(sortieForm.Longitude) }}
+    {{ form_errors(sortieForm.rue) }}
+    {{ form_errors(sortieForm.ville_select) }}
+
+    {{ form_label(sortieForm.name) }}
+    {{ form_widget(sortieForm.name, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.firstAirDate) }}
+    {{ form_widget(sortieForm.firstAirDate, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.dateLimiteInscription) }}
+    {{ form_widget(sortieForm.dateLimiteInscription, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.nbInscriptionMax) }}
+    {{ form_widget(sortieForm.nbInscriptionMax, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.duree) }}
+    {{ form_widget(sortieForm.duree, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+
+
+
+    {{ form_label(sortieForm.infosSortie) }}
+    {{ form_widget(sortieForm.infosSortie, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.lieu) }}
+    {{ form_widget(sortieForm.lieu, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control', 'id': 'test'}}) }}
+
+        <label for="checkboxChoix"> Ajouter un Lieu</label>
+        <input id="checkboxChoix" type="checkbox" name="myCheckbox" onchange="
+    var sortiesLieu = document.getElementById('sorties_lieu');
+    sortiesLieu.disabled = this.checked;
+    document.getElementById('sorties_nom_lieu').disabled = !this.checked;
+    document.getElementById('sorties_Latitude').disabled = !this.checked;
+    document.getElementById('sorties_Longitude').disabled = !this.checked;
+    document.getElementById('sorties_ville_select').disabled = !this.checked;
+    document.getElementById('sorties_rue').disabled = !this.checked;
+    "> <br>
+
+        {{ form_label(sortieForm.nom_lieu) }}
+    {{ form_widget(sortieForm.nom_lieu, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.Latitude) }}
+    {{ form_widget(sortieForm.Latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.Longitude) }}
+    {{ form_widget(sortieForm.Longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.rue) }}
+    {{ form_widget(sortieForm.rue, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    {{ form_label(sortieForm.ville_select) }}
+    {{ form_widget(sortieForm.ville_select, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+    <br>
+
+
+    <button type="submit" name="creee" class="link_button btn btn-outline-secondary">Enregistrer</button>
+    {% if sortie.etat.id < 2 %}
+    <button type="submit" name="publiee" class="link_button btn btn-outline-secondary">Publier la sortie</button>
+    {% endif %}
+    <button type="submit" name="annuler" class="link_button btn btn-outline-danger">Annuler la sortie</button>
+    <a class="link_button btn btn-outline-danger" href="{{ path('main_home') }}"
+       role="button">Annuler</a>
+
+        {{ form_end(sortieForm) }}
+    </div>
+
+{% endblock %}

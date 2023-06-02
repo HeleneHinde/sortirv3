@@ -79,6 +79,59 @@ class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/update/{id}', name: 'update', requirements: ['id'=> '\d+'])]
+    public function update(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository, int $id): Response
+    {
+
+        //  dd("toto");
+        $sortie = $sortieRepository->find($id);
+        $sortieForm = $this->createForm(SortiesType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+        if ($sortie->getEtat()->getId() >= 3){
+            $this->addFlash('Erreur', 'Vous ne pouvez plus modifier cette sortie');
+            return $this->redirectToRoute('main_home');
+        }
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+            if ($request->request->has("annuler")){
+                $sortie->setEtat($etatRepository->find(6));
+            }else if ($request->request->has("publiee")){
+                $sortie->setEtat($etatRepository->find(2));
+            }else if ($sortie->getEtat()->getId() != 2){
+                $sortie->setEtat($etatRepository->find(1));
+            }
+            $sortie->setCampus($this->getUser()->getCampus());
+            $sortie->setUser($this->getUser());
+            if ($request->request->get('myCheckbox')){
+                $lieu = new Lieu();
+                $lieu->setNom($request->request->get('sorties')['nom_lieu']);
+                $lieu->setRue($request->request->get('sorties')['rue']);
+                $lieu->setLatitude($request->request->get('sorties')['Latitude']);
+                $lieu->setLongitude($request->request->get('sorties')['Longitude']);
+                $lieu->setVille($villeRepository->find($request->request->get('sorties')['ville_select']));
+
+                $lieuRepository->add($lieu, true);
+
+                $sortie->setLieu($lieu);
+            } else {
+                $sortie->setLieu($lieuRepository->find($sortieForm->get('lieu')->getData()));
+            }
+            $sortieRepository->add($sortie, true);
+
+            $this->addFlash('succès', 'Sortie modifiée avec succès');
+
+
+            return $this->redirectToRoute('sortiev2_show', ['id' => $sortie->getId()]);
+//            return $this->redirectToRoute('main_home');
+        }
+
+        return $this->render('sortie/update.html.twig', [
+            'sortieForm' => $sortieForm->createView(),
+            'sortie' => $sortie
+        ]);
+    }
+
 
 
 

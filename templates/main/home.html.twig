@@ -101,17 +101,24 @@
                                    href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.user.username }}
                             </td>
                             <td>
-                                {% if app.user in sortie.users %}
-                                    {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
-                                        <a class="list-group-item list-group-item-action"
-                                           href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+
+                                {% if app.user == sortie.user or 'ROLE_ADMIN' in app.user.roles %}
+                                    {% if sortie.etat.id < 3 %}
+                                        <a class="list-group-item-action"
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
                                     {% endif %}
                                 {% else %}
+                                    {% if app.user in sortie.users %}
+                                        {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
+                                            <a class="list-group-item list-group-item-action"
+                                               href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+                                        {% endif %}
+                                    {% else %}
 
-                                    {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
-
-                                        <a class="list-group-item list-group-item-action"
-                                           href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
+                                        {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
+                                            <a class="list-group-item list-group-item-action"
+                                               href="{{ path('inscription_user', {'id': sortie.id}) }}"> S'inscrire </a>
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             </td>
