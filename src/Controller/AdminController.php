@@ -272,5 +272,4 @@ class AdminController extends AbstractController
             'villeForm' => $villeForm->createView()
         ]);
     }
-
 }

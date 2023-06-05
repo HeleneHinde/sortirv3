@@ -4,13 +4,19 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
 use App\Tools\Uploader;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
 {
@@ -25,13 +31,13 @@ class UserController extends AbstractController
 
 
         return $this->render('user/profil.html.twig', [
-            'user'=>$user,
+            'user' => $user,
         ]);
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
-    public function update(int $id,
-                          Request $request, UserRepository $userRepository,Uploader $uploader): Response
+    public function update(int     $id,
+                           Request $request, UserRepository $userRepository, Uploader $uploader): Response
     {
         $user = $userRepository->find($id);
 
@@ -42,7 +48,7 @@ class UserController extends AbstractController
             if ($request->request->has("actif")) {
                 $user->setActif(!$user->isActif());
             }
-            $roles[]=$userForm->get('roles')->getData();
+            $roles[] = $userForm->get('roles')->getData();
             if ($roles) {
                 $user->setRoles($roles);
             }
@@ -58,13 +64,13 @@ class UserController extends AbstractController
             }
 
 
-            $filePhoto=$userForm->get('photo')->getData();
+            $filePhoto = $userForm->get('photo')->getData();
 
 
-            if($filePhoto){
+            if ($filePhoto) {
                 $name = $user->getUsername();
-                $directory='img/user';
-                $newFileName=$uploader->save($filePhoto,$name,$directory);
+                $directory = 'img/user';
+                $newFileName = $uploader->save($filePhoto, $name, $directory);
                 $user->setPhoto($newFileName);
 
             }
@@ -97,5 +103,66 @@ class UserController extends AbstractController
 
         return $this->render('main/home.html.twig');
     }
+
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/import', name: 'admin_import')]
+    public function importUser(Request $request,CampusRepository $campusRepository, UserRepository $userRepository, Security $security, Uploader $uploader, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createFormBuilder()
+            ->add('file', FileType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('file')->getData();
+            $user = $security->getUser();
+
+/*            if ($file) {
+                $date = new \DateTime();
+                $name = $user->getUsername() . $date->format('Y-m-d');
+                $directory = 'file';
+                $newFileName = $uploader->save($file, $name, $directory);
+                $userRepository->importCsv($newFileName);
+            }*/
+            $csv = fopen($file, 'r');
+            while (!feof($csv) ) {
+                $line[] = fgetcsv($csv, 1024);
+            }
+            fclose($csv);
+
+            $supp=array_shift($line);
+           // dd($line);
+            foreach ($line as &$row){
+                if (is_array($row)) {
+                $user1 = new User();
+                $campus = $campusRepository->find($row[1]);
+                $user1->setCampus($campus);
+                $user1->setUsername($row[2]);
+                $res = str_replace( array( '[', ']','"'), '', $row[3]);
+                $user1->setRoles([$res]);
+                $user1->setPassword($row[4]);
+                $user1->setLastname($row[6]);
+                $user1->setFirstname($row[5]);
+                $user1->setPhoneNumber($row[7]);
+                $user1->setEmail($row[8]);
+                $user1->setPhoto($row[9]);
+                $user1->setActif($row[10]);
+
+                $entityManager->persist($user1);
+                }
+            }
+
+                $entityManager->flush();
+
+            return $this->redirectToRoute('admin_user_list');
+        }
+
+        return $this->render('admin/importuser.html.twig', [
+            'form' => $form->createView(),
+        ]);
+
+    }
+
 
 }
