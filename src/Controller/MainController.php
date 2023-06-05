@@ -26,6 +26,14 @@ class MainController extends AbstractController
     public function home(EntityManagerInterface $entityManager, Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository, EtatRepository $etatRepository ): Response
     {
 
+        $user = $this->getUser();
+//
+//        if ($user && !$user->isActif()){
+//            $this->addFlash('Error', 'test');
+//            return $this->redirectToRoute('app_logout');
+//        }
+
+
         $campus = $campusRepository->findAll();
 
         //code pour l'historisation des sorties : on récupère l'état historisée, on récupère l'ensemble des sorties

@@ -124,7 +124,7 @@ class SortieController extends AbstractController
             }
             $sortieRepository->add($sortie, true);
 
-            $this->addFlash('succès', 'Sortie modifiée avec succès');
+            $this->addFlash('Success', 'Sortie modifiée avec succès');
 
 
             return $this->redirectToRoute('sortiev2_show', ['id' => $sortie->getId()]);

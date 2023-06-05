@@ -4,6 +4,11 @@
 
 {% block body %}
 
+    {% for flashMessage in app.flashes('success') %}
+        <div class="alert alert-success">{{ flashMessage }}</div>
+    {% endfor %}
+
+
     {% if app.user %}
         <h3>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h3>
 

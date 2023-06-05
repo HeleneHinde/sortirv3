@@ -2,10 +2,12 @@
 
 namespace App\Security;
 
+use mysql_xdevapi\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
@@ -23,10 +25,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
     private $userRepository;
-    public function __construct(UserRepository $userRepository,private UrlGeneratorInterface $urlGenerator)
+    private $session;
+    public function __construct(UserRepository $userRepository,private UrlGeneratorInterface $urlGenerator, SessionInterface $session)
     {
 
         $this->userRepository = $userRepository;
+        $this->session = $session;
     }
 
     public function authenticate(Request $request): Passport
@@ -55,6 +59,18 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
+        // Récupérer l'utilisateur à partir du token
+        $user = $token->getUser();
+
+        // Ajouter votre condition pour arrêter la connexion
+        if (!$user->isActif()) {
+            $errorMessage = 'Votre compte est désactivé.';
+            $this->session->getFlashBag()->add('error', $errorMessage); // marche pas
+            return new RedirectResponse('logout');
+        }
+
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
