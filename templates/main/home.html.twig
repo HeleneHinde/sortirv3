@@ -10,13 +10,11 @@
 
 
     {% if app.user %}
-        <h3>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h3>
-
-
-
-
-        <h3>Participant : {{ app.user.username }}</h3>
-
+        <br>
+        <h5>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h5>
+        <br>
+        <h5>Participant : {{ app.user.username }}</h5>
+<br>
         {{ form_start(sortieForm) }}
         <div class="container d-flex">
             {{ form_label(sortieForm.campus) }}
@@ -51,11 +49,13 @@
             {{ form_row(sortieForm.userId) }}
 
         </div>
+        <br>
         <div class="container-fluid d-flex show justify-content-center">
 
             <input class="btn btn-lg btn-primary" type="submit" value="Rechercher">
         </div>
-
+<br>
+<br>
 
         {{ form_end(sortieForm) }}
 

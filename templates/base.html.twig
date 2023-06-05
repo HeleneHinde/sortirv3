@@ -12,13 +12,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+        <h3><a href="ma"><img src="{{ asset('img/eni.png') }}" alt=" "></a> </h3>
+        <h3> Ecole Informatique </h3>
+
+
     {% endblock %}
 
     {% block javascripts %}
         {#{{ encore_entry_script_tags('app') }}#}
     {% endblock %}
 </head>
+
 <body>
+
 <header>
     {{ include('menu/nav.html.twig') }}
 
@@ -30,7 +36,21 @@
         {% endfor %}
     {% endfor %}
 
+
 </header>
+
 {% block body %}{% endblock %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <h5> &copy; Eni CopieRight</h5>
+</footer>
+
 </body>
 </html>
