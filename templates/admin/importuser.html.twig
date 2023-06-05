@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Admin | Import {% endblock %}
+
+{% block body %}
+
+
+    <h1 class="container-fluid d-flex justify-content-center">Import d'utilisateurs</h1>
+
+    {{ form_start(form) }}
+    <input type="submit" value="Envoyer">
+    {{ form_end(form) }}
+
+{#    <form action="{{ path('user_admin_import') }}" method="post" enctype="multipart/form-data">
+        <label for="file">Fichier CSV :</label>
+        <input type="file" id="file" name="file">
+
+    </form>#}
+
+
+
+{% endblock %}
