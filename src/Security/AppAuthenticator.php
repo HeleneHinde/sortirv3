@@ -39,13 +39,17 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $request->getSession()->set(Security::LAST_USERNAME, $usernameOrEmail);
 
-        $userBadge = filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)
-            ? new UserBadge($usernameOrEmail, function($userIdentifier) {
-                return $this->userRepository->findOneByEmail($userIdentifier);
-            })
-            : new UserBadge($usernameOrEmail, function($userIdentifier) {
-                return $this->userRepository->findOneByUsername($userIdentifier);
+        if (filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)) {
+            $userBadge = new UserBadge($usernameOrEmail, function ($userIdentifier) {
+                return $this->userRepository->findByEmailOrUsername($userIdentifier);
             });
+        } else {
+            $userBadge = new UserBadge($usernameOrEmail, function ($userIdentifier) {
+                return $this->userRepository->findByEmailOrUsername($userIdentifier);
+            });
+        }
+
+
 
         return new Passport(
             $userBadge,
@@ -60,15 +64,6 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
 
-        // Récupérer l'utilisateur à partir du token
-        $user = $token->getUser();
-
-        // Ajouter votre condition pour arrêter la connexion
-        if (!$user->isActif()) {
-            $errorMessage = 'Votre compte est désactivé.';
-            $this->session->getFlashBag()->add('error', $errorMessage); // marche pas
-            return new RedirectResponse('logout');
-        }
 
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
