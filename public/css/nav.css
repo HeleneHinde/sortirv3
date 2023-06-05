@@ -40,6 +40,8 @@ img{
     display: inline;
     vertical-align: middle;
     margin-bottom: 10px;
+    float: left;
+    width: 70px;
 }
 
 h3{
@@ -55,7 +57,11 @@ h1{
 }
 
 
-
+#map {
+    height: 60vh;
+    width: 40vw;
+    align-content: center;
+}
 
 
 
