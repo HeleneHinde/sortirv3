@@ -13,11 +13,11 @@
         {{ form_errors(userForm.lastname) }}
         {{ form_errors(userForm.phoneNumber) }}
         {{ form_errors(userForm.email) }}
-        {{ form_errors(userForm.campus) }}
         {{ form_errors(userForm.photo) }}
         {% for role in app.user.roles %}
-        {% if role == 'ROLE_ADMIN'  %}
-        {{ form_errors(userForm.roles) }}
+            {% if role == 'ROLE_ADMIN'  %}
+                {{ form_errors(userForm.campus) }}
+                {{ form_errors(userForm.roles) }}
         {% endif %}
         {% endfor %}
         {{ form_errors(userForm.plainPassword) }}
@@ -61,11 +61,18 @@
 
         <br>
         <button type="submit" class="btn btn-outline-secondary">Modifier</button>
+        {% for role in app.user.roles %}
+        {% if role == 'ROLE_ADMIN'  %}
+
         {% if user.actif %}
+
             <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre innactif</button>
         {% else %}
             <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre actif</button>
         {% endif %}
+
+        {% endif %}
+        {% endfor %}
         {{ form_end(userForm) }}
 
     </div>

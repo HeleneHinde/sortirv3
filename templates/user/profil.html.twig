@@ -5,31 +5,40 @@
 {% block body %}
 
 
+<h1 class="container-fluid d-flex justify-content-center">Hello {{ user.firstname }} !</h1>
+<div class="container-fluid d-flex justify-content-center">
 
-        <h1 class="container-fluid d-flex justify-content-center">Hello {{ user.firstname }} !</h1>
-        <div class="container-fluid d-flex justify-content-center">
-        <div>
-            <img class="w-25" src="{{ asset('img/user/'~user.photo) }}" alt="{{ user.username }}">
+    <div class="card" style="width: 18rem;">
+        <img src="{{ asset('img/user/'~user.photo) }}" class="card-img-top" alt="{{ user.username }}">
+        <div class="card-body">
+            <h5 class="card-title">Pseudo : {{ user.username }}</h5>
+            <p class="card-text">Nom : {{ user.lastname }}</p>
+            <p class="card-text">Prénom : {{ user.firstname }}</p>
+            <p class="card-text">Téléphone : {{ user.phoneNumber }}</p>
+            <p class="card-text">E-Mail : {{ user.email }}</p>
+            <p class="card-text">Campus : {{ user.campus.name }}</p>
+            <p class="card-text">Nom : {{ user.lastname }}</p>
+            {% if app.user.username == user.username %}
+                <div class="container-fluid d-flex justify-content-center">
+                    <a class="link_button btn btn-outline-success" href="{{ path('user_update', {'id': user.id}) }}"
+                       role="button">Modifier</a>
+                    <a class="link_button btn btn-outline-warning" href="{{ path('main_home') }}"
+                       role="button">Annuler</a>
 
+                    {% for role in app.user.roles %}
+                    {% if role == 'ROLE_ADMIN'  %}
+                    <a class="link_button btn btn-outline-danger" href="{{ path('user_delete', {'id': user.id}) }}"
+                       role="button">Supprimer</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-            <div>
-        <div>Pseudo : {{ user.username }}</div>
-        <div>Nom : {{ user.lastname }}</div>
-        <div>Prénom : {{ user.firstname }}</div>
-        <div>Téléphone : {{ user.phoneNumber }}</div>
-        <div>E-Mail : {{ user.email }}</div>
-        <div>Campus : {{ user.campus.name }}</div>
-            </div>
-        </div>
-        {% if app.user.username == user.username %}
-            <div class="container-fluid d-flex justify-content-center">
-            <a class="link_button btn btn-outline-secondary" href="{{ path('user_update', {'id': user.id}) }}"
-               role="button">Modifier son profil</a>
-            <a class="link_button btn btn-outline-warning" href="{{ path('main_home') }}"
-               role="button">Annuler</a>
-            <a class="link_button btn btn-outline-danger" href="{{ path('user_delete', {'id': user.id}) }}"
-               role="button">Supprimer mon profil</a>
-            </div>
-        {% endif %}
+    </div>
 
-{% endblock %}
+</div>
+    <div>
+
+
+
+        {% endblock %}

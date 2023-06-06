@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
 use App\Tools\Uploader;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +38,7 @@ class UserController extends AbstractController
 
     #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
     public function update(int     $id,
-                           Request $request, UserRepository $userRepository, Uploader $uploader): Response
+                           Request $request, UserRepository $userRepository, Uploader $uploader, Security $security): Response
     {
         $user = $userRepository->find($id);
 
@@ -48,9 +49,14 @@ class UserController extends AbstractController
             if ($request->request->has("actif")) {
                 $user->setActif(!$user->isActif());
             }
-            $roles[] = $userForm->get('roles')->getData();
-            if ($roles) {
-                $user->setRoles($roles);
+            $user1 = $security->getUser();
+            $roleUser = new ArrayCollection($user1->getRoles());
+            if ($roleUser->contains('ROLE_ADMIN')) {
+
+                $roles[] = $userForm->get('roles')->getData();
+                if ($roles) {
+                    $user->setRoles($roles);
+                }
             }
 
             $plainPassword = $userForm->get('plainPassword')->getData();
@@ -106,7 +112,7 @@ class UserController extends AbstractController
 
     #[IsGranted("ROLE_ADMIN")]
     #[Route('/admin/import', name: 'admin_import')]
-    public function importUser(Request $request,CampusRepository $campusRepository, UserRepository $userRepository, Security $security, Uploader $uploader, EntityManagerInterface $entityManager)
+    public function importUser(Request $request, CampusRepository $campusRepository, UserRepository $userRepository, Security $security, Uploader $uploader, EntityManagerInterface $entityManager)
     {
         $form = $this->createFormBuilder()
             ->add('file', FileType::class)
@@ -118,42 +124,42 @@ class UserController extends AbstractController
             $file = $form->get('file')->getData();
             $user = $security->getUser();
 
-/*            if ($file) {
-                $date = new \DateTime();
-                $name = $user->getUsername() . $date->format('Y-m-d');
-                $directory = 'file';
-                $newFileName = $uploader->save($file, $name, $directory);
-                $userRepository->importCsv($newFileName);
-            }*/
+            /*            if ($file) {
+                            $date = new \DateTime();
+                            $name = $user->getUsername() . $date->format('Y-m-d');
+                            $directory = 'file';
+                            $newFileName = $uploader->save($file, $name, $directory);
+                            $userRepository->importCsv($newFileName);
+                        }*/
             $csv = fopen($file, 'r');
-            while (!feof($csv) ) {
+            while (!feof($csv)) {
                 $line[] = fgetcsv($csv, 1024);
             }
             fclose($csv);
 
-            $supp=array_shift($line);
-           // dd($line);
-            foreach ($line as &$row){
+            $supp = array_shift($line);
+            // dd($line);
+            foreach ($line as &$row) {
                 if (is_array($row)) {
-                $user1 = new User();
-                $campus = $campusRepository->find($row[1]);
-                $user1->setCampus($campus);
-                $user1->setUsername($row[2]);
-                $res = str_replace( array( '[', ']','"'), '', $row[3]);
-                $user1->setRoles([$res]);
-                $user1->setPassword($row[4]);
-                $user1->setLastname($row[6]);
-                $user1->setFirstname($row[5]);
-                $user1->setPhoneNumber($row[7]);
-                $user1->setEmail($row[8]);
-                $user1->setPhoto($row[9]);
-                $user1->setActif($row[10]);
+                    $user1 = new User();
+                    $campus = $campusRepository->find($row[1]);
+                    $user1->setCampus($campus);
+                    $user1->setUsername($row[2]);
+                    $res = str_replace(array('[', ']', '"'), '', $row[3]);
+                    $user1->setRoles([$res]);
+                    $user1->setPassword($row[4]);
+                    $user1->setLastname($row[6]);
+                    $user1->setFirstname($row[5]);
+                    $user1->setPhoneNumber($row[7]);
+                    $user1->setEmail($row[8]);
+                    $user1->setPhoto($row[9]);
+                    $user1->setActif($row[10]);
 
-                $entityManager->persist($user1);
+                    $entityManager->persist($user1);
                 }
             }
 
-                $entityManager->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('admin_user_list');
         }

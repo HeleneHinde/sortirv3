@@ -27,12 +27,6 @@ class MainController extends AbstractController
     public function home(EntityManagerInterface $entityManager, Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository, Security $security, UserRepository $userRepository, EtatRepository $etatRepository ): Response
     {
 
-        $user = $this->getUser();
-//
-//        if ($user && !$user->isActif()){
-//            $this->addFlash('Error', 'test');
-//            return $this->redirectToRoute('app_logout');
-//        }
 
 
         $campus = $campusRepository->findAll();

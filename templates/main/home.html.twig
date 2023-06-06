@@ -11,9 +11,13 @@
 
     {% if app.user %}
         <br>
-        <h5>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h5>
-        <br>
-        <h5>Participant : {{ app.user.username }}</h5>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h5>
+                <p class="card-text">Participant : {{ app.user.username }}</p>
+            </div>
+        </div>
+
         <br>
         {{ form_start(sortieForm) }}
         <div class="container d-flex">
@@ -146,7 +150,7 @@
 
         </div>
         <div class="container-fluid d-flex justify-content-center">
-            <a class="link_button btn btn-outline-secondary" href="{{ path('sortie_create') }}" role="button">Créer une
+            <a class="link_button btn btn-outline-success" href="{{ path('sortie_create') }}" role="button">Créer une
                 sortie</a>
         </div>
 
@@ -154,13 +158,15 @@
 
     {% else %}
         <br>
+        <div class="container d-flex justify-content-center">
         <div class="example-wrapper">
-            <h1>Bienvenue aux sorties de l'ENI 2023 </h1>
+            <h2>Bienvenue aux sorties de l'ENI 2023 </h2>
             <br>
             <br>
             <br>
-            <a class="link_button btn btn-outline-secondary" href="{{ path('app_login') }}" role="button">Connecte
+            <a class="link_button btn btn-outline-success d-flex justify-content-center" href="{{ path('app_login') }}" role="button">Connecte
                 toi</a>
+        </div>
         </div>
 
 
@@ -182,7 +188,7 @@
             .then((response) => response.json())
             .then((data) => {
                 data.forEach(function (element) {
-                    console.log(element);
+
                     marker = new L.marker([element.lieu.latitude, element.lieu.longitude], {
 
                         draggable: false,
@@ -191,32 +197,13 @@
                         autoPanPadding: [100, 100]
                     }).addTo(map);
 
-                    console.log(element.lieu.ville)
+
                     map.setView([element.lieu.latitude, element.lieu.longitude]);
+
                     marker.bindPopup(`<strong>${element.name}</strong><br>${element.lieu.ville.name}`);
 
                 });
             });
-
-
-
-
-
-
-
-
-
-
-        // Autres opérations avec le contenu de l'option sélectionnée...
-
-
-        async function callApi(result) {
-            let response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${result}`)
-            if (response.ok) {
-                return response.json()
-            }
-        }
-
 
     </script>
 
