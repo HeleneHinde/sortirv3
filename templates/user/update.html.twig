@@ -60,15 +60,15 @@
         {% endfor %}
 
         <br>
-        <button type="submit" class="btn btn-outline-secondary">Modifier</button>
+        <button type="submit" class="btn btn-outline-success">Modifier</button>
         {% for role in app.user.roles %}
         {% if role == 'ROLE_ADMIN'  %}
 
         {% if user.actif %}
 
-            <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre innactif</button>
+            <button type="submit" name="actif" class="btn btn-outline-warning">Rendre innactif</button>
         {% else %}
-            <button type="submit" name="actif" class="btn btn-outline-secondary">Rendre actif</button>
+            <button type="submit" name="actif" class="btn btn-outline-warning">Rendre actif</button>
         {% endif %}
 
         {% endif %}
