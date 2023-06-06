@@ -11,63 +11,78 @@
 
     {% if app.user %}
         <br>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h5>
-                <p class="card-text">Participant : {{ app.user.username }}</p>
+        <div class="card" style="width: 18rem; margin-left: 4vh">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <p class="card-text"> <strong>Date du jour :  </strong>{{ 'now' | date('d/m/Y', 'Europe/Paris') }}</p>
+                </li>
+                <li class="list-group-item">
+                    <p class="card-text"> <strong>Participant :  </strong>{{ app.user.username }}</p>
+                </li>
+            </ul>
+        </div>
+
+
+
+        {{ form_start(sortieForm) }}
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="card" style="margin: 4vh; padding-bottom: 2vh; padding-top: 2vh; width: 76vw;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="container d-flex">
+                            {{ form_label(sortieForm.campus) }}
+                            {{ form_widget(sortieForm.campus,{'attr': {'class': 'form-control'}}) }}
+
+                            {{ form_label(sortieForm.name) }}
+                            {{ form_widget(sortieForm.name,{'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="container d-flex">
+
+                            {{ form_label(sortieForm.dateUn) }}
+                            {{ form_widget(sortieForm.dateUn,{'attr': {'class': 'form-control'}}) }}
+
+                            {{ form_label(sortieForm.dateDeux) }}
+                            {{ form_widget(sortieForm.dateDeux,{'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <div class="container d-flex flex-column">
+
+                            {{ form_label(sortieForm.scales) }}
+                            {{ form_widget(sortieForm.scales) }}
+
+                            {{ form_label(sortieForm.horns) }}
+                            {{ form_widget(sortieForm.horns) }}
+
+                            {{ form_label(sortieForm.horns_not_registered) }}
+                            {{ form_widget(sortieForm.horns_not_registered) }}
+
+                            {{ form_label(sortieForm.past_outings) }}
+                            {{ form_widget(sortieForm.past_outings) }}
+
+                            {{ form_row(sortieForm.userId) }}
+
+                        </div>
+                    </li>
+                </ul>
+                <div class="container-fluid d-flex show justify-content-center">
+
+                    <input class="btn btn-lg btn-primary" type="submit" value="Rechercher" style="margin-top: 2vh;">
+                </div>
             </div>
         </div>
 
-        <br>
-        {{ form_start(sortieForm) }}
-        <div class="container d-flex">
-            {{ form_label(sortieForm.campus) }}
-            {{ form_widget(sortieForm.campus,{'attr': {'class': 'form-control'}}) }}
-
-            {{ form_label(sortieForm.name) }}
-            {{ form_widget(sortieForm.name,{'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="container d-flex">
-
-            {{ form_label(sortieForm.dateUn) }}
-            {{ form_widget(sortieForm.dateUn,{'attr': {'class': 'form-control'}}) }}
-
-            {{ form_label(sortieForm.dateDeux) }}
-            {{ form_widget(sortieForm.dateDeux,{'attr': {'class': 'form-control'}}) }}
-        </div>
-
-        <div class="container d-flex flex-column">
-
-            {{ form_label(sortieForm.scales) }}
-            {{ form_widget(sortieForm.scales) }}
-
-            {{ form_label(sortieForm.horns) }}
-            {{ form_widget(sortieForm.horns) }}
-
-            {{ form_label(sortieForm.horns_not_registered) }}
-            {{ form_widget(sortieForm.horns_not_registered) }}
-
-            {{ form_label(sortieForm.past_outings) }}
-            {{ form_widget(sortieForm.past_outings) }}
-
-            {{ form_row(sortieForm.userId) }}
-
-        </div>
-        <br>
-        <div class="container-fluid d-flex show justify-content-center">
-
-            <input class="btn btn-lg btn-primary" type="submit" value="Rechercher">
-        </div>
-        <br>
-        <br>
-
         {{ form_end(sortieForm) }}
-
-        <div class="container" id="map"></div>
+        <div class="container" id="map" style="border-radius: 10px;
+        box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+        margin-bottom: 5vh;"></div>
 
         <div class="affichage sortie">
             <section class="container list">
-                <table class="table table-hover">
+                <table class="table table-hover" style="margin-bottom: 5vh; ">
                     <thead>
                     <tr>
                         <th scope="col">Nom</th>

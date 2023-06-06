@@ -4,6 +4,7 @@ body{
     background-attachment: fixed;
     background-position: center center;
     background-size: cover;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .navbar { background-color: steelblue; }
@@ -67,6 +68,10 @@ h1{
     width: 200px;
     height: 40px;
 
+}
+
+nav{
+    font-size: 0.8em;
 }
 
 

@@ -1,9 +1,14 @@
 <nav class="navbar navbar-expand navbar-light bs-dark-bg-subtle">
     <div class="container">
-        <h3><a href="{{ path('main_home') }}"><img src="{{ asset('img/eni.png') }}" alt=" "></a> </h3>
-        <a class="navbar-brand text-white" href="{{ path('main_home') }}"><i
-                    
-                    class="fa fa-graduation-cap fa-lg mr-2"></i>Sortie</a>
+
+        <div>
+
+            <a href="{{ path('main_home') }}"><img src="{{ asset('img/eni.png') }}" alt=" " style="width: 56px;"></a>
+            <a class="navbar-brand text-white" href="{{ path('main_home') }}"><i
+
+                        class="fa fa-graduation-cap fa-lg mr-2"></i><strong>ENI SORTIE</strong></a>
+        </div>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nvbCollapse"
                 aria-controls="nvbCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -14,7 +19,7 @@
                 {% if app.user %}
                     <li class="nav-item pl-1">
                         <a class="nav-link" href="{{ path('user_show', {'id': app.user.id}) }}"><i
-                                    class="fa fa-user-plus fa-fw mr-1"></i>Mon profil</a>
+                                    class="fa fa-user-plus fa-fw mr-1"></i>MON PROFIL</a>
                     </li>
 
                     {% for role in app.user.roles %}
@@ -40,7 +45,7 @@
 {#                            </li>#}
 
                             <li class="nav-item pl-1">
-                                <a class="nav-link" href="{{ path('admin_dash') }}"><i class="fa fa-home fa-fw mr-1"></i>Dashboard administrateur</a>
+                                <a class="nav-link" href="{{ path('admin_dash') }}"><i class="fa fa-home fa-fw mr-1"></i>DASHBOARD</a>
                             </li>
 
 {#                            <li class="nav-item pl-1">#}
@@ -61,7 +66,7 @@
 
 
                     <li class="nav-item pl-1">
-                        <a class="nav-link" href="{{ path('app_login') }}"><i class="fa fa-info-circle fa-fw mr-1"></i>Login</a>
+                        <a class="nav-link" href="{{ path('app_login') }}"><i class="fa fa-info-circle fa-fw mr-1"></i>LOGIN</a>
                     </li>
 
                 {% endif %}
@@ -71,7 +76,7 @@
         {% if app.user %}
             <li class=" navbar nav-item pl-1 text-white logout">
                 <a class="nav-link" href="{{ path('app_logout') }}"><i
-                            class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Logout</a>
+                            class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>LOGOUT</a>
             </li>
         {% endif %}
     </div>
