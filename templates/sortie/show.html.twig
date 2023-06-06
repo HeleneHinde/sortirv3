@@ -18,7 +18,8 @@
     <div class="d-flex flex-row ">
         <div class="text">
             <h6> Nom de la Sortie :</h6>
-            <div id="name_sortie"> {{ sortie.name }} </div>
+            <div id="nameSortie"> {{ sortie.name }} </div>
+
             <br>
             <h6> Date de Sortie :</h6>
             <div> {{ sortie.firstAirDate | date('d/m/y') }} </div>
@@ -127,20 +128,20 @@
         var lat = document.getElementById("latitude")
         var lon = document.getElementById("longitude")
 
-        var name= document.getElementById('name_sortie')
+        var name= document.getElementById('nameSortie')
         var ville= document.getElementById('ville')
-console.log(name)
+
         console.log(ville)
 
-            marker = new  L.marker([lon.innerText,lat.innerText],{
+            marker = new  L.marker([lat.innerText,lon.innerText],{
                 draggable: false,
                 dragging:false,
                 autoPan: true ,
                 autoPanPadding: [100,100] }).addTo(map);
 
 
-            map.setView([lon.innerText, lat.innerText], 13);
-             marker.bindPopup(`<strong>${name.innerText}</strong><br>${ville.innerText}`);
+            map.setView([lat.innerText, lon.innerText], 13);
+             marker.bindPopup(`<strong>{{sortie.name}}</strong><br>${ville.innerText}`);
 
 
 
