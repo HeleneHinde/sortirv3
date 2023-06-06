@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\SerieRepository;
 use DateTime;
 use App\Entity\Sortie;
 use App\Entity\User;
@@ -133,4 +134,8 @@ class MainController extends AbstractController
             'sortieForm' => $sortieForm->createView()
         ]);
     }
+
+
+
+
 }

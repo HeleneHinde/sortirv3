@@ -2,7 +2,8 @@
 
 namespace App\Controller\Api;
 
-use App\Repository\SerieRepository;
+use App\Controller\MainController;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     #[Route('', name: 'retrieve_all', methods: ['GET'])]
-    public function retrieveAll(SortieRepository $sortieRepository): Response
+    public function retrieveAll(EtatRepository $etatRepository, SortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findAll();
+        $etatH= $etatRepository->find(MainController::HISTORISE);
+        $etatC= $etatRepository->find(MainController::CREATE);
+        $sorties = $sortieRepository->main($etatH, $etatC);
 
         return $this->json($sorties, 200, [], ['groups' => 'sortie_data']);
     }

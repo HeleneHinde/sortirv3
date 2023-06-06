@@ -174,11 +174,16 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // let marker = new  L.marker([47,2],{
-        //     draggable: true,
-        //     dragging:true,
-        //     autoPan: true ,
-        //     autoPanPadding: [100,100] }).addTo(map);
+        fetch("{{ path('api_sortie_retrieve_all') }}",
+            { method :'GET', body : JSON.stringify(val) })
+            // then me permet de lancer une callback au retour de ma requête
+            // j'extraie ici le corps de ma requête, à savoir le JSON
+            .then((response) => response.json())
+            // le second then récupère le json en paramêtre afin d'en faire le traitement
+            .then((data)=>
+
+                document.getElementById('nbLike').innerText = data.nbLike);
+
 
         const mapElement = document.getElementById('map');
         const sortiesData = JSON.parse(mapElement.dataset.sorties);
