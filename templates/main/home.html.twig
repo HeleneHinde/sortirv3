@@ -192,34 +192,9 @@
             console.log("Aucune sortie disponible.");
         }
 
-        var newStr = null;
-        input.addEventListener('input', function() {
-            const userInput = input.value;
 
-            console.log('Donnée saisie par l\'utilisateur :', userInput);
-            newStr = userInput.replace(' ', '+');
-        });
 
-        const selectElement = document.querySelector('#sorties_ville_select');
-        let marker = null;
 
-        let lat=null;
-        let lon=null;
-
-        selectElement.addEventListener('change', async function () {
-            const selectedOption = this.options[this.selectedIndex];
-            const selectedContent = selectedOption.innerHTML;
-            console.log('Contenu de l\'option sélectionnée :', selectedContent);
-            const result = newStr + "+" + selectedContent;
-            console.log(await callApi(result))
-            var data = await callApi(result);
-            console.log(data.features[0].geometry.coordinates)
-            console.log(data.features[0].geometry.coordinates[0])
-            document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
-            document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
-
-            lat=data.features[0].geometry.coordinates[0]
-            lon=data.features[0].geometry.coordinates[1]
 
             if (marker) {
                 marker.remove();
