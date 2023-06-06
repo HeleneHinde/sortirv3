@@ -98,59 +98,102 @@
         //     autoPan: true ,
         //     autoPanPadding: [100,100] }).addTo(map);
 
-        // if (document.getElementById('checkboxChoix').checked){
 
-            const input = document.getElementById('sorties_rue');
-            var newStr = null;
-            var userInput=null
-            input.addEventListener('input', function() {
-                userInput = input.value;
+        // Sélectionnez la case à cocher par son ID
+        const checkbox = document.getElementById('checkboxChoix');
 
-                console.log('Donnée saisie par l\'utilisateur :', userInput);
-                newStr = userInput.replace(' ', '+');
-            });
+        let marker = null;
 
-            const selectElement = document.querySelector('#sorties_ville_select');
-            let marker = null;
+        function setMarker(lon, lat, rue, ville) {
+            if (marker) {
+                marker.remove();
+            }
 
-            let lat=null;
-            let lon=null;
+            marker = new L.marker([lon, lat], {
+                draggable: false,
+                dragging: false,
+                autoPan: true,
+                autoPanPadding: [100, 100]
+            }).addTo(map);
+            console.log(marker)
+            console.log(map);
 
-            selectElement.addEventListener('change', async function () {
+            map.setView([lon, lat], 13);
+            marker.bindPopup(`<strong>${lat}</strong><br>${ville}`);
+        }
+
+        function lieuPin() {
+            const selectLieu = document.querySelector('#sorties_lieu');
+            selectLieu.addEventListener('change', async function () {
                 const selectedOption = this.options[this.selectedIndex];
-                const selectedContent = selectedOption.innerHTML;
-                console.log('Contenu de l\'option sélectionnée :', selectedContent);
-                const result = newStr + "+" + selectedContent;
-                console.log(await callApi(result))
-                var data = await callApi(result);
-                console.log(data.features[0].geometry.coordinates)
-                console.log(data.features[0].geometry.coordinates[0])
-                document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
-                document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
+                const lieu = await getLieu(selectedOption.value);
+                const rue = lieu.sortie.rue;
+                const adresse = rue.replace(' ', '+') + '+' + lieu.sortie.ville.name;
+                console.log(adresse)
+                var data = await callApi(adresse);
+                console.log(data)
 
                 lat = data.features[0].geometry.coordinates[0]
                 lon = data.features[0].geometry.coordinates[1]
 
-                if (marker) {
-                    marker.remove();
-                }
-
-                marker = new L.marker([lon, lat], {
-                    draggable: false,
-                    dragging: false,
-                    autoPan: true,
-                    autoPanPadding: [100, 100]
-                }).addTo(map);
-                console.log(marker)
-                console.log(map);
-
-                map.setView([data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]], 13);
-                marker.bindPopup(`<strong>${userInput}</strong><br>${selectedContent}`);
-
+                setMarker(lon, lat, rue, lieu.sortie.ville.name);
             });
+        }
+
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                const input = document.getElementById('sorties_rue');
+                var newStr = null;
+                var userInput=null
+                input.addEventListener('input', function() {
+                    userInput = input.value;
+
+                    console.log('Donnée saisie par l\'utilisateur :', userInput);
+                    newStr = userInput.replace(' ', '+');
+                });
+
+                const selectElement = document.querySelector('#sorties_ville_select');
+
+                let lat=null;
+                let lon=null;
+
+                selectElement.addEventListener('change', async function () {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const selectedContent = selectedOption.innerHTML;
+                    console.log('Contenu de l\'option sélectionnée :', selectedContent);
+                    const result = newStr + "+" + selectedContent;
+                    console.log(await callApi(result))
+                    var data = await callApi(result);
+                    // console.log(data.features[0].geometry.coordinates)
+                    // console.log(data.features[0].geometry.coordinates[0])
+                    document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
+                    document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
+
+                    lat = data.features[0].geometry.coordinates[0]
+                    lon = data.features[0].geometry.coordinates[1]
+
+                    setMarker(lon, lat, userInput, selectedContent);
+
+                });
+            } else {
+                lieuPin();
+            }
+        });
+
+
+        lieuPin();
 
         async function callApi(result) {
             let response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${result}`)
+            if (response.ok) {
+                return response.json()
+            }
+        }
+
+        async function getLieu(id) {
+            const currentURL = window.location.href; // Obtenez l'URL actuelle du navigateur
+            const domain = currentURL.split('/')[2]; // Extrayez le nom de domaine
+            let response = await fetch(`http://${domain}/sortirv3/public/api/lieu/${id}`)
             if (response.ok) {
                 return response.json()
             }

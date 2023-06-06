@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api/sortie', name: 'api_sortie_')]
-class ApiController extends AbstractController
+class SortieController extends AbstractController
 {
     #[Route('', name: 'retrieve_all', methods: ['GET'])]
     public function retrieveAll(EtatRepository $etatRepository, SortieRepository $sortieRepository): Response

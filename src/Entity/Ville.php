@@ -18,18 +18,21 @@ class Ville
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("sortie_data")
+     * @Groups("lieu_data")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=150)
      * @Groups("sortie_data")
+     * @Groups("lieu_data")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=5)
      * @Groups("sortie_data")
+     * @Groups("lieu_data")
      */
     private $cp;
 
