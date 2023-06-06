@@ -34,4 +34,19 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route(path: '/forget', name: 'app_forget')]
+    public function forget(AuthenticationUtils $authenticationUtils): Response
+    {
+
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+
+        return $this->render('security/forget.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
 }
