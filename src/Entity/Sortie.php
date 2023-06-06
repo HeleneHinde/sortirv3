@@ -17,76 +17,75 @@ class Sortie
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $id;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="C")
+     */
+    #[Groups("sortie_data")]
+    private $users;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $name;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $firstAirDate;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $duree;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $nbInscriptionMax;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $infosSortie;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $etat;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $campus;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sortie")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
-     * @Groups("sortie_data")
      */
+    #[Groups("sortie_data")]
     private $lieu;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="C")
-     * @Groups("sortie_data")
-     */
-    private $users;
 
 
 

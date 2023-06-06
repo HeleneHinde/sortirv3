@@ -34,32 +34,18 @@ class InscriptionController extends AbstractController
         //si l'user fait déjà partie de la sortie, alors ça le désincrit, sinon ça l'inscrit
         if ($sortie->getUsers()->contains($user) && $sortie->getDateLimiteInscription() >= date('Ymd') && $sortie->getFirstAirDate() >= date('Ymd')) {
             $sortie->removeUser($user);
-
+            $sortieRepository->add($sortie, true);
+            return $this->redirectToRoute('main_home');
         } elseif ($sortie->getEtat() === $etat && $sortie->getDateLimiteInscription() > date('Ymd') && $sortie->getUsers()->count()< $sortie->getNbInscriptionMax()) {
 
             $sortie->addUser($user);
             $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à cette sortie !');
-
+            $sortieRepository->add($sortie, true);
+            return $this->redirectToRoute('main_home');
         } else {
             dd('coucou');
 
         }
 
-        $sortieRepository->add($sortie, true);
-
-        //code pour régénerer la vue Main Home
-        $sortiee = new Sortie();
-        $sortieForm = $this->createForm(SortieMainType::class, $sortiee);
-
-        $etatH= $etatRepository->find(MainController::HISTORISE);
-        $etatC= $etatRepository->find(MainController::CREATE);
-        $sorties = $sortieRepository->main($etatH, $etatC);
-        $campus = $campusRepository->findAll();
-
-        return $this->render('main/home.html.twig', [
-            'sorties' => $sorties,
-            'campus' => $campus,
-            'sortieForm' => $sortieForm->createView(),
-        ]);
     }
 }
