@@ -28,26 +28,10 @@ class ApiController extends AbstractController
     {
         $sortie=$sortieRepository->find($id);
         if($sortie){
-            return $this->json(['sortie' => $sortie]);
+            return $this->json(['sortie' => $sortie], 200, [], ['groups' => 'sortie_data']);
         }
         return $this->json(['error' => 'Sortie not found']);
     }
 
-    #[Route('/{id}', name: 'delete_one', methods: ['DELETE'])]
-    public function deleteOne(int $id): Response
-    {
-    }
-
-    #[Route('/{id}', name: 'update_one', methods: ['PUT'])]
-    public function updateOne(int $id, \Symfony\Component\HttpFoundation\Request $request, SortieRepository $sortieRepository): Response
-    {
-        $sortie=$sortieRepository->find($id);
-        if($sortie){
-
-
-            return $this->json(['sortie' => $sortie]);
-        }
-        return $this->json(['error' => 'Sortie not found']);
-    }
 
 }
