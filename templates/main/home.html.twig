@@ -111,12 +111,12 @@
                                 {% if app.user == sortie.user%}
                                     {% if sortie.etat.id < 3 %}
                                         <a class="list-group-item-action"
-                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}">  ⚙Modifier  </a>
                                     {% endif %}
                                 {% else %}
                                     {% if 'ROLE_ADMIN' in app.user.roles and sortie.etat.id < 3%}
                                         <a class="list-group-item-action"
-                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> Modifier </a>
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}">  ⚙Modifier  </a>
                                     {% endif %}
                                     {% if app.user in sortie.users %}
                                         {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}

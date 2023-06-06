@@ -6,6 +6,7 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=LieuRepository::class)
@@ -16,21 +17,25 @@ class Lieu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("sortie_data")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("sortie_data")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("sortie_data")
      */
     private $latitude;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("sortie_data")
      */
     private $longitude;
 
@@ -46,6 +51,7 @@ class Lieu
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("sortie_data")
      */
     private $rue;
 

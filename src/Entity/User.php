@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,17 +23,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("sortie_data")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Username is mandatory")]
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("sortie_data")
      */
     private $roles = [];
 
@@ -44,18 +48,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Firstname is mandatory")]
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Lastname is mandatory")]
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Groups("sortie_data")
      */
     #[Assert\Regex(
         pattern: '/^(0\d{9})$/',
@@ -65,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Email is mandatory")]
     #[Assert\Regex(
