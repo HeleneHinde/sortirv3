@@ -9,116 +9,81 @@
 
     <h1 class="container-fluid d-flex justify-content-center">Affiche la sortie</h1>
 
-    <div class="container" id="map"></div>
-
-
-    <br>
-
-
-    <div class="d-flex flex-row ">
-        <div class="text">
-            <h6> Nom de la Sortie :</h6>
-            <div id="nameSortie"> {{ sortie.name }} </div>
-
-            <br>
-            <h6> Date de Sortie :</h6>
-            <div> {{ sortie.firstAirDate | date('d/m/y') }} </div>
-            <br>
-            <h6> Date limite d'inscription :</h6>
-            <div> {{ sortie.dateLimiteInscription | date('d/m/y') }} </div>
-            <br>
-            <h6> Participant :</h6>
-            <div> {{ sortie.users | length }}
-                <br>
-                <br>
-                <h6> Nombre de place :</h6>
-                <div>  {{ sortie.nbInscriptionMax }} </div>
-                <br>
-                <h6> Durée :</h6>
-                <div> {{ sortie.duree | date('H:i:s') }} </div>
-                <br>
-                <h6> Description :</h6>
-                <td> {{ sortie.etat.libelle }} </td>
-                <br>
-
-            </div>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="card" style="padding: 1vw">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="container">
+                        <div class="card-img-top" id="map"></div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <p> <strong> Nom de la Sortie :</strong> {{ sortie.name }}</p>
+                    <p> <strong>Date de Sortie : </strong> {{ sortie.firstAirDate | date('d/m/y') }} </p>
+                    <p><strong> Date limite d'inscription : </strong> {{ sortie.dateLimiteInscription | date('d/m/y') }}</p>
+                    <p> <strong>Participant : </strong> {{ sortie.users | length }}</p>
+                    <p> <strong>Nombre de place :</strong> {{ sortie.nbInscriptionMax }}</p>
+                    <p> <strong>Durée : </strong>{{ sortie.duree | date('H:i:s') }}</p>
+                    <p> <strong>Description :</strong> {{ sortie.infosSortie }}</p>
+                    <p> <strong>Etat : </strong>{{ sortie.etat.libelle }}</p>
+                </li>
+                <li class="list-group-item">
+                    <p> <strong> Campus :</strong> {{ sortie.campus.name }}</p>
+                </li>
+                <li class="list-group-item">
+                    <p> <strong> Lieu :</strong> {{ sortie.lieu.nom }}</p>
+                    <p> <strong> Rue :</strong> {{ sortie.lieu.rue }}</p>
+                    <p> <strong> Ville :</strong> {{ sortie.lieu.ville.name }}</p>
+                </li>
+            </ul>
+                    <div class="container-fluid d-flex justify-content-center" style="margin-top: 1vh">
+                        <a class="link_button btn btn-outline-secondary" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')"
+                           href="{{ path('sortie_delete', {'id': sortie.id}) }}" role="button">Supprimer la Sortie </a>
+                    </div>
+            <div id="latitude" style="display: none">{{ sortie.lieu.latitude }}</div>
+            <div id="longitude" style="display: none">{{ sortie.lieu.longitude }}</div>
         </div>
-        <br>
-
-        <div class="d-flex flex-row">
-            <div class="text">
-                <h6> Campus : </h6>
-                {{ sortie.campus.name }}
-                <br>
-                <br>
-                <h6> Lieu : </h6>
-                <td> {{ sortie.lieu.nom }} </td>
-                <br>
-                <br>
-                <h6> Rue : </h6>
-                {{ sortie.lieu.rue }}
-                <br>
-                <br>
-                <h6>Ville </h6>
-                <div id="ville">{{ sortie.lieu.ville.name }}</div>
-                <br>
-                <br>
-                <h6> Latitude </h6>
-                <div id="latitude">{{ sortie.lieu.latitude }}</div>
-                <br>
-                <br>
-                <h6> Longitude </h6>
-               <div id="longitude"> {{ sortie.lieu.longitude }}</div>
-                <br>
-            </div>
-        </div>
-        <br>
-
     </div>
-    <br>
-    <br>
-    <br>
 
 
-    <section>
-        <table>
-            <thead>
-            <tr>
-                <th>Nom d'utilisateur</th>
-                <th>Nom de famille</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in sortie.users %}
+
+    <div class="container-fluid d-flex justify-content-center" style="margin-top: 4vh">
+        <section class="container list">
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}"
-                           class="list-group-item list-group-item-action">
-                            {{ user.username }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}"
-                           class="list-group-item list-group-item-action">
-                            {{ user.lastname }}
-                        </a>
-                    </td>
+                    <th scope="col">Nom d'utilisateur</th>
+                    <th scope="col">Nom de famille</th>
                 </tr>
-
-
-
-
-            {% endfor %}
-            </tbody>
-        </table>
-    </section>
+                </thead>
+                <tbody>
+                {% for user in sortie.users %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('user_show', {'id': user.id}) }}"
+                               class="list-group-item list-group-item-action">
+                                {{ user.username }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('user_show', {'id': user.id}) }}"
+                               class="list-group-item list-group-item-action">
+                                {{ user.lastname }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
 
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
             integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
     <script>
-        let map = L.map('map', {dragging: false}).setView([47.2, 2.333], 6);
+        let map = L.map('map', {dragging: true}).setView([47.2, 2.333], 6);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
@@ -148,16 +113,7 @@
 
     </script>
 
-    <br>
-    <br>
 
-    <footer>
-        <div>
-            {#            <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a> #}
-            <a class="link_button" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')"
-               href="{{ path('sortie_delete', {'id': sortie.id}) }}">Supprimer la Sortie </a>
-        </div>
-    </footer>
 
 
 
