@@ -182,19 +182,18 @@
             .then((response) => response.json())
             .then((data) => {
                 data.forEach(function (element) {
-                    console.log(element.name);
-                    marker = new L.marker([lon, lat], {
-                        name = element.name,
+                    console.log(element);
+                    marker = new L.marker([element.lieu.latitude, element.lieu.longitude], {
+
                         draggable: false,
                         dragging: false,
                         autoPan: true,
                         autoPanPadding: [100, 100]
                     }).addTo(map);
-                    console.log(marker)
-                    console.log(map);
 
-                    map.setView([data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]], 13);
-                    marker.bindPopup(`<strong>${userInput}</strong><br>${selectedContent}`);
+                    console.log(element.lieu.ville)
+                    map.setView([element.lieu.latitude, element.lieu.longitude]);
+                    marker.bindPopup(`<strong>${element.name}</strong><br>${element.lieu.ville.name}`);
 
                 });
             });

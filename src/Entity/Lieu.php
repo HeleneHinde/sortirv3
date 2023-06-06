@@ -42,6 +42,7 @@ class Lieu
     /**
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
      */
+    #[Groups("sortie_data")]
     private $ville;
 
     /**
