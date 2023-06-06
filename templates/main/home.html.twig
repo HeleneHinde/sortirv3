@@ -97,7 +97,7 @@
                                    href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> {{ sortie.etat.libelle }}</td>
                             {% if app.user in sortie.users %}
                                 <td><a class="list-group-item list-group-item-action"
-                                       href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> x</td>
+                                       href="{{ path('sortiev2_show', {'id': sortie.id}) }}"> ✅</td>
                             {% else %}
                                 <td><a class="list-group-item list-group-item-action"
                                        href="{{ path('sortiev2_show', {'id': sortie.id}) }}"></td>
