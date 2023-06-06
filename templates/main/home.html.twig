@@ -14,7 +14,7 @@
         <h5>Date du jour : {{ 'now' | date('d/m/Y', 'Europe/Paris') }}</h5>
         <br>
         <h5>Participant : {{ app.user.username }}</h5>
-<br>
+        <br>
         {{ form_start(sortieForm) }}
         <div class="container d-flex">
             {{ form_label(sortieForm.campus) }}
@@ -54,12 +54,12 @@
 
             <input class="btn btn-lg btn-primary" type="submit" value="Rechercher">
         </div>
-<br>
-<br>
+        <br>
+        <br>
 
         {{ form_end(sortieForm) }}
 
-        <div class="container" id="map" data-sorties="{{ sorties|json_encode|e('html_attr') }}"></div>
+        <div class="container" id="map"></div>
 
         <div class="affichage sortie">
             <section class="container list">
@@ -105,16 +105,16 @@
                             </td>
                             <td>
 
-{#                                {% if app.user == sortie.user or 'ROLE_ADMIN' in app.user.roles %}#}
-                                {% if app.user == sortie.user%}
+                                {#                                {% if app.user == sortie.user or 'ROLE_ADMIN' in app.user.roles %} #}
+                                {% if app.user == sortie.user %}
                                     {% if sortie.etat.id < 3 %}
                                         <a class="list-group-item-action"
-                                           href="{{ path('sortie_update', {'id': sortie.id}) }}">  ⚙Modifier  </a>
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> ⚙Modifier </a>
                                     {% endif %}
                                 {% else %}
-                                    {% if 'ROLE_ADMIN' in app.user.roles and sortie.etat.id < 3%}
+                                    {% if 'ROLE_ADMIN' in app.user.roles and sortie.etat.id < 3 %}
                                         <a class="list-group-item-action"
-                                           href="{{ path('sortie_update', {'id': sortie.id}) }}">  ⚙Modifier  </a>
+                                           href="{{ path('sortie_update', {'id': sortie.id}) }}"> ⚙Modifier </a>
                                     {% endif %}
                                     {% if app.user in sortie.users %}
                                         {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
@@ -122,7 +122,8 @@
                                                 <a> - </a>
                                             {% endif %}
                                             <a class=" list-group-item-action"
-                                               href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se désinscrire </a>
+                                               href="{{ path('inscription_user', {'id': sortie.id}) }}"> Se
+                                                désinscrire </a>
                                         {% endif %}
                                     {% else %}
 
@@ -166,62 +167,53 @@
     {% endif %}
 
 
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <script>
-        let map = L.map('map',{dragging: true}).setView([47.2, 2.333], 6);
+        let map = L.map('map', {dragging: true}).setView([47.2, 2.333], 6);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
         fetch("{{ path('api_sortie_retrieve_all') }}",
-            { method :'GET', body : JSON.stringify(val) })
-            // then me permet de lancer une callback au retour de ma requête
-            // j'extraie ici le corps de ma requête, à savoir le JSON
+            {method: 'GET'})
+
             .then((response) => response.json())
-            // le second then récupère le json en paramêtre afin d'en faire le traitement
-            .then((data)=>
+            .then((data) => {
+                data.forEach(function (element) {
+                    console.log(element.name);
+                    marker = new L.marker([lon, lat], {
+                        name = element.name,
+                        draggable: false,
+                        dragging: false,
+                        autoPan: true,
+                        autoPanPadding: [100, 100]
+                    }).addTo(map);
+                    console.log(marker)
+                    console.log(map);
 
-                document.getElementById('nbLike').innerText = data.nbLike);
+                    map.setView([data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]], 13);
+                    marker.bindPopup(`<strong>${userInput}</strong><br>${selectedContent}`);
 
-
-        const mapElement = document.getElementById('map');
-        const sortiesData = JSON.parse(mapElement.dataset.sorties);
-        console.log(sortiesData);
-
-        if (sortiesData.length > 0) {
-            const premiereSortie = sortiesData[0];
-            const nomPremiereSortie = premiereSortie.name;
-            console.log(premiereSortie);
-        } else {
-            console.log("Aucune sortie disponible.");
-        }
-
-
-
+                });
+            });
 
 
-            if (marker) {
-                marker.remove();
-            }
-
-            marker = new  L.marker([lon,lat],{
-                draggable: false,
-                dragging:false,
-                autoPan: true ,
-                autoPanPadding: [100,100] }).addTo(map);
-            console.log(marker)
-            console.log(map);
-
-            map.setView([data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]], 13);
 
 
-            // Autres opérations avec le contenu de l'option sélectionnée...
-        });
 
-        async function callApi(result){
+
+
+
+
+
+        // Autres opérations avec le contenu de l'option sélectionnée...
+
+
+        async function callApi(result) {
             let response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${result}`)
-            if (response.ok){
+            if (response.ok) {
                 return response.json()
             }
         }

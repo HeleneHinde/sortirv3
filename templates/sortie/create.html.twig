@@ -102,8 +102,9 @@
 
             const input = document.getElementById('sorties_rue');
             var newStr = null;
+            var userInput=null
             input.addEventListener('input', function() {
-                const userInput = input.value;
+                userInput = input.value;
 
                 console.log('Donnée saisie par l\'utilisateur :', userInput);
                 newStr = userInput.replace(' ', '+');
@@ -144,6 +145,7 @@
                 console.log(map);
 
                 map.setView([data.features[0].geometry.coordinates[1], data.features[0].geometry.coordinates[0]], 13);
+                marker.bindPopup(`<strong>${userInput}</strong><br>${selectedContent}`);
 
             });
 
