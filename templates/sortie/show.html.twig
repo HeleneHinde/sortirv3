@@ -9,41 +9,39 @@
 
     <h1 class="container-fluid d-flex justify-content-center">Affiche la sortie</h1>
 
-
-<br>
-
-    <div>
+    <div class="container" id="map"></div>
 
 
+    <br>
 
 
     <div class="d-flex flex-row ">
-                <div class="text">
-                    <h6> Nom de la Sortie :</h6>
-                    <div> {{ sortie.name }} </div>
-                    <br>
-                    <h6> Date de Sortie :</h6>
-                    <div> {{ sortie.firstAirDate | date('d/m/y') }} </div>
-                    <br>
-                    <h6> Date limite d'inscription :</h6>
-                    <div> {{ sortie.dateLimiteInscription | date('d/m/y') }} </div>
-                    <br>
-                    <h6> Participant :</h6>
-                    <div> {{ sortie.users | length }}
-                        <br>
-                        <br>
-                        <h6> Nombre de place :</h6>
-                        <div>  {{ sortie.nbInscriptionMax }} </div>
-                        <br>
-                        <h6> Durée :</h6>
-                        <div> {{ sortie.duree | date('H:i:s') }} </div>
-                        <br>
-                        <h6> Description :</h6>
-                        <td> {{ sortie.etat.libelle }} </td>
-                        <br>
+        <div class="text">
+            <h6> Nom de la Sortie :</h6>
+            <div id="name_sortie"> {{ sortie.name }} </div>
+            <br>
+            <h6> Date de Sortie :</h6>
+            <div> {{ sortie.firstAirDate | date('d/m/y') }} </div>
+            <br>
+            <h6> Date limite d'inscription :</h6>
+            <div> {{ sortie.dateLimiteInscription | date('d/m/y') }} </div>
+            <br>
+            <h6> Participant :</h6>
+            <div> {{ sortie.users | length }}
+                <br>
+                <br>
+                <h6> Nombre de place :</h6>
+                <div>  {{ sortie.nbInscriptionMax }} </div>
+                <br>
+                <h6> Durée :</h6>
+                <div> {{ sortie.duree | date('H:i:s') }} </div>
+                <br>
+                <h6> Description :</h6>
+                <td> {{ sortie.etat.libelle }} </td>
+                <br>
 
-                </div>
-                </div>
+            </div>
+        </div>
         <br>
 
         <div class="d-flex flex-row">
@@ -60,31 +58,25 @@
                 {{ sortie.lieu.rue }}
                 <br>
                 <br>
-                <h6>Code postal </h6>
-                {{ sortie.lieu.ville.cp }}
+                <h6>Ville </h6>
+                <div id="ville">{{ sortie.lieu.ville.name }}</div>
                 <br>
                 <br>
-                <h6> Latitude : </h6>
-                {{ sortie.lieu.latitude }}
+                <h6> Latitude </h6>
+                <div id="latitude">{{ sortie.lieu.latitude }}</div>
                 <br>
                 <br>
-                <h6> Longitude : </h6>
-                {{ sortie.lieu.longitude }}
+                <h6> Longitude </h6>
+               <div id="longitude"> {{ sortie.lieu.longitude }}</div>
                 <br>
             </div>
         </div>
         <br>
 
-        </div>
-<br>
+    </div>
     <br>
     <br>
-
-
-
-
-
-
+    <br>
 
 
     <section>
@@ -99,28 +91,70 @@
             {% for user in sortie.users %}
                 <tr>
                     <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}" class="list-group-item list-group-item-action">
+                        <a href="{{ path('user_show', {'id': user.id}) }}"
+                           class="list-group-item list-group-item-action">
                             {{ user.username }}
                         </a>
                     </td>
                     <td>
-                        <a href="{{ path('user_show', {'id': user.id}) }}" class="list-group-item list-group-item-action">
+                        <a href="{{ path('user_show', {'id': user.id}) }}"
+                           class="list-group-item list-group-item-action">
                             {{ user.lastname }}
                         </a>
                     </td>
                 </tr>
+
+
+
+
             {% endfor %}
             </tbody>
         </table>
     </section>
 
-<br>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <script>
+        let map = L.map('map', {dragging: false}).setView([47.2, 2.333], 6);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var lat = document.getElementById("latitude")
+        var lon = document.getElementById("longitude")
+
+        var name= document.getElementById('name_sortie')
+        var ville= document.getElementById('ville')
+console.log(name)
+        console.log(ville)
+
+            marker = new  L.marker([lon.innerText,lat.innerText],{
+                draggable: false,
+                dragging:false,
+                autoPan: true ,
+                autoPanPadding: [100,100] }).addTo(map);
+
+
+            map.setView([lon.innerText, lat.innerText], 13);
+             marker.bindPopup(`<strong>${name.innerText}</strong><br>${ville.innerText}`);
+
+
+
+
+    </script>
+
+    <br>
     <br>
 
     <footer>
         <div>
-            {#            <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a>#}
-            <a class="link_button" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')" href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler</a>
+            {#            <a class="link_button" href="{{ path('sortiev2_show', {'id': sortie.id}) }}">Publier la sortie</a> #}
+            <a class="link_button" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')"
+               href="{{ path('sortie_delete', {'id': sortie.id}) }}">Supprimer la Sortie </a>
         </div>
     </footer>
 
