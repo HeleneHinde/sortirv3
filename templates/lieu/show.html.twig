@@ -10,16 +10,21 @@
         <div class="card" style="padding: 1vw">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                    <div class="container">
+                        <div class="card-img-top" id="map"></div>
+                    </div>
+                </li>
+                <li class="list-group-item">
                     <h5 class="card-title">Lieu {{ lieu.nom }}</h5>
                 </li>
                 <li class="list-group-item">
-                    <p>Latitude : {{ lieu.latitude }}</p>
-                    <p>Longitude : {{ lieu.longitude }}</p>
-                    <p>Rue : {{ lieu.rue }}</p>
+                    <p>Latitude : <span id="lieu_lat">{{ lieu.latitude }}</span></p>
+                    <p>Longitude : <span id="lieu_lon">{{ lieu.longitude }}</span></p>
+                    <p>Rue : <span id="lieu_rue">{{ lieu.rue }}</span></p>
                 </li>
                 <li class="list-group-item">
                     <h5 class="card-title">Ville</h5>
-                    <p>Nom : {{ lieu.ville.name }}</p>
+                    <p>Nom : <span id="lieu_ville">{{ lieu.ville.name }}</span></p>
                     <p>Code postal : {{ lieu.ville.cp }}</p>
                 </li>
                 <li class="list-group-item">
@@ -34,5 +39,38 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <script>
+        let map = L.map('map', {dragging: true}).setView([47.2, 2.333], 6);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var lat = document.getElementById("lieu_lat")
+        var lon = document.getElementById("lieu_lon")
+
+        var name= document.getElementById('lieu_rue')
+        var ville= document.getElementById('lieu_ville')
+
+        console.log(ville)
+
+        marker = new  L.marker([lat.innerText,lon.innerText],{
+            draggable: false,
+            dragging:false,
+            autoPan: true ,
+            autoPanPadding: [100,100] }).addTo(map);
+
+
+        map.setView([lat.innerText, lon.innerText], 13);
+        marker.bindPopup(`<br>${ville.innerText}`);
+
+
+
+
+    </script>
 
 {% endblock %}
