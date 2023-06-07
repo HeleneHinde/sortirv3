@@ -65,7 +65,6 @@ class LieuController extends AbstractController
 
 
         if ($lieuForm->isSubmitted() && $lieuForm->isValid()){
-
             if ($request->request->get('myCheckboxVille')){
                 $ville = new Ville();
                 $ville->setName($request->request->get('lieu')['Ville']);

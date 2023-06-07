@@ -37,11 +37,12 @@ class InscriptionController extends AbstractController
         if ($sortie->getUsers()->contains($user) && $sortie->getDateLimiteInscription() >= date('Ymd') && $sortie->getFirstAirDate() >= date('Ymd')) {
             $sortie->removeUser($user);
             $sortieRepository->add($sortie, true);
+            $this->addFlash('success', 'Vous êtes bien désinscrit de la sortie '.$sortie->getName(). ' !');
             return $this->redirectToRoute('main_home');
         } elseif ($sortie->getEtat() === $etat && $sortie->getDateLimiteInscription() > date('Ymd') && $sortie->getUsers()->count()< $sortie->getNbInscriptionMax()) {
 
             $sortie->addUser($user);
-            $this->addFlash('error', 'Vous ne pouvez pas vous inscrire à cette sortie !');
+            $this->addFlash('success', 'Vous êtes bien inscrit à la sortie '.$sortie->getName(). ' !');
             $sortieRepository->add($sortie, true);
             return $this->redirectToRoute('main_home');
         } else {

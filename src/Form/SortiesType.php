@@ -6,6 +6,7 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 
 use App\Entity\Ville;
+
 use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\DBAL\Types\TimeType;
 use phpDocumentor\Reflection\Types\Integer;
@@ -15,10 +16,12 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class SortiesType extends AbstractType
 {
@@ -31,14 +34,14 @@ class SortiesType extends AbstractType
                 'label' => 'Nom',
                 'required' => true
             ])
-            ->add('firstAirDate', DateType::class,[
+            ->add('firstAirDate', DateTimeType::class,[
                 'label' => 'Date de création',
                 'html5'=>true,
                 'widget'=>'single_text',
                 'required' => true
             ])
 
-            ->add('dateLimiteInscription', DateType::class,[
+            ->add('dateLimiteInscription', DateTimeType::class,[
                 'label' => 'Date de fin d\'inscription',
                 'html5'=>true,
                 'widget'=>'single_text',
@@ -46,7 +49,8 @@ class SortiesType extends AbstractType
             ])
             ->add('nbInscriptionMax', NumberType::class,[
                 'label' => 'Max. inscrit',
-                'required' => true
+                'required' => true,
+                'invalid_message' => 'Le nombre d\'inscription doit être un nombre'
             ])
             ->add('duree', \Symfony\Component\Form\Extension\Core\Type\TimeType::class, [
                 'label' => 'Durée',
