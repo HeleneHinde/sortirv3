@@ -66,6 +66,7 @@ class SortieController extends AbstractController
             } else {
                 $sortie->setLieu($lieuRepository->find($sortieForm->get('lieu')->getData()));
             }
+            $sortie->getUsers()->add($this->getUser());
             $sortieRepository->add($sortie, true);
 
             $this->addFlash('succès', 'Sortie ajoutée avec succès');

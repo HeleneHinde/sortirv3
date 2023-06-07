@@ -110,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $actif;
+    private $actif = true;
 
     public function __construct()
     {
