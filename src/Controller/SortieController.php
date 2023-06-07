@@ -56,7 +56,7 @@ class SortieController extends AbstractController
             $sortie->setUser($this->getUser());
             if ($request->request->get('myCheckbox')){
                 $lieu = new Lieu();
-                $data = $sortieForm->getData();
+
                 $lieu->setNom($request->request->get('sorties')['name']);
                 $lieu->setRue($request->request->get('sorties')['rue']);
                 $lieu->setLatitude($request->request->get('sorties')['Latitude']);
@@ -70,9 +70,22 @@ class SortieController extends AbstractController
                 $sortie->setLieu($lieuRepository->find($sortieForm->get('lieu')->getData()));
             }
             $sortie->getUsers()->add($this->getUser());
-            $sortieRepository->add($sortie, true);
+            $dateSortie = $request->request->get('sorties')['firstAirDate'];
+            $dateCloture= $request->request->get('sorties')['dateLimiteInscription'];
 
-            $this->addFlash('succès', 'Sortie ajoutée avec succès');
+            if ($dateSortie<$dateCloture){
+
+                $this->addFlash('error', 'la date limite d\'inscription ne peut pas être postérieur à la date de la sortie' );
+                return $this->redirectToRoute('sortie_create');
+            }else{
+
+                $sortieRepository->add($sortie, true);
+            }
+
+
+
+
+            $this->addFlash('success', 'Sortie ajoutée avec succès');
 
 
             return $this->redirectToRoute('sortiev2_show', ['id' => $sortie->getId()]);

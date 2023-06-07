@@ -6,7 +6,9 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -31,6 +33,7 @@ class Sortie
      * @ORM\Column(type="string", length=255)
      */
     #[Groups("sortie_data")]
+    #[Assert\Length(min: 5, minMessage: "Le nom doit contenir au moins 5 caractères")]
     private $name;
 
     /**
@@ -55,6 +58,7 @@ class Sortie
      * @ORM\Column(type="integer")
      */
     #[Groups("sortie_data")]
+    //#[Assert\Type(Integer::class, message: 'Le nombre d\'inscription doit être un nombre entier')]
     private $nbInscriptionMax;
 
     /**
