@@ -34,8 +34,8 @@ class SortiesType extends AbstractType
                 'label' => 'Nom',
                 'required' => true
             ])
-            ->add('firstAirDate', DateTimeType::class,[
-                'label' => 'Date de création',
+            ->add('firstAirDate', DateType::class,[
+                'label' => 'Date et heure de la sortie',
                 'html5'=>true,
                 'widget'=>'single_text',
                 'required' => true
