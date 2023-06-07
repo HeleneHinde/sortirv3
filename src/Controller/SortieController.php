@@ -116,7 +116,7 @@ class SortieController extends AbstractController
             if ($request->request->has("annuler")){
                 if ($request->request->get('motif_annulation') != null){
                     $sortie->setEtat($etatRepository->find(6));
-                    $sortie->setInfosSortie($sortie->getInfosSortie(). ' <br>SORTIE ANNULÉ : <br>' . $request->request->get('motif_annulation'));
+                    $sortie->setInfosSortie($sortie->getInfosSortie(). ' |  SORTIE ANNULÉ : ' . $request->request->get('motif_annulation'));
                 } else {
                     return $this->redirectToRoute('sortie_update', ['id' => $sortie->getId()]);
                 }

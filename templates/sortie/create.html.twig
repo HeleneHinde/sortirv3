@@ -67,11 +67,10 @@
         {{ form_label(sortieForm.nom_lieu) }}
     {{ form_widget(sortieForm.nom_lieu, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
-    {{ form_label(sortieForm.Latitude) }}
-    {{ form_widget(sortieForm.Latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control', 'id': 'test'}}) }}
 
-    {{ form_label(sortieForm.Longitude) }}
-    {{ form_widget(sortieForm.Longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+
+        {{ form_widget(sortieForm.Latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control', 'type': 'hidden'}}|merge({'type': 'hidden'})) }}
+        {{ form_widget(sortieForm.Longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control', 'type': 'hidden'}}|merge({'type': 'hidden'})) }}
 
     {{ form_label(sortieForm.rue) }}
     {{ form_widget(sortieForm.rue, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
@@ -164,8 +163,8 @@
                     var data = await callApi(result);
                     // console.log(data.features[0].geometry.coordinates)
                     // console.log(data.features[0].geometry.coordinates[0])
-                    document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
-                    document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
+                    document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[0]
+                    document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[1]
 
                     lat = data.features[0].geometry.coordinates[0]
                     lon = data.features[0].geometry.coordinates[1]
