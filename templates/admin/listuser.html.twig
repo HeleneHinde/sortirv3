@@ -32,7 +32,7 @@
                     {% else %}
                         <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}"> ❌ </a></td>
                     {% endif %}
-                    <td><a  href="{{ path('user_update', {'id': user.id}) }}"> Modifier ⚙ </a> - <a class="text-danger" href="{{ path('admin_user_delete', {'id': user.id}) }}"> Supprimer ❌ </a></td>
+                    <td><a  href="{{ path('user_update', {'id': user.id}) }}"> Modifier </a> - <a class="text-danger" href="{{ path('admin_user_delete', {'id': user.id}) }}"> Supprimer </a></td>
                 </tr>
 
             {% endfor %}

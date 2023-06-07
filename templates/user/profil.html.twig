@@ -21,14 +21,14 @@
             {% if app.user.username == user.username %}
                 <div class="container-fluid d-flex justify-content-center">
                     <a class="link_button btn btn-outline-success" href="{{ path('user_update', {'id': user.id}) }}"
-                       role="button">Modifier</a>
+                       role="button"> Modifier </a>
                     <a class="link_button btn btn-outline-warning" href="{{ path('main_home') }}"
                        role="button">Annuler</a>
 
                     {% for role in app.user.roles %}
                     {% if role == 'ROLE_ADMIN'  %}
                     <a class="link_button btn btn-outline-danger" href="{{ path('user_delete', {'id': user.id}) }}"
-                       role="button">Supprimer</a>
+                       role="button"> Supprimer </a>
                     {% endif %}
                     {% endfor %}
                 </div>
