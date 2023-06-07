@@ -81,7 +81,9 @@ class LieuController extends AbstractController
 
             $lieuRepository->add($lieu, true);
 
-            $this->addFlash('succès', 'Lieu "'. $lieu->getNom() .'" ajouté avec succès');
+
+
+            $this->addFlash('success', '<span style="color:green;">Lieu "'. $lieu->getNom() .'" ajouté avec succès</span>');
 
 
             return $this->redirectToRoute('lieu_list');

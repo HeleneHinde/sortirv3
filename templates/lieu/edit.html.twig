@@ -11,19 +11,19 @@
 
         {{ form_start(lieuForm) }}
         {{ form_errors(lieuForm.nom) }}
-        {{ form_errors(lieuForm.latitude) }}
-        {{ form_errors(lieuForm.longitude) }}
+{#        {{ form_errors(lieuForm.latitude) }}#}
+{#        {{ form_errors(lieuForm.longitude) }}#}
         {{ form_errors(lieuForm.rue) }}
         {{ form_errors(lieuForm.ville) }}
 
         {{ form_label(lieuForm.nom) }}
         {{ form_widget(lieuForm.nom, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
 
-        {{ form_label(lieuForm.latitude) }}
-        {{ form_widget(lieuForm.latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+{#        {{ form_label(lieuForm.latitude) }}#}
+{#        {{ form_widget(lieuForm.latitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}#}
 
-        {{ form_label(lieuForm.longitude) }}
-        {{ form_widget(lieuForm.longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}
+{#        {{ form_label(lieuForm.longitude) }}#}
+{#        {{ form_widget(lieuForm.longitude, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}#}
 
         {{ form_label(lieuForm.rue) }}
         {{ form_widget(lieuForm.rue, {'attr': {'class': 'container-fluid d-flex justify-content-center form-control'}}) }}

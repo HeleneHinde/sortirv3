@@ -27,6 +27,8 @@ class Lieu
      * @Groups("sortie_data")
      * @Groups("lieu_data")
      */
+    #[Assert\NotBlank(message: "Nom obligatoire")]
+    #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $nom;
 
     /**

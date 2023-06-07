@@ -15,6 +15,7 @@
                         <div class="card-img-top" id="map"></div>
                     </div>
                 </li>
+                <br>
                 <li class="list-group-item">
                     <p> <strong> Nom de la Sortie :</strong> {{ sortie.name }}</p>
                     <p> <strong>Date de Sortie : </strong> {{ sortie.firstAirDate | date('d/m/y') }} </p>
@@ -25,15 +26,18 @@
                     <p> <strong>Description :</strong> {{ sortie.infosSortie }}</p>
                     <p> <strong>Etat : </strong>{{ sortie.etat.libelle }}</p>
                 </li>
+                <br>
                 <li class="list-group-item">
                     <p> <strong> Campus :</strong> {{ sortie.campus.name }}</p>
                 </li>
+                <br>
                 <li class="list-group-item">
                     <p> <strong> Lieu :</strong> {{ sortie.lieu.nom }}</p>
                     <p> <strong> Rue :</strong> {{ sortie.lieu.rue }}</p>
                     <p> <strong> Ville :</strong> {{ sortie.lieu.ville.name }}</p>
                 </li>
             </ul>
+            <br>
                     <div class="container-fluid d-flex justify-content-center" style="margin-top: 1vh">
                         {% if app.user in sortie.users %}
                             {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
@@ -54,6 +58,7 @@
                             {% endif %}
                         {% endif %}
                     </div>
+            <br>
             <div id="latitude" style="display: none">{{ sortie.lieu.latitude }}</div>
             <div id="longitude" style="display: none">{{ sortie.lieu.longitude }}</div>
         </div>

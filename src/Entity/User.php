@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Prénom obligatoire")]
-
+    #[Assert\Length(min: 3, minMessage: "Le prenom doit contenir au moins 3 caractères")]
     private $firstname;
 
     /**
@@ -60,6 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Nom obligatoire")]
+    #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $lastname;
 
     /**

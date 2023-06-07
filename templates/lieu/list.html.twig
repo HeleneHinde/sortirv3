@@ -13,8 +13,8 @@
                 <th scope="col">Nom</th>
                 <th scope="col">Rue</th>
                 <th scope="col">Ville</th>
-                <th scope="col">Latitude</th>
-                <th scope="col">Longitude</th>
+{#                <th scope="col">Latitude</th>#}
+{#                <th scope="col">Longitude</th>#}
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -24,8 +24,8 @@
                     <th scope="row"><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.nom }}</a></th>
                     <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.rue }}</a></td>
                     <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.ville.name }}</a></td>
-                    <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.latitude }}</a></td>
-                    <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.longitude }}</a></td>
+{#                    <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.latitude }}</a></td>#}
+{#                    <td><a class="list-group-item list-group-item-action" href="{{ path('lieu_show', {'id': lieu.id}) }}">{{ lieu.longitude }}</a></td>#}
                     {#                    <td><a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">{{ lieu.longitude }}</a></td>#}
                     <td><a  href="{{ path('lieu_update', {'id': lieu.id})  }}"> Modifier </a> -
                         <a class="text-danger" href="{{ path('lieu_delete', {'id': lieu.id}) }}" onclick="return confirm('Etes vous sûre de vouloir supprimer le lieu {{ lieu.nom }}')"> Supprimer </a></td>

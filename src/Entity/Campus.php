@@ -26,6 +26,8 @@ class Campus
      * @ORM\Column(type="string", length=255)
      * @Groups("sortie_data")
      */
+    #[Assert\NotBlank(message: "Nom obligatoire")]
+    #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $name;
 
     /**
