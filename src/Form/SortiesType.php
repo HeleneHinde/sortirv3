@@ -32,7 +32,7 @@ class SortiesType extends AbstractType
                 'required' => true
             ])
             ->add('firstAirDate', DateType::class,[
-                'label' => 'Date de création',
+                'label' => 'Date et heure de la sortie',
                 'html5'=>true,
                 'widget'=>'single_text',
                 'required' => true
