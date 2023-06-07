@@ -15,8 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['username'], message: 'Il y a déjà un compte avec ce pseudo')]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec ce email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
@@ -31,7 +31,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("sortie_data")
      */
-    #[Assert\NotBlank(message: "Username is mandatory")]
+    #[Assert\NotBlank(message: "Le pseudo est obligatoire")]
+    #[Assert\Length(min: 5, minMessage: "Le pseudo doit contenir au moins 5 caractères")]
     private $username;
 
     /**
@@ -50,14 +51,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("sortie_data")
      */
-    #[Assert\NotBlank(message: "Firstname is mandatory")]
+    #[Assert\NotBlank(message: "Prénom obligatoire")]
+
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("sortie_data")
      */
-    #[Assert\NotBlank(message: "Lastname is mandatory")]
+    #[Assert\NotBlank(message: "Nom obligatoire")]
     private $lastname;
 
     /**
@@ -74,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180)
      * @Groups("sortie_data")
      */
-    #[Assert\NotBlank(message: "Email is mandatory")]
+    #[Assert\NotBlank(message: "Email obligatoire")]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
         message: 'Veuillez respecter le format de mail.'

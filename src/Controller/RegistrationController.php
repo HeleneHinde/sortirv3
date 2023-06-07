@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
             $confirmPassword = $form->get('confirmPassword')->getData();
 
             if ($plainPassword !== $confirmPassword) {
-                $form->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                $form->get('confirmPassword')->addError(new FormError('Les mots de passe ne correspondent pas.'));
                 return $this->render('registration/register.html.twig', [
                     'registrationForm' => $form->createView(),
                 ]);

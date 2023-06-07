@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\SerieRepository;
+use DateInterval;
 use DateTime;
 use App\Entity\Sortie;
 use App\Entity\User;
@@ -33,27 +34,47 @@ class MainController extends AbstractController
 
         //code pour l'historisation des sorties : on récupère l'état historisée, on récupère l'ensemble des sorties
         $etat= $etatRepository->find(self::HISTORISE);
-        $etatA= $etatRepository->find(4);
+        $etatA= $etatRepository->find(4); // activité en cour
+        $etatC=$etatRepository->find(3); // cloture
+        $etatAnnule=$etatRepository->find(6); // annulee
 
         $sortieH=$sortieRepository->findAll();
 
         $currentDate = new \DateTime();
         $limitDate = $currentDate->modify('-30 days');
 
+
         //si la date de sortie est antérieure à la date d'aujourd'hui + 30 jours, alors la sortie passe à l'état historisée
         foreach ($sortieH as &$s) {
-            $firstAirDate = $s->getFirstAirDate();
-            $duree=$s->getDuree();
+            $firstAirDate = $s->getFirstAirDate(); // DateTime object
+            $duree = $s->getDuree(); // Duration in hours
+            $heureMinutes = $duree->format('H:i');
 
-            if ($firstAirDate < $currentDate) {
-                $s->setEtat($etatA);
-                $entityManager->persist($s);
-            }
+// Extract hours and minutes from the duration
+            list($hours, $minutes) = explode(':', $heureMinutes);
+
+// Create a DateInterval object based on the hours and minutes
+            $dateInterval = new DateInterval('PT' . $hours . 'H' . $minutes . 'M');
+
+// Add the date interval to the first air date
+            $dateCloture = $firstAirDate->add($dateInterval);
+
+
+        //si la sortie a été réalisé il y a plus de 30 jours alors on historise
             if ($firstAirDate < $limitDate) {
                 $s->setEtat($etat);
                 $entityManager->persist($s);
             }
-
+            //si la sortie a commencée mais n'est pas terminée : Activité en cour
+            else if ($firstAirDate > $currentDate && $dateCloture < $currentDate  && $s->getEtat()!=$etatAnnule) {
+                $s->setEtat($etatA);
+                $entityManager->persist($s);
+            }
+            // si la sortie est terminée on clôture
+            else if ($dateCloture < $currentDate  && $s->getEtat()!=$etatAnnule) {
+                $s->setEtat($etatC);
+                $entityManager->persist($s);
+            }
 
         }
         $entityManager->flush();

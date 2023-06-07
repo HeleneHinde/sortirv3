@@ -131,7 +131,7 @@ class AdminController extends AbstractController
             $confirmPassword = $form->get('confirmPassword')->getData();
 
             if ($plainPassword !== $confirmPassword) {
-                $form->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                $form->get('confirmPassword')->addError(new FormError('Les mots de passe ne correspondent pas.'));
                 return $this->render('registration/register.html.twig', [
                     'registrationForm' => $form->createView(),
                 ]);
@@ -161,7 +161,7 @@ class AdminController extends AbstractController
 
             $this->addFlash('success', 'Etudiant ajouté !');
 
-            return $this->redirectToRoute('admin_campus_list');
+            return $this->redirectToRoute('admin_user_list');
 
         }
 
