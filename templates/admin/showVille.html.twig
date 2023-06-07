@@ -10,6 +10,11 @@
         <div class="card" style="padding: 1vw">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
+                    <div class="container">
+                        <div class="card-img-top" id="map"></div>
+                    </div>
+                </li>
+                <li class="list-group-item">
                     <h5 class="card-title">Ville</h5>
                 </li>
                 <li class="list-group-item">
@@ -28,5 +33,60 @@
         </div>
     </div>
 
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script>
+
+        let map = L.map('map',{dragging: true}).setView([47.2, 2.333], 6);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        let marker = null;
+
+        function setMarker(lon, lat) {
+            if (marker) {
+                marker.remove();
+            }
+
+            marker = new L.marker([lon, lat], {
+                draggable: false,
+                dragging: false,
+                autoPan: true,
+                autoPanPadding: [100, 100]
+            }).addTo(map);
+            console.log(marker)
+            console.log(map);
+
+            map.setView([lon, lat], 13);
+            marker.bindPopup(`<strong>${lat}</strong><br>${lon}`);
+        }
+
+        test()
+        async function test(){
+            var data = await callApi("{{ ville.name }}");
+            console.log(data.features[0].geometry.coordinates[0])
+            console.log(data.features[0].geometry.coordinates[1])
+
+            lat = data.features[0].geometry.coordinates[0]
+            lon = data.features[0].geometry.coordinates[1]
+
+            setMarker(lon, lat);
+
+        }
+
+
+
+
+        async function callApi(result) {
+            let response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${result}`)
+            if (response.ok) {
+                return response.json()
+            }
+        }
+
+
+    </script>
 
 {% endblock %}

@@ -6,6 +6,7 @@
 
     <h1 class="container-fluid d-flex justify-content-center">Créer une ville</h1>
 
+    <div class="container" id="map"></div>
 
     <div class="container-fluid d-flex flex-direction-column justify-content-center">
 
@@ -25,6 +26,65 @@
            role="button">Annuler</a>
 
         {{ form_end(villeForm) }}
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+        <script>
+
+            let map = L.map('map',{dragging: true}).setView([47.2, 2.333], 6);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            let marker = null;
+
+            function setMarker(lon, lat, rue, ville) {
+                if (marker) {
+                    marker.remove();
+                }
+
+                marker = new L.marker([lon, lat], {
+                    draggable: false,
+                    dragging: false,
+                    autoPan: true,
+                    autoPanPadding: [100, 100]
+                }).addTo(map);
+                console.log(marker)
+                console.log(map);
+
+                map.setView([lon, lat], 13);
+                marker.bindPopup(`<strong>${lat}</strong><br>${ville}`);
+            }
+
+            const input = document.getElementById('ville_name');
+            var newStr = null;
+            var userInput=null
+            input.addEventListener('input', async function () {
+                userInput = input.value;
+
+                console.log('Donnée saisie par l\'utilisateur :', userInput);
+                newStr = userInput.replace(' ', '+');
+                const result = newStr + "+" + newStr;
+                console.log(await callApi(result))
+                var data = await callApi(result);
+                console.log(data.features[0].geometry.coordinates)
+                console.log(data.features[0].geometry.coordinates[0])
+                console.log(data.features[0].geometry.coordinates[1])
+
+                lat = data.features[0].geometry.coordinates[0]
+                lon = data.features[0].geometry.coordinates[1]
+
+                setMarker(lon, lat, userInput, newStr);
+            });
+
+            async function callApi(result) {
+            let response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${result}`)
+            if (response.ok) {
+            return response.json()
+            }
+            }
+
+
+        </script>
 
     </div>
 {% endblock %}
