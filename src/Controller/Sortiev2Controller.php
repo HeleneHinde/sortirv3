@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Repository\SortieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Sortiev2Controller extends AbstractController
 {
     #[Route('/sortiev2/{id}', name: 'sortiev2_show')]
+    #[IsGranted("ROLE_USER")]
     public function show(int $id, SortieRepository $sortieRepository): Response
     {
         $sortie =$sortieRepository->find($id);
@@ -28,6 +30,7 @@ class Sortiev2Controller extends AbstractController
 
 
     #[Route('/delete/{id}', name: 'sortie_delete',requirements: ['id'=> '\d+'])]
+    #[IsGranted("ROLE_USER")]
     public function delete(int $id, SortieRepository $sortieRepository)
     {
         $sortie = $sortieRepository->find($id);
