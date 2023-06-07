@@ -88,12 +88,12 @@
             }
 
             function lieuPin() {
-                const selectLieu = document.querySelector('#sorties_lieu');
-                selectLieu.addEventListener('change', async function () {
+                const selectVille = document.querySelector('#lieu_ville');
+                selectVille.addEventListener('change', async function () {
                     const selectedOption = this.options[this.selectedIndex];
+                    const selectedContent = selectedOption.innerHTML;
                     const lieu = await getLieu(selectedOption.value);
-                    const rue = lieu.sortie.rue;
-                    const adresse = rue.replace(' ', '+') + '+' + lieu.sortie.ville.name;
+                    const adresse = newStr + '+' + selectedContent;
                     console.log(adresse)
                     var data = await callApi(adresse);
                     console.log(data)
@@ -101,7 +101,7 @@
                     lat = data.features[0].geometry.coordinates[0]
                     lon = data.features[0].geometry.coordinates[1]
 
-                    setMarker(lon, lat, rue, lieu.sortie.ville.name);
+                    setMarker(lon, lat, newStr, selectedContent);
                 });
             }
             const input = document.getElementById('lieu_rue');
@@ -120,28 +120,29 @@
                     let lat = null;
                     let lon = null;
 
-                    const inputVille = document.getElementById('sorties_rue');
-                    var newStrVille = null;
-                    var userInputVille = null
-                    input.addEventListener('input', function () {
+                    const inputVille = document.getElementById('lieu_Ville');
+                    let newStrVille = null;
+                    let userInputVille = null;
+                    inputVille.addEventListener('input', async function () {
                         userInputVille = inputVille.value;
 
                         console.log('Donnée saisie par l\'utilisateur :', userInputVille);
                         newStrVille = userInputVille.replace(' ', '+');
+                        const result = newStr + "+" + newStrVille;
+                        console.log(await callApi(result))
+                        var data = await callApi(result);
+                        console.log(data.features[0].geometry.coordinates)
+                        console.log(data.features[0].geometry.coordinates[0])
+                        // document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
+                        // document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
+
+                        lat = data.features[0].geometry.coordinates[0]
+                        lon = data.features[0].geometry.coordinates[1]
+
+                        setMarker(lon, lat, userInput, newStrVille);
                     });
 
-                    const result = newStr + "+" + newStrVille;
-                    console.log(await callApi(result))
-                    var data = await callApi(result);
-                    console.log(data.features[0].geometry.coordinates)
-                    console.log(data.features[0].geometry.coordinates[0])
-                    document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
-                    document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
 
-                    lat = data.features[0].geometry.coordinates[0]
-                    lon = data.features[0].geometry.coordinates[1]
-
-                    setMarker(lon, lat, userInput, newStrVille);
                 } else {
                     lieuPin();
                 }
