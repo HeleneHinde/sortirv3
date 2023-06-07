@@ -76,12 +76,12 @@ class SortieController extends AbstractController
             $dateAjd = new DateTimeType();
 
 
-            if ($dateSortie<$dateAjd){
+            if ($dateSortie>$dateAjd){
                 $this->addFlash('error', 'la date de la sortie ne peut pas être postérieur à la date du jour ');
                 return $this->redirectToRoute('sortie_create');
             }
 
-            if ($dateCloture<$dateAjd){
+            if ($dateCloture>=$dateAjd){
                 $this->addFlash('error', 'la date limite d\'inscription ne peut pas être postérieur à la date du jour ');
                 return $this->redirectToRoute('sortie_create');
             }
