@@ -34,7 +34,7 @@ class Sortie
     private $name;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     #[Groups("sortie_data")]
     private $firstAirDate;
@@ -46,7 +46,7 @@ class Sortie
     private $duree;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     #[Groups("sortie_data")]
     private $dateLimiteInscription;

@@ -33,6 +33,7 @@ class MainController extends AbstractController
 
         //code pour l'historisation des sorties : on récupère l'état historisée, on récupère l'ensemble des sorties
         $etat= $etatRepository->find(self::HISTORISE);
+        $etatA= $etatRepository->find(4);
 
         $sortieH=$sortieRepository->findAll();
 
@@ -42,11 +43,17 @@ class MainController extends AbstractController
         //si la date de sortie est antérieure à la date d'aujourd'hui + 30 jours, alors la sortie passe à l'état historisée
         foreach ($sortieH as &$s) {
             $firstAirDate = $s->getFirstAirDate();
+            $duree=$s->getDuree();
 
+            if ($firstAirDate < $currentDate) {
+                $s->setEtat($etatA);
+                $entityManager->persist($s);
+            }
             if ($firstAirDate < $limitDate) {
                 $s->setEtat($etat);
                 $entityManager->persist($s);
             }
+
 
         }
         $entityManager->flush();
