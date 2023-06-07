@@ -40,7 +40,6 @@ class SortieController extends AbstractController
     public function create(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository): Response
     {
 
-      //  dd("toto");
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortiesType::class, $sortie);
 
@@ -95,7 +94,7 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if ($sortie->getEtat()->getId() >= 3){
-            $this->addFlash('Erreur', 'Vous ne pouvez plus modifier cette sortie');
+            $this->addFlash('error', 'Vous ne pouvez plus modifier cette sortie');
             return $this->redirectToRoute('main_home');
         }
 
