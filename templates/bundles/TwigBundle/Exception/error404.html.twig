@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Ooooooooooooops 404</h2>
+    <h3>{{ exception.message }}</h3>
+{% endblock %}
+
+{% block tiltle %}
+    {# parent() récupére le contenu du bloc base.html.twig, soit series #}
+    Error 404 | {{ parent() }}
+{% endblock %}

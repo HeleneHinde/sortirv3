@@ -9,7 +9,7 @@ body{
     background-size: cover;
     font-family: 'Open Sans', sans-serif;
 }
-
+.bg-footer { background-color: steelblue; }
 .navbar { background-color: steelblue; }
 .navbar .navbar-nav .nav-link { color: #fff; }
 .navbar .navbar-nav .nav-link:hover { color: #fbc531; }

@@ -8,6 +8,7 @@ use App\Form\LieuType;
 use App\Form\SortiesType;
 use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LieuController extends AbstractController
 {
     #[Route('/', name: 'list')]
+    #[IsGranted("ROLE_ADMIN")]
     public function list(LieuRepository $lieuRepository): Response
     {
         $lieux = $lieuRepository->findAll();
@@ -28,6 +30,7 @@ class LieuController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', requirements: ["id" => "\d+"])]
+    #[IsGranted("ROLE_ADMIN")]
     public function show(LieuRepository $lieuRepository, int $id): Response
     {
         $lieu = $lieuRepository->find($id);
@@ -39,6 +42,7 @@ class LieuController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
+    #[IsGranted("ROLE_ADMIN")]
     public function delete(LieuRepository $lieuRepository, int $id): Response
     {
         $lieu = $lieuRepository->find($id);
@@ -51,6 +55,7 @@ class LieuController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
+    #[IsGranted("ROLE_USER")]
     public function create(LieuRepository $lieuRepository, VilleRepository $villeRepository, Request $request): Response
     {
         $lieu = new Lieu();
@@ -88,6 +93,7 @@ class LieuController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
+    #[IsGranted("ROLE_ADMIN")]
     public function edit(LieuRepository $lieuRepository, VilleRepository $villeRepository,Request $request, int $id): Response
     {
         $lieu = $lieuRepository->find($id);
