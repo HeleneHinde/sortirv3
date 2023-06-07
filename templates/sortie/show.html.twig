@@ -35,8 +35,24 @@
                 </li>
             </ul>
                     <div class="container-fluid d-flex justify-content-center" style="margin-top: 1vh">
-                        <a class="link_button btn btn-outline-secondary" onclick="return confirm('Are you sure to delete {{ sortie.name }} ?')"
-                           href="{{ path('sortie_delete', {'id': sortie.id}) }}" role="button">Supprimer la Sortie </a>
+                        {% if app.user in sortie.users %}
+                            {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
+                                <a class="link_button btn btn-outline-danger"
+                                   href="{{ path('inscription_user', {'id': sortie.id}) }}" role="button"> Se
+                                    désinscrire </a>
+                            {% endif %}
+                        {% else %}
+                            {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
+                                <a class="link_button btn btn-outline-success"
+                                   href="{{ path('inscription_user', {'id': sortie.id}) }}" role="button"> S'inscrire </a>
+                            {% endif %}
+                        {% endif %}
+                        {% if app.user == sortie.user or 'ROLE_ADMIN' in app.user.roles%}
+                            {% if sortie.etat.id == 1 %}
+                                <a class="link_button btn btn-outline-secondary"
+                                   href="{{ path('sortie_update', {'id': sortie.id}) }}" role="button"> Modifier </a>
+                            {% endif %}
+                        {% endif %}
                     </div>
             <div id="latitude" style="display: none">{{ sortie.lieu.latitude }}</div>
             <div id="longitude" style="display: none">{{ sortie.lieu.longitude }}</div>

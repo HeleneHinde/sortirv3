@@ -3,15 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Sortiev2Controller extends AbstractController
 {
     #[Route('/sortiev2/{id}', name: 'sortiev2_show')]
-    public function show(int $id, SortieRepository $sortieRepository): Response
+    public function show(int $id, SortieRepository $sortieRepository, EtatRepository $etatRepository, \Symfony\Component\HttpFoundation\Request $request): Response
     {
         $sortie =$sortieRepository->find($id);
 
