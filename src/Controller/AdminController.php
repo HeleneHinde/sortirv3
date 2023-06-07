@@ -161,7 +161,7 @@ class AdminController extends AbstractController
 
             $this->addFlash('success', 'Etudiant ajouté !');
 
-            return $this->redirectToRoute('admin_campus_list');
+            return $this->redirectToRoute('admin_user_list');
 
         }
 

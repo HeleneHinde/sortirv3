@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups("sortie_data")
      */
     #[Assert\NotBlank(message: "Le pseudo est obligatoire")]
-    #[Assert\Length(min: 10, minMessage: "Le pseudo doit contenir au moins 10 caractères")]
+    #[Assert\Length(min: 5, minMessage: "Le pseudo doit contenir au moins 5 caractères")]
     private $username;
 
     /**
