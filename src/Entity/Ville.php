@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
@@ -34,6 +35,11 @@ class Ville
      * @Groups("sortie_data")
      * @Groups("lieu_data")
      */
+    #[Assert\Regex(
+        pattern: '/^\d{5}$/',
+        message: 'Le code postale doit contenir exactement 5 chiffres.'
+
+    )]
     private $cp;
 
     /**
