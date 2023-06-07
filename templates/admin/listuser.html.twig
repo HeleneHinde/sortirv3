@@ -36,14 +36,14 @@
                     {% if user.actif %}
                         <td>
 
-                            <a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">
+                            <a class="list-group-item list-group-item-action" href="{{ path('user_update', {'id': user.id}) }}">
                                 <button class="btn btn-success" disabled>Actif</button>
                             </a>
                         </td>
                     {% else %}
                         <td>
 
-                            <a class="list-group-item list-group-item-action" href="{{ path('user_show', {'id': user.id}) }}">
+                            <a class="list-group-item list-group-item-action" href="{{ path('user_update', {'id': user.id}) }}">
                                 <button class="btn btn-secondary">Inactif</button>
                             </a>
                         </td>
