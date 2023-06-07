@@ -32,6 +32,7 @@ class Ville
     #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $name;
 
+
     /**
      * @ORM\Column(type="string", length=5)
      * @Groups("sortie_data")

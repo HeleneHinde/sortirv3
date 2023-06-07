@@ -47,6 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("sortie_data")

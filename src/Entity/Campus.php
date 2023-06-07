@@ -30,6 +30,7 @@ class Campus
     #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $name;
 
+
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="campus")
      */

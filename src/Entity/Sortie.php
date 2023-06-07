@@ -35,6 +35,7 @@ class Sortie
     #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au moins 3 caractères")]
     private $name;
 
+
     /**
      * @ORM\Column(type="datetime")
      */
