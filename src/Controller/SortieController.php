@@ -15,6 +15,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 
 use App\Repository\VilleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'list')]
+    #[IsGranted("ROLE_USER")]
     public function list(SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
     {
         $sorties = $sortieRepository->findAll();
@@ -34,6 +36,7 @@ class SortieController extends AbstractController
 
 
     #[Route('/create', name: 'create')]
+    #[IsGranted("ROLE_USER")]
     public function create(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository): Response
     {
 
@@ -82,6 +85,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id'=> '\d+'])]
+    #[IsGranted("ROLE_USER")]
     public function update(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository, int $id): Response
     {
 
@@ -138,38 +142,6 @@ class SortieController extends AbstractController
             'sortie' => $sortie
         ]);
     }
-
-
-    #[Route('/sortiev2/{id}', name: 'sortiev2_show')]
-    public function show(int $id, SortieRepository $sortieRepository): Response
-    {
-        $sortie =$sortieRepository->find($id);
-
-        if(!$sortie){
-            //permet de lancer une erreur 404
-            throw $this->createNotFoundException("Oups !! Sortie not found");
-        }
-
-        return $this->render('sortie/show.html.twig', [
-            'sortie' => $sortie
-        ]);
-    }
-
-
-
-    #[Route('/delete/{id}', name: 'sortie_delete',requirements: ['id'=> '\d+'])]
-    public function delete(int $id, SortieRepository $sortieRepository)
-    {
-        $sortie = $sortieRepository->find($id);
-
-        $sortieRepository->remove($sortie, true);
-
-        $this->addFlash('success', $sortie->getName()."has been removed !");
-
-        return $this->redirectToRoute('main_home');
-
-    }
-
 
 
 }
