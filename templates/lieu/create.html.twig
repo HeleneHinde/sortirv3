@@ -65,7 +65,7 @@
 
 
             // Sélectionnez la case à cocher par son ID
-            const checkbox = document.getElementById('checkboxChoix');
+            const checkbox = document.getElementById('checkboxChoixVille');
 
             let marker = null;
 
@@ -104,42 +104,44 @@
                     setMarker(lon, lat, rue, lieu.sortie.ville.name);
                 });
             }
+            const input = document.getElementById('lieu_rue');
+            var newStr = null;
+            var userInput=null
+            input.addEventListener('input', function() {
+                userInput = input.value;
 
-            checkbox.addEventListener('change', function() {
+                console.log('Donnée saisie par l\'utilisateur :', userInput);
+                newStr = userInput.replace(' ', '+');
+            });
+
+            checkbox.addEventListener('change', async function () {
                 if (checkbox.checked) {
-                    const input = document.getElementById('sorties_rue');
-                    var newStr = null;
-                    var userInput=null
-                    input.addEventListener('input', function() {
-                        userInput = input.value;
 
-                        console.log('Donnée saisie par l\'utilisateur :', userInput);
-                        newStr = userInput.replace(' ', '+');
+                    let lat = null;
+                    let lon = null;
+
+                    const inputVille = document.getElementById('sorties_rue');
+                    var newStrVille = null;
+                    var userInputVille = null
+                    input.addEventListener('input', function () {
+                        userInputVille = inputVille.value;
+
+                        console.log('Donnée saisie par l\'utilisateur :', userInputVille);
+                        newStrVille = userInputVille.replace(' ', '+');
                     });
 
-                    const selectElement = document.querySelector('#sorties_ville_select');
+                    const result = newStr + "+" + newStrVille;
+                    console.log(await callApi(result))
+                    var data = await callApi(result);
+                    console.log(data.features[0].geometry.coordinates)
+                    console.log(data.features[0].geometry.coordinates[0])
+                    document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
+                    document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
 
-                    let lat=null;
-                    let lon=null;
+                    lat = data.features[0].geometry.coordinates[0]
+                    lon = data.features[0].geometry.coordinates[1]
 
-                    selectElement.addEventListener('change', async function () {
-                        const selectedOption = this.options[this.selectedIndex];
-                        const selectedContent = selectedOption.innerHTML;
-                        console.log('Contenu de l\'option sélectionnée :', selectedContent);
-                        const result = newStr + "+" + selectedContent;
-                        console.log(await callApi(result))
-                        var data = await callApi(result);
-                        // console.log(data.features[0].geometry.coordinates)
-                        // console.log(data.features[0].geometry.coordinates[0])
-                        document.getElementById('sorties_Latitude').value = data.features[0].geometry.coordinates[0]
-                        document.getElementById('sorties_Longitude').value = data.features[0].geometry.coordinates[1]
-
-                        lat = data.features[0].geometry.coordinates[0]
-                        lon = data.features[0].geometry.coordinates[1]
-
-                        setMarker(lon, lat, userInput, selectedContent);
-
-                    });
+                    setMarker(lon, lat, userInput, newStrVille);
                 } else {
                     lieuPin();
                 }
