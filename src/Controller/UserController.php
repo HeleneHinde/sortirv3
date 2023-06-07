@@ -63,7 +63,7 @@ class UserController extends AbstractController
             $confirmPassword = $userForm->get('confirmPassword')->getData();
 
             if ($plainPassword !== $confirmPassword) {
-                $userForm->get('confirmPassword')->addError(new FormError('Passwords do not match.'));
+                $userForm->get('confirmPassword')->addError(new FormError('Les mots de passe ne correspondent pas.'));
                 return $this->render('registration/register.html.twig', [
                     'registrationForm' => $userForm->createView(),
                 ]);
@@ -122,23 +122,14 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('file')->getData();
-            $user = $security->getUser();
 
-            /*            if ($file) {
-                            $date = new \DateTime();
-                            $name = $user->getUsername() . $date->format('Y-m-d');
-                            $directory = 'file';
-                            $newFileName = $uploader->save($file, $name, $directory);
-                            $userRepository->importCsv($newFileName);
-                        }*/
+
             $csv = fopen($file, 'r');
             while (!feof($csv)) {
                 $line[] = fgetcsv($csv, 1024);
             }
             fclose($csv);
 
-            $supp = array_shift($line);
-            // dd($line);
             foreach ($line as &$row) {
                 if (is_array($row)) {
                     $user1 = new User();
