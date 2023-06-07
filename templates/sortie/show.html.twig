@@ -39,14 +39,14 @@
             </ul>
             <br>
                     <div class="container-fluid d-flex justify-content-center" style="margin-top: 1vh">
-                        {% if app.user in sortie.users %}
+                        {% if app.user in sortie.users and app.user != sortie.user%}
                             {% if sortie.dateLimiteInscription >= date() or sortie.firstAirDate >= date() %}
                                 <a class="link_button btn btn-outline-danger"
                                    href="{{ path('inscription_user', {'id': sortie.id}) }}" role="button"> Se
                                     désinscrire </a>
                             {% endif %}
                         {% else %}
-                            {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax %}
+                            {% if sortie.etat.libelle == 'Ouverte' and sortie.dateLimiteInscription > date() and sortie.users | length < sortie.nbInscriptionMax  and app.user != sortie.user%}
                                 <a class="link_button btn btn-outline-success"
                                    href="{{ path('inscription_user', {'id': sortie.id}) }}" role="button"> S'inscrire </a>
                             {% endif %}
