@@ -17,6 +17,7 @@ use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,6 +73,18 @@ class SortieController extends AbstractController
             $sortie->getUsers()->add($this->getUser());
             $dateSortie = $request->request->get('sorties')['firstAirDate'];
             $dateCloture= $request->request->get('sorties')['dateLimiteInscription'];
+            $dateAjd = new DateTimeType();
+
+
+            if ($dateSortie<$dateAjd){
+                $this->addFlash('error', 'la date de la sortie ne peut pas être postérieur à la date du jour ');
+                return $this->redirectToRoute('sortie_create');
+            }
+
+            if ($dateCloture<$dateAjd){
+                $this->addFlash('error', 'la date limite d\'inscription ne peut pas être postérieur à la date du jour ');
+                return $this->redirectToRoute('sortie_create');
+            }
 
             if ($dateSortie<$dateCloture){
 
@@ -125,6 +138,7 @@ class SortieController extends AbstractController
             }else if ($sortie->getEtat()->getId() != 2){
                 $sortie->setEtat($etatRepository->find(1));
             }
+
             $sortie->setCampus($this->getUser()->getCampus());
             $sortie->setUser($this->getUser());
             if ($request->request->get('myCheckbox')){
