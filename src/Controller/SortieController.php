@@ -37,6 +37,7 @@ class SortieController extends AbstractController
     public function create(Request $request,SortieRepository $sortieRepository, VilleRepository $villeRepository, EtatRepository $etatRepository, LieuRepository $lieuRepository): Response
     {
 
+        //  dd("toto");
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortiesType::class, $sortie);
 
@@ -90,7 +91,7 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
         if ($sortie->getEtat()->getId() >= 3){
-            $this->addFlash('error', 'Vous ne pouvez plus modifier cette sortie');
+            $this->addFlash('Erreur', 'Vous ne pouvez plus modifier cette sortie');
             return $this->redirectToRoute('main_home');
         }
 
@@ -139,19 +140,35 @@ class SortieController extends AbstractController
     }
 
 
+    #[Route('/sortiev2/{id}', name: 'sortiev2_show')]
+    public function show(int $id, SortieRepository $sortieRepository): Response
+    {
+        $sortie =$sortieRepository->find($id);
+
+        if(!$sortie){
+            //permet de lancer une erreur 404
+            throw $this->createNotFoundException("Oups !! Sortie not found");
+        }
+
+        return $this->render('sortie/show.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
 
 
-//    #[Route('/', name: 'list')]
-//    public function list(SortieRepository $sortieRepository): Response
-//    {
-//
-//        $sorties = $sortieRepository->findAll();
-//
-//        return $this->render('sortie/list.html.twig', [
-//            'sorties' => $sorties,
-//        ]);
-//    }
 
+    #[Route('/delete/{id}', name: 'sortie_delete',requirements: ['id'=> '\d+'])]
+    public function delete(int $id, SortieRepository $sortieRepository)
+    {
+        $sortie = $sortieRepository->find($id);
+
+        $sortieRepository->remove($sortie, true);
+
+        $this->addFlash('success', $sortie->getName()."has been removed !");
+
+        return $this->redirectToRoute('main_home');
+
+    }
 
 
 

@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Security;
 class UserController extends AbstractController
 {
     #[Route('/{id}', name: 'show', requirements: ["id" => "\d+"])]
+    #[IsGranted("ROLE_USER")]
     public function show(int $id, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);
@@ -37,6 +38,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
+    #[IsGranted("ROLE_USER")]
     public function update(int     $id,
                            Request $request, UserRepository $userRepository, Uploader $uploader, Security $security): Response
     {

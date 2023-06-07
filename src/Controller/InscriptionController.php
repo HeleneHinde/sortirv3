@@ -9,6 +9,7 @@ use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,7 @@ class InscriptionController extends AbstractController
 
 
     #[Route('/inscription/{id}', name: 'inscription_user', requirements: ['id'=> '\d+'])]
+    #[IsGranted("ROLE_USER")]
     public function inscription(Security $security, int $id, SortieRepository $sortieRepository, CampusRepository $campusRepository, EtatRepository $etatRepository): Response
     {
 
